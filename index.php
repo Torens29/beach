@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__.'\SimpleXLSX.php';
 require_once __DIR__.'\Voice.php';
-
+include('SimpleImage.php');
 $beaches = []; 
 
 if ( $xlsx = SimpleXLSX::parse('beach.xlsx')) {
@@ -9,10 +9,10 @@ if ( $xlsx = SimpleXLSX::parse('beach.xlsx')) {
 } else {
 	echo SimpleXLSX::parseError();
 }
-// var_dump(count($beaches));
-// var_dump($beaches[1][1]);
 
-voice('урааа, получилось', 'test1');
+$image = new \claviska\SimpleImage();
+
+// voice('урааа, получилось', 'test1');
 
 //MAP
 //receive coord
@@ -22,7 +22,7 @@ $ch = curl_init();
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($ch, CURLOPT_HEADER, false);
-    // curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+
 foreach($beaches as $beach){
     // $beach = $beaches[1];
     if ($beach[1] == 'Место расположения') continue;
@@ -42,7 +42,8 @@ foreach($beaches as $beach){
         $info = curl_getinfo($ch);
         var_dump($info);
         echo 'Error:' . curl_error($ch);
-    }else{
+    }
+    else{
         $fd = json_decode($json,false);
         var_dump($fd);
         echo "<br>";
@@ -50,8 +51,13 @@ foreach($beaches as $beach){
             echo 'ERROR:' . $beach[1] . "<br";
             file_put_contents('errorCoord.txt', $beach[1] . PHP_EOL, FILE_APPEND);
             continue;
-        } else{
+        } //если все хорошо и все получили, то...
+        if ( count($fd->response->GeoObjectCollection->featureMember) == 0){continue;}
+            else{
+
             $coord =str_replace(' ', ',', $fd->response->GeoObjectCollection->featureMember[0]->GeoObject-> Point-> pos);
+            
+            echo "COORD: ";
             var_dump($coord);
             // $coord = '33.367643,45.190635';
 
@@ -67,7 +73,7 @@ foreach($beaches as $beach){
                             break;
                 }
 
-                $URL ="https://static-maps.yandex.ru/1.x/?ll=$coord&pt=$coord,org,l&size=1250,1250&z=$z&l=map&key=APeD310BAAAALOt-HAMAAfLbAiZoUWW9QhK-Di0vA9V64lMAAAAAAAAAAADA-ZKiGOZHTc7Nt7dlEdOj78HURA%3D%3D";
+                $URL ="https://static-maps.yandex.ru/1.x/?ll=$coord&pt=$coord,org,l&size=1280,720&z=$z&l=map&key=APeD310BAAAALOt-HAMAAfLbAiZoUWW9QhK-Di0vA9V64lMAAAAAAAAAAADA-ZKiGOZHTc7Nt7dlEdOj78HURA%3D%3D";
 
 
                 curl_setopt($ch, CURLOPT_URL, $URL);
@@ -87,8 +93,30 @@ foreach($beaches as $beach){
                     file_put_contents($str, $png);
                 }
             }    
+ //receive img (6)
+            $imgArr = explode("\n", $beach[9]);
+            for($i=0; $i<6;$i++){
+                curl_setopt($ch, CURLOPT_URL, $imgArr[$i]);
+
+                $img = curl_exec($ch);
+                $src= "img\\" . $enBeach . $i . ".jpg";
+                file_put_contents($src, $img);
+                try {
+                    $image  ->fromFile($src)
+                            ->resize(1280,720)
+                            -> toFile($src,'image/jpeg');
+                } catch(Exception $err) {
+                    echo $err->getMessage();
+                }   
+            }
+            // in unlink() deleite all
+            // unlink("img\\" . $enBeach . "1.jpg");
         }
     }
+
+   
+
+    break;
 }   
 curl_close($ch);
 

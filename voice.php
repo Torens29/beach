@@ -11,7 +11,8 @@
 
 <?php
 function voice($text, $nameVoice){
-    $token = 't1.9euelZqdmI2ckZuZmc2VxsvNmJTJi-3rnpWay86KipSbmpGalJCQzI_Kzpjl8_cPMgNy-e9PO2lz_t3z909gAHL57087aXP-.TKxG_7U6VhLtbnm3ldLkPns_sRr0RksDfBRbHobIYPomnN4AuVnd8fVuz4uJjMLWQ2F1EvaQDlDwSKoT3xe5Aw'; # IAM-токен
+    $token = 
+    't1.9euelZqVyZKbjcfGlImTzYuSzZGdiu3rnpWay86KipSbmpGalJCQzI_Kzpjl9PcjMnhx-e9tZHX43fT3Y2B1cfnvbWR1-A.j1HWtB2_f2BPi4pqSSCB-KLLyXbzlNzJwU9hoJghX3uERDvzQXO8JwavcG8fmEf1qRRw8g_wvo2rZv-UTZ5zAA'; # IAM-токен
     $folderId = "b1gs3vv3dolr9bj7k3eh"; # Идентификатор каталога
 
     $url = "https://tts.api.cloud.yandex.net/speech/v1/tts:synthesize";
@@ -44,6 +45,10 @@ function voice($text, $nameVoice){
     
     curl_close($ch);
 }
+
+// $name = "voice\\v2";
+// $text = "Место расположения";
+// voice($text,$name);
 // folder-id - b1gnia699nknlj6jhi7p 
 // iamtoken - t1.9euelZqdmI2ckZuZmc2VxsvNmJTJi-3rnpWay86KipSbmpGalJCQzI_Kzpjl8_cPMgNy-e9PO2lz_t3z909gAHL57087aXP-.TKxG_7U6VhLtbnm3ldLkPns_sRr0RksDfBRbHobIYPomnN4AuVnd8fVuz4uJjMLWQ2F1EvaQDlDwSKoT3xe5Aw
 ?>
