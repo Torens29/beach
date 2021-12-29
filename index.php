@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__.'\SimpleXLSX.php';
 require_once __DIR__.'\Voice.php';
+require_once __DIR__.'\Exec.php';
 include('SimpleImage.php');
 $beaches = []; 
 
@@ -16,15 +17,15 @@ $image = new \claviska\SimpleImage();
 
 //MAP
 //receive coord
-// $location = 'simferopol';
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($ch, CURLOPT_HEADER, false);
-
+$j=0;
 foreach($beaches as $beach){
-    // $beach = $beaches[1];
+    $j++;
+
     if ($beach[1] == 'Место расположения') continue;
     $s = translit($beach[0]);
     $enCity= translit($beach[1]);
@@ -45,11 +46,11 @@ foreach($beaches as $beach){
     }
     else{
         $fd = json_decode($json,false);
-        var_dump($fd);
+        // var_dump($fd);
         echo "<br>";
         if ($fd==null){
             echo 'ERROR:' . $beach[1] . "<br";
-            file_put_contents('errorCoord.txt', $beach[1] . PHP_EOL, FILE_APPEND);
+            file_put_contents('errorBeach.txt', $j . ": " . $enBeach .'- Error with coord'. PHP_EOL, FILE_APPEND);
             continue;
         } //если все хорошо и все получили, то...
         if ( count($fd->response->GeoObjectCollection->featureMember) == 0){continue;}
@@ -57,9 +58,8 @@ foreach($beaches as $beach){
 
             $coord =str_replace(' ', ',', $fd->response->GeoObjectCollection->featureMember[0]->GeoObject-> Point-> pos);
             
-            echo "COORD: ";
+            echo "COORD of $beach[1]: ";
             var_dump($coord);
-            // $coord = '33.367643,45.190635';
 
             //receive  PNG
             $z = 0;
@@ -88,17 +88,18 @@ foreach($beaches as $beach){
                     echo 'Error:' . curl_error($ch);
                 } else {
                     // var_dump($png);
-                    $s = str_replace('+','',$enBeach);
-                    $str = "map/" . $s . $i . ".png";
+                    // $s = str_replace('+','',$enBeach);
+                    $str = "map/" . $enBeach . $i . ".png";
                     file_put_contents($str, $png);
                 }
             }    
  //receive img (6)
             $imgArr = explode("\n", $beach[9]);
             for($i=0; $i<6;$i++){
-                curl_setopt($ch, CURLOPT_URL, $imgArr[$i]);
-
+             curl_setopt($ch, CURLOPT_URL, $imgArr[$i]);
+                    
                 $img = curl_exec($ch);
+
                 $src= "img\\" . $enBeach . $i . ".jpg";
                 file_put_contents($src, $img);
                 try {
@@ -106,17 +107,28 @@ foreach($beaches as $beach){
                             ->resize(1280,720)
                             -> toFile($src,'image/jpeg');
                 } catch(Exception $err) {
-                    echo $err->getMessage();
+                    $msg= $err->getMessage();
+                    file_put_contents('errorBeach.txt', $j . ": " . $enBeach . "- ". $msg . PHP_EOL, FILE_APPEND);
+                    echo 'ERROR:' . $beach[1] . "<br";
+                    echo $msg;
+                    unlink($src);
+                    continue;
                 }   
             }
+
+            echo '  qw4easdacxz    ';
+            
+            file_put_contents('receive_img.txt',$j . ": " . $enBeach . PHP_EOL, FILE_APPEND);
+            // video($enBeach);
             // in unlink() deleite all
             // unlink("img\\" . $enBeach . "1.jpg");
+           
         }
     }
 
    
-
-    break;
+    if($j==5) break;
+    
 }   
 curl_close($ch);
 
