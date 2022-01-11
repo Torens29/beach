@@ -39,7 +39,7 @@ foreach($beaches as $beach){
     curl_setopt($ch, CURLOPT_URL, $URL);
 
     $json = curl_exec($ch);
-    if (curl_errno($ch)) {
+    if (curl_errno($ch)) {  
         $info = curl_getinfo($ch);
         var_dump($info);
         echo 'Error:' . curl_error($ch);
@@ -117,8 +117,8 @@ foreach($beaches as $beach){
             }
 
             echo '  qw4easdacxz    ';
-            
-            file_put_contents('receive_img.txt',$j . ": " . $enBeach . PHP_EOL, FILE_APPEND);
+            $nameBeach = str_replace(" ", "+",$beach[0]);
+            file_put_contents('receive_img.txt', $j . " " . $enBeach . " $nameBeach" . PHP_EOL, FILE_APPEND);
             // video($enBeach);
             // in unlink() deleite all
             // unlink("img\\" . $enBeach . "1.jpg");
