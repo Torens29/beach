@@ -13,7 +13,7 @@ $j=0;
 
 $lengthArr = count($arrayOfBeaches);
 
-while($j != $lengthArr-1){
+while($j != $lengthArr){
     $receiveBeach =  explode(" ", $arrayOfBeaches[$j]);
     // echo $receiveBeach[2];
     $j++;
@@ -40,12 +40,12 @@ echo '<br> VIDEO ' . $infoBeach[0];
         -loop 1 -t 3 -i map\\" . $enBeach . "3.png
         -filter_complex 
         \"
-        [0:v]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='FIRST TEXT':fontcolor=white:fontsize=24:x=(w-tw)/2:y=(h/PHI)+th,
-        drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[0]':fontcolor=white:fontsize=24:x=(w-tw)/2:y=(h/PHI)+th+100,
+        [0:v]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[0]':fontcolor=white:fontsize=24:x=(w-tw)/2:y=(h/PHI)+th,
+        drawtext=fontfile=/Library/Fonts/Arial.ttf:text='       в $infoBeach[1]':fontcolor=white:fontsize=24:x=(w-tw)/2:y=(h/PHI)+th+100,
         split[pre][pbv0];[pbv0]fifo[bv0]; 
         [pre]fade=t=in:st=0:d=1[v0]; 
 
-        [1:v]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[2]':fontcolor=white:fontsize=24:x=(w-tw)/2:y=(h/PHI)+th,
+        [1:v]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Длина береговой линии $infoBeach[2]':fontcolor=white:fontsize=24:x=(w-tw)/2:y=(h/PHI)+th,
         split=3[pbv1a][pbv1b][v1];[pbv1a]fifo[bv1a];[pbv1b]fifo[bv1b]; 
 
         [2:v]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='THIRD TEXT':fontcolor=white:fontsize=24:x=(w-tw)/2:y=(h/PHI)+th,
@@ -70,7 +70,8 @@ echo '<br> VIDEO ' . $infoBeach[0];
     
     $text =str_replace(array("\n\r","\r\n"), "", $comm);
     //  echo $text;
-     exec($text);
-    $addVoice = "ffmpeg -i $enBeach.mp4 -itsoffset 00:00:05 -i voice\\v1.ogg -map 0:v -map 1:a -y .\\video\\$infoBeach[0].mp4";
+    exec($text);
+    $addVoice = "ffmpeg -i $enBeach.mp4 -itsoffset 00:00:05 -i voice\\v1.ogg -map 0:v -map 1:a -y video\\$enBeach.mp4";
     exec($addVoice);
+    unlink("$enBeach.mp4");
 }
