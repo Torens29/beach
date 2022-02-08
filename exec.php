@@ -19,7 +19,7 @@ $services[0] ='';$services[1]='';
 $lengthArr = count($arrayOfBeaches);
 $stream[0]=0; $stream[1]=12; $stream[2]=13;
 $pred[0]=""; $pred[1]="[11]";
-$EndOfstreamService="";
+$endOfstreamService="";
 
 while($j != $lengthArr){
     $receiveBeach =  explode(" ", $arrayOfBeaches[$j]);
@@ -105,24 +105,24 @@ while($j != $lengthArr){
         }
     }
 
-    if($stream[0] != 0){
-        $EndOfstreamService = "[endService]";
+    if($stream[0] == 0){
+        $endOfstreamService = "[endService]";
         $services[2] = "$services[1]$pred[1];";
         $services[3] = 20;
-        $pred[1] = "$pred[1]trim=0:5$EndOfstreamService;";
+        $pred[1] = "$pred[1]trim=0:5$endOfstreamService;";
     }else {
 
         $services[2]=null;
         $pred[1]= null;
         $services[3] = 19;
-        $EndOfstreamService=null;
+        $endOfstreamService=null;
     }
 
-    video($infoBeach,$receiveBeach[1], $zoompanupto, $zoomdelta, $services, $pred[1], $EndOfstreamService);
+    video($infoBeach,$receiveBeach[1], $zoompanupto, $zoomdelta, $services, $pred[1], $endOfstreamService);
 }
  
 
-function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, $EndOfstreamService){
+function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, $endOfstreamService){
  
 echo '<br> VIDEO ' . $infoBeach[0];
 
@@ -183,7 +183,7 @@ echo '<br> VIDEO ' . $infoBeach[0];
         [bv4][bv10b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[104v]; 
         $services[2]
         $pred
-         [v0]$EndOfstreamService [0v1m][map1][map2][map3][3m1v][v1][12v][v2][23v][v3][38v][v8][89v][v9][910v][v10][104v][v4]concat=n=$services[3],format=yuv420p[v] \" -map \"[v]\" -s \"1280x720\" -y $enBeach.mp4";
+         [v0]$endOfstreamService [0v1m][map1][map2][map3][3m1v][v1][12v][v2][23v][v3][38v][v8][89v][v9][910v][v10][104v][v4]concat=n=$services[3],format=yuv420p[v] \" -map \"[v]\" -s \"1280x720\" -y $enBeach.mp4";
         
     file_put_contents("coman.txt",$comm);
     $text =str_replace(array("\n\r","\r\n"), "", $comm);
