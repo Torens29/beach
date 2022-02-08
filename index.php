@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__.'\SimpleXLSX.php';
-require_once __DIR__.'\Voice.php';
 require_once __DIR__.'\Exec.php';
 include('SimpleImage.php');
 $beaches = []; 
@@ -13,7 +12,6 @@ if ( $xlsx = SimpleXLSX::parse('beach.xlsx')) {
 
 $image = new \claviska\SimpleImage();
 
-// voice('урааа, получилось', 'test1');
 
 //MAP
 //receive coord
@@ -95,7 +93,7 @@ foreach($beaches as $beach){
             }    
  //receive img (6)
             $imgArr = explode("\n", $beach[9]);
-            for($i=0; $i<6;$i++){
+            for($i=0; $i<8;$i++){
              curl_setopt($ch, CURLOPT_URL, $imgArr[$i]);
                     
                 $img = curl_exec($ch);

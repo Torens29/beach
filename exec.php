@@ -17,9 +17,9 @@ $duration = 1;
 $zoomdelta = ($zoompanupto - 1) / 25 / $duration;
 $services[0] ='';$services[1]='';
 $lengthArr = count($arrayOfBeaches);
-$stream[0]=0; $stream[1]=13; $stream[2]=14;
- $pred[0]=""; $pred[1]="[12]";
-
+$stream[0]=0; $stream[1]=12; $stream[2]=13;
+$pred[0]=""; $pred[1]="[11]";
+$EndOfstreamService="";
 
 while($j != $lengthArr){
     $receiveBeach =  explode(" ", $arrayOfBeaches[$j]);
@@ -29,45 +29,66 @@ while($j != $lengthArr){
     $infoBeach = $beaches[$receiveBeach[0]-1]; // info of the beach
     $infrastructure = explode("\n", $infoBeach[5]);
 
-    var_dump($infrastructure);
+    // var_dump($infrastructure);
     foreach($infrastructure as $srv){
-        switch ($srv) {
+        switch ("$srv") {
             case "Туалет": 
                 echo "НАшелся туалет\n";
-                $services[0] .= "-f lavfi -t 3 -i color=c=gray:s=200x200  -loop 1 -i fly.png ";
-                $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
+                $services[0] .= " -f lavfi -i color=c=gray:s=200x200  -loop 1 -i fly.png ";
+                $services[1] .= " $pred[0][$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
                             [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$srv':fontcolor=black:
                                 fontsize=20:x=(w-text_w)/2:y=h-th[x$stream[1]t$stream[2]],
-                            [x$stream[1]t$stream[2]]fade=t=in:0:50:alpha=1[X$stream[1]];
-                            $pred[1][X$stream[1]]overlay=280:200";
+                            [x$stream[1]t$stream[2]]fade=t=in:$stream[0]0:90:alpha=1[X$stream[1]];
+                            $pred[1][X$stream[1]]overlay=$stream[0]80:200";
+
                     $pred[0] =  "[x0$stream[0]];";
                     $pred[1] = "[x0$stream[0]]";
 
-                foreach($stream as $s){
-                    $s +=2;
-                };
+                    $stream[0] =$stream[0] +  1;
+                    $stream[1] =$stream[1] +  2;
+                    $stream[2] =$stream[2] +  2;
+
                 break;
 
             case "Терминал оплаты": 
                 echo "НАшелся Терминал оплаты\n";
-                $services[0] .= " -f lavfi -t 5 -i color=c=gray:s=200x200 -loop 1 -i fly.png ";
+                $services[0] .= " -f lavfi  -i color=c=gray:s=200x200 -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
                             [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$srv':fontcolor=black:
                                 fontsize=20:x=(w-text_w)/2:y=h-th[x$stream[1]t$stream[2]],
-                            [x$stream[1]t$stream[2]]fade=t=in:0:50:alpha=1[X$stream[1]];
-                            $pred[1][X$stream[1]]overlay=280:200";
+                            [x$stream[1]t$stream[2]]fade=t=in:$stream[0]0:90:alpha=1[X$stream[1]];
+                            $pred[1][X$stream[1]]overlay=$stream[0]80:200";
+
                             $pred[0] =  "[x0$stream[0]];";
                             $pred[1] = "[x0$stream[0]]";
+                $pred[0] =  "[x0$stream[0]];";
+                $pred[1] = "[x0$stream[0]]";
+                
+                $stream[0] =$stream[0] +  1;
+                $stream[1] =$stream[1] +  2;
+                $stream[2] =$stream[2] +  2;
 
-                foreach($stream as $s){
-                    $s +=2;
-                };
                 break;
             case "Парк": 
                 echo "НАшелся Парк\n";
-                
+                $services[0] .= " -f lavfi  -i color=c=gray:s=200x200 -loop 1 -i fly.png ";
+                $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
+                            [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
+                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$srv':fontcolor=black:
+                                fontsize=20:x=(w-text_w)/2:y=h-th[x$stream[1]t$stream[2]],
+                            [x$stream[1]t$stream[2]]fade=t=in:$stream[0]0:90:alpha=1[X$stream[1]];
+                            $pred[1][X$stream[1]]overlay=$stream[0]80:200";
+
+                            $pred[0] =  "[x0$stream[0]];";
+                            $pred[1] = "[x0$stream[0]]";
+                $pred[0] =  "[x0$stream[0]];";
+                $pred[1] = "[x0$stream[0]]";
+                $stream[0] =$stream[0] +  1;
+                $stream[1] =$stream[1] +  2;
+                $stream[2] =$stream[2] +  2;
+
                 break;
             case "Кабины для переодевания": 
                 echo "НАшелся Кабины для переодевания\n"; break;
@@ -83,11 +104,25 @@ while($j != $lengthArr){
                 break;
         }
     }
-    video($infoBeach,$receiveBeach[1],$zoompanupto,$zoomdelta, $services, $pred[1]);
+
+    if($stream[0] != 0){
+        $EndOfstreamService = "[endService]";
+        $services[2] = "$services[1]$pred[1];";
+        $services[3] = 20;
+        $pred[1] = "$pred[1]trim=0:5$EndOfstreamService;";
+    }else {
+
+        $services[2]=null;
+        $pred[1]= null;
+        $services[3] = 19;
+        $EndOfstreamService=null;
+    }
+
+    video($infoBeach,$receiveBeach[1], $zoompanupto, $zoomdelta, $services, $pred[1], $EndOfstreamService);
 }
  
 
-function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred){
+function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, $EndOfstreamService){
  
 echo '<br> VIDEO ' . $infoBeach[0];
 
@@ -107,7 +142,8 @@ echo '<br> VIDEO ' . $infoBeach[0];
         -loop 1 -t 2 -i img\\" . $enBeach . "6.jpg 
         -loop 1 -t 2 -i img\\" . $enBeach . "7.jpg
         
-        -f lavfi -i color=c=white:s=1280x720
+        -f lavfi -t 5 -i color=c=white:s=1280x720
+
         $services[0] 
 
         -filter_complex 
@@ -145,10 +181,11 @@ echo '<br> VIDEO ' . $infoBeach[0];
         [bv9a][bv8b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[89v];
         [bv10a][bv9b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[910v];
         [bv4][bv10b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[104v]; 
-        $services[1]
-        [v0][0v1m][map1][map2][map3][3m1v][v1][12v][v2][23v][v3][38v][v8][89v][v9][910v][v10]$pred\[104v][v4]concat=n=20,format=yuv420p[v]\" -map \"[v]\" -s \"1280x720\" -y $enBeach.mp4";
+        $services[2]
+        $pred
+         [v0]$EndOfstreamService [0v1m][map1][map2][map3][3m1v][v1][12v][v2][23v][v3][38v][v8][89v][v9][910v][v10][104v][v4]concat=n=$services[3],format=yuv420p[v] \" -map \"[v]\" -s \"1280x720\" -y $enBeach.mp4";
         
-    
+    file_put_contents("coman.txt",$comm);
     $text =str_replace(array("\n\r","\r\n"), "", $comm);
     //  echo $text;
     exec($text);
