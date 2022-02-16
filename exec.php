@@ -266,21 +266,21 @@ echo '<br> VIDEO ' . $infoBeach[0];
 
         -filter_complex 
         \"
-        [0:v]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[0]':fontcolor=white:fontsize=24:x=(w-tw)/2:y=(h/PHI)+th,
-        drawtext=fontfile=/Library/Fonts/Arial.ttf:text='       в $infoBeach[1]':fontcolor=white:fontsize=24:x=(w-tw)/2:y=(h/PHI)+th+100,
+        [0:v]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[0]':fontcolor=white:fontsize=30:x=200:y=300,
+        drawtext=fontfile=/Library/Fonts/Arial.ttf:text='       в $infoBeach[1]':fontcolor=white:fontsize=30:x=300:y=350,
         split[pre][pbv0];[pbv0]fifo[bv0]; 
         [pre]fade=t=in:st=0:d=1[v0]; 
-        [1:v]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Длина береговой линии $infoBeach[2]':fontcolor=white:fontsize=24:x=(w-tw)/2:y=(h/PHI)+th,
-        drawtext=fontfile=/Library/Fonts/Arial.ttf:text='       в $infoBeach[2]':fontcolor=white:fontsize=24:x=(w-tw)/2:y=(h/PHI)+th+100,
+        [1:v]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Длина береговой линии ':fontcolor=white:fontsize=30:x=200:y=300,
+        drawtext=fontfile=/Library/Fonts/Arial.ttf:text='       $infoBeach[2]':fontcolor=white:fontsize=30:x=300:y=350,
         split=3[pbv1a][pbv1b][v1];[pbv1a]fifo[bv1a];[pbv1b]fifo[bv1b]; 
-        [2:v]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Поверхность пляжа':fontcolor=white:fontsize=24:x=(w-tw)/2:y=(h/PHI)+th,
-        drawtext=fontfile=/Library/Fonts/Arial.ttf:text='       в $infoBeach[3]':fontcolor=white:fontsize=24:x=(w-tw)/2:y=(h/PHI)+th+100,
+        [2:v]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Поверхность пляжа':fontcolor=white:fontsize=30:x=200:y=300,
+        drawtext=fontfile=/Library/Fonts/Arial.ttf:text='       $infoBeach[3]':fontcolor=white:fontsize=30:x=300:y=350,
         split=3[pbv2a][pbv2b][v2];[pbv2a]fifo[bv2a];[pbv2b]fifo[bv2b];
-        [3:v]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Морское дно':fontcolor=white:fontsize=24:x=(w-tw)/2:y=(h/PHI)+th,
-        drawtext=fontfile=/Library/Fonts/Arial.ttf:text='       в $infoBeach[4]':fontcolor=white:fontsize=24:x=(w-tw)/2:y=(h/PHI)+th+100,
+        [3:v]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Морское дно':fontcolor=white:fontsize=30:x=200:y=300,
+        drawtext=fontfile=/Library/Fonts/Arial.ttf:text='       $infoBeach[4]':fontcolor=white:fontsize=30:x=300:y=350,
         split=3[pbv3a][pbv3b][v3];[pbv3a]fifo[bv3a];[pbv3b]fifo[bv3b]; 
-        [4:v]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Оценка поситителей':fontcolor=white:fontsize=24:x=(w-tw)/2:y=(h/PHI)+th,
-        drawtext=fontfile=/Library/Fonts/Arial.ttf:text='       в $infoBeach[8]':fontcolor=white:fontsize=24:x=(w-tw)/2:y=(h/PHI)+th+100,
+        [4:v]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Оценка поситителей':fontcolor=white:fontsize=30:x=200:y=300,
+        drawtext=fontfile=/Library/Fonts/Arial.ttf:text='       $infoBeach[8]':fontcolor=white:fontsize=30:x=300:y=350,
         split[pbv4][v4];[pbv4]fifo[bv4]; 
 
         [5]split[bv1m][m1],[m1] zoompan=z=min(max(zoom\,pzoom)+$zoomdelta\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720 [map1];
@@ -303,12 +303,13 @@ echo '<br> VIDEO ' . $infoBeach[0];
         [11:v]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Инфраструктура пляжа':fontcolor=blue:fontsize=70:x=(w-tw)/2:y=40[11v];
         $services[2]
         $pred
-         [v0]$endOfstreamService [0v1m][map1][map2][map3][3m1v][v1][12v][v2][23v][v3][38v][v8][89v][v9][910v][v10][104v][v4]concat=n=$services[3],format=yuv420p[v] \" -map \"[v]\" -s \"1280x720\" -y $enBeach.mp4";
+
+         [v0][0v1m][map1][map2][map3][3m1v][v1][12v][v2][23v][v3] $endOfstreamService [38v][v8][89v][v9][910v][v10][104v][v4]concat=n=$services[3],format=yuv420p[v] \" -map \"[v]\" -s \"1280x720\" -y $enBeach.mp4";
         
     file_put_contents("coman.txt",$comm);
     $text =str_replace(array("\n\r","\r\n"), "", $comm);
     //  echo $text;
-    exec($text);
+    // exec($text);
     
     $addVoice = "ffmpeg  -async 1 -i video\Yashmovyy+plyazh.mp4
         -itsoffset 00:00:01 -i voice\\nameBeach.ogg 
@@ -334,7 +335,12 @@ echo '<br> VIDEO ' . $infoBeach[0];
 
 
     
-        $text2= str_replace(array("\n\r","\r\n"), "", $addVoice);
-        // exec($text2);
-    // unlink("$enBeach.mp4");
+
+    $addBG = "ffmpeg  -i Hand.mp4 -i Yashmovyy+plyazh.mp4
+              -filter_complex \"[0:v]alphaextract[alfa];[1:v][alfa]alphamerge\"                
+              -y testBG.mp4";
+    $text2= str_replace(array("\n\r","\r\n"), "", $addBG);
+    exec($text2);
+    
+        // unlink("$enBeach.mp4");
 }
