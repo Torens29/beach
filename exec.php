@@ -18,11 +18,14 @@ $zoomdelta = ($zoompanupto - 1) / 25 / $duration;
 $services[0] = '';$services[1]='';
 $lengthArr = count($arrayOfBeaches);
 $stream[0] = 0; $stream[1] = 12; $stream[2] = 13;
-$pred[0] = ""; $pred[1]="[11v]";
+$pred[0] = ""; $pred[1]="[v11]";
 $endOfstreamService = "";
 $whCanvas = "200x200";
 $position[0] = 40;
 $position[1] = 200;
+$cellSize = 64;
+$transitionDuration = 1;
+$timeOfVisService=10;
 
 while($j != $lengthArr){
     $receiveBeach =  explode(" ", $arrayOfBeaches[$j]);
@@ -35,14 +38,14 @@ while($j != $lengthArr){
     // var_dump($infrastructure);
     foreach($infrastructure as $srv){
         switch ("$srv") {
-            case "Туалет": 
+            case "Туалетl": 
                 echo "НАшелся туалет\n";
-                $services[0] .= " -f lavfi -i color=c=gray:s=$whCanvas  -loop 1 -i fly.png ";
+                $services[0] .= " -f lavfi -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0][$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
-                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$srv':fontcolor=black:
-                                fontsize=20:x=(w-text_w)/2:y=h-th[x$stream[1]t$stream[2]],
-                            [x$stream[1]t$stream[2]]fade=t=in:$stream[0]0:90:alpha=1[X$stream[1]];
+                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$srv':fontcolor=blue:
+                                fontsize=20:x=(w-text_w)/2:y=h-th-20[x$stream[1]t$stream[2]],
+                            [x$stream[1]t$stream[2]]fade=t=in:$timeOfVisService:90:alpha=1[X$stream[1]];
                             $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
 
                     $pred[0] = "[x0$stream[0]];";
@@ -58,17 +61,20 @@ while($j != $lengthArr){
                     $stream[0] = $stream[0] +  1;
                     $stream[1] = $stream[1] +  2;
                     $stream[2] = $stream[2] +  2;
+                    $timeOfVisService= $timeOfVisService + 20;
 
                 break;
 
-            case "Терминал оплаты": 
+            case "Терминал оплатыk": 
                 echo "НАшелся Терминал оплаты\n";
-                $services[0] .= " -f lavfi  -i color=c=gray:s=$whCanvas  -loop 1 -i fly.png ";
+                $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
-                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$srv':fontcolor=black:
-                                fontsize=20:x=(w-text_w)/2:y=h-th[x$stream[1]t$stream[2]],
-                            [x$stream[1]t$stream[2]]fade=t=in:$stream[0]0:90:alpha=1[X$stream[1]];
+                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Терминал':fontcolor=blue:
+                                fontsize=20:x=(w-text_w)/2:y=h-th-30,
+                                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='оплаты':fontcolor=blue:                                fontsize=20:x=(w-text_w)/2:y=h-th-10
+                                [x$stream[1]t$stream[2]];
+                            [x$stream[1]t$stream[2]]fade=t=in:$timeOfVisService:90:alpha=1[X$stream[1]];
                             $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
 
                             $pred[0] =  "[x0$stream[0]];";
@@ -86,16 +92,17 @@ while($j != $lengthArr){
                 $stream[0] =$stream[0] +  1;
                 $stream[1] =$stream[1] +  2;
                 $stream[2] =$stream[2] +  2;
+                $timeOfVisService= $timeOfVisService + 20;
 
                 break;
-            case "Парк": 
+            case "Паркl": 
                 echo "НАшелся Парк\n";
-                $services[0] .= " -f lavfi  -i color=c=gray:s=$whCanvas  -loop 1 -i fly.png ";
+                $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
-                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$srv':fontcolor=black:
-                                fontsize=20:x=(w-text_w)/2:y=h-th[x$stream[1]t$stream[2]],
-                            [x$stream[1]t$stream[2]]fade=t=in:$stream[0]0:90:alpha=1[X$stream[1]];
+                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$srv':fontcolor=blue:
+                                fontsize=20:x=(w-text_w)/2:y=h-th-20[x$stream[1]t$stream[2]],
+                            [x$stream[1]t$stream[2]]fade=t=in:$timeOfVisService:90:alpha=1[X$stream[1]];
                             $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
 
                             $pred[0] =  "[x0$stream[0]];";
@@ -113,16 +120,19 @@ while($j != $lengthArr){
                 $stream[0] =$stream[0] +  1;
                 $stream[1] =$stream[1] +  2;
                 $stream[2] =$stream[2] +  2;
+                $timeOfVisService= $timeOfVisService + 20;
 
                 break;
             case "Кабины для переодевания": 
                 echo "НАшелся Кабины для переодевания\n";
-                $services[0] .= " -f lavfi  -i color=c=gray:s=$whCanvas  -loop 1 -i fly.png ";
+                $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
-                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$srv':fontcolor=black:
-                                fontsize=20:x=(w-text_w)/2:y=h-th[x$stream[1]t$stream[2]],
-                            [x$stream[1]t$stream[2]]fade=t=in:$stream[0]0:90:alpha=1[X$stream[1]];
+                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Кабины':fontcolor=blue:fontsize=20:x=(w-text_w)/2:y=h-th-40,
+                            drawtext=fontfile=/Library/Fonts/Arial.ttf:text='для':fontcolor=blue:fontsize=20:x=(w-text_w)/2:y=h-th-20,
+                            drawtext=fontfile=/Library/Fonts/Arial.ttf:text='переодевания':fontcolor=blue:fontsize=20:x=(w-text_w)/2:y=h-th
+                                [x$stream[1]t$stream[2]],
+                            [x$stream[1]t$stream[2]]fade=t=in:$timeOfVisService:90:alpha=1[X$stream[1]];
                             $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
 
                             $pred[0] =  "[x0$stream[0]];";
@@ -140,16 +150,22 @@ while($j != $lengthArr){
                 $stream[0] =$stream[0] +  1;
                 $stream[1] =$stream[1] +  2;
                 $stream[2] =$stream[2] +  2;
+                $timeOfVisService= $timeOfVisService + 20;
 
                 break;
             case "Пункт медицинской помощи":
                 echo "НАшелся Пункт медицинской помощи\n";
-                 $services[0] .= " -f lavfi  -i color=c=gray:s=$whCanvas  -loop 1 -i fly.png ";
+                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
-                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$srv':fontcolor=black:
-                                fontsize=20:x=(w-text_w)/2:y=h-th[x$stream[1]t$stream[2]],
-                            [x$stream[1]t$stream[2]]fade=t=in:$stream[0]0:90:alpha=1[X$stream[1]];
+                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Пункт':fontcolor=blue:
+                                fontsize=20:x=(w-text_w)/2:y=h-th-40,
+                                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='медицинской':fontcolor=blue:
+                                fontsize=20:x=(w-text_w)/2:y=h-th-20,
+                                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='помощи':fontcolor=blue:
+                                fontsize=20:x=(w-text_w)/2:y=h-th
+                                [x$stream[1]t$stream[2]],
+                            [x$stream[1]t$stream[2]]fade=t=in:$timeOfVisService:90:alpha=1[X$stream[1]];
                             $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
 
                             $pred[0] =  "[x0$stream[0]];";
@@ -166,15 +182,20 @@ while($j != $lengthArr){
                 $stream[0] =$stream[0] +  1;
                 $stream[1] =$stream[1] +  2;
                 $stream[2] =$stream[2] +  2;
+                $timeOfVisService= $timeOfVisService + 20;
+
                  break;
             case "Спасательная вышка": 
                 echo "НАшелся Спасательная вышка\n";
-                 $services[0] .= " -f lavfi  -i color=c=gray:s=$whCanvas -loop 1 -i fly.png ";
+                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
-                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$srv':fontcolor=black:
-                                fontsize=20:x=(w-text_w)/2:y=h-th[x$stream[1]t$stream[2]],
-                            [x$stream[1]t$stream[2]]fade=t=in:$stream[0]0:90:alpha=1[X$stream[1]];
+                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Спасательная':fontcolor=blue:
+                                fontsize=20:x=(w-text_w)/2:y=h-th-30,
+                                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='вышка':fontcolor=blue:
+                                fontsize=20:x=(w-text_w)/2:y=h-th-10
+                                [x$stream[1]t$stream[2]],
+                            [x$stream[1]t$stream[2]]fade=t=in:$timeOfVisService:90:alpha=1[X$stream[1]];
                             $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
 
                             $pred[0] =  "[x0$stream[0]];";
@@ -191,15 +212,17 @@ while($j != $lengthArr){
                 $stream[0] =$stream[0] +  1;
                 $stream[1] =$stream[1] +  2;
                 $stream[2] =$stream[2] +  2;
+                $timeOfVisService= $timeOfVisService + 20;
+                
              break;
             case "Бар": 
                 echo "НАшелся Бар\n";
-                $services[0] .= " -f lavfi  -i color=c=gray:s=$whCanvas -loop 1 -i fly.png ";
+                $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
-                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$srv':fontcolor=black:
-                                fontsize=20:x=(w-text_w)/2:y=h-th[x$stream[1]t$stream[2]],
-                            [x$stream[1]t$stream[2]]fade=t=in:$stream[0]0:90:alpha=1[X$stream[1]];
+                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Бар':fontcolor=blue:
+                                fontsize=20:x=(w-text_w)/2:y=h-th-20[x$stream[1]t$stream[2]],
+                            [x$stream[1]t$stream[2]]fade=t=in:$timeOfVisService:90:alpha=1[X$stream[1]];
                             $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
 
                             $pred[0] =  "[x0$stream[0]];";
@@ -216,6 +239,8 @@ while($j != $lengthArr){
                 $stream[0] =$stream[0] +  1;
                 $stream[1] =$stream[1] +  2;
                 $stream[2] =$stream[2] +  2;
+                $timeOfVisService= $timeOfVisService + 20;
+
                  break;
             default: 
                 echo "Нияего не нашлось\n";
@@ -236,11 +261,11 @@ while($j != $lengthArr){
         $endOfstreamService=null;
     }
 
-    video($infoBeach,$receiveBeach[1], $zoompanupto, $zoomdelta, $services, $pred[1], $endOfstreamService);
+    video($infoBeach,$receiveBeach[1], $zoompanupto, $zoomdelta, $services, $pred[1], $endOfstreamService, $cellSize, $transitionDuration);
 }
  
 
-function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, $endOfstreamService){
+function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, $endOfstreamService, $cellSize, $transitionDuration){
  
 echo '<br> VIDEO ' . $infoBeach[0];
 
@@ -300,16 +325,24 @@ echo '<br> VIDEO ' . $infoBeach[0];
         [bv10a][bv9b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[910v];
         [bv4][bv10b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[104v]; 
 
-        [11:v]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Инфраструктура пляжа':fontcolor=blue:fontsize=70:x=(w-tw)/2:y=40[11v];
+        [11:v]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Инфраструктура пляжа':fontcolor=blue:fontsize=70:x=(w-tw)/2:y=40,
+        split=3[bv11a][bv11b][v11];
+
+        [bv11a][v0]blend=all_expr='if((lte(mod(X,$cellSize),$cellSize/2-($cellSize/2)*T/$transitionDuration)+lte(mod(Y,$cellSize),$cellSize/2-($cellSize/2)*T/$transitionDuration))+(gte(mod(X,$cellSize),($cellSize/2)+($cellSize/2)*T/$transitionDuration)+gte(mod(Y,$cellSize),($cellSize/2)+($cellSize/2)*T/$transitionDuration)),B,A)':shortest=1[011v];
+
+        [bv11b][v8]overlay=y='h-t/$transitionDuration*720':x=0,select=lte(n\,25)[8v11v];
+        
+
         $services[2]
         $pred
 
-         [v0][0v1m][map1][map2][map3][3m1v][v1][12v][v2][23v][v3] $endOfstreamService [38v][v8][89v][v9][910v][v10][104v][v4]concat=n=$services[3],format=yuv420p[v] \" -map \"[v]\" -s \"1280x720\" -y $enBeach.mp4";
-        
+        [011v] $endOfstreamService [8v11v][0v1m][map1][map2][map3][3m1v][v1][12v][v2][23v][v3][38v]  [89v][v9][910v][v10][104v][v4]concat=n=20,format=yuv420p[v] \" -map \"[v]\" -s \"1280x720\" -y $enBeach.mp4";
+        //[v0] [v8] $services[3]
+
     file_put_contents("coman.txt",$comm);
     $text =str_replace(array("\n\r","\r\n"), "", $comm);
     //  echo $text;
-    // exec($text);
+    exec($text);
     
     $addVoice = "ffmpeg  -async 1 -i video\Yashmovyy+plyazh.mp4
         -itsoffset 00:00:01 -i voice\\nameBeach.ogg 
@@ -340,7 +373,7 @@ echo '<br> VIDEO ' . $infoBeach[0];
               -filter_complex \"[0:v]alphaextract[alfa];[1:v][alfa]alphamerge\"                
               -y testBG.mp4";
     $text2= str_replace(array("\n\r","\r\n"), "", $addBG);
-    exec($text2);
+    // exec($text2);
     
         // unlink("$enBeach.mp4");
 }
