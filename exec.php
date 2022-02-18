@@ -264,6 +264,22 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
     $infoBeach[4] = mb_strtolower($infoBeach[4]);
     echo "VIDEO $infoBeach[4] \n" ;
 
+    switch($infoBeach[3]){
+        case "Бетонные пляжи": $infoBeach[3]="бетонное";
+            break;
+        case "Галечные пляжи": $infoBeach[3]="галичное";
+            break;
+        case "Песчаные пляжи": $infoBeach[3]="песчаное";
+            break;
+        case "Песчано-галечные пляжи": $infoBeach[3]="песчано-галечное";
+            break;
+        case "Крупно-каменные пляжи": $infoBeach[3]="купно-каменное";
+            break;
+        case "Ракушечные пляжи": $infoBeach[3]="ракушечное";
+            break;
+        case "Земляные пляжи": $infoBeach[3]="земляное";
+            break;
+            }
 
     $comm = "ffmpeg  
         -loop 1 -t 2 -i img\\" . $enBeach . "0.jpg 
@@ -334,10 +350,10 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
         // [v8] $services[3] 
 
     
-        file_put_contents("coman.txt",$comm);
+    file_put_contents("coman.txt",$comm);
     $text =str_replace(array("\n\r","\r\n"), "", $comm);
     //  echo $text;
-    // exec($text);
+    exec($text);
     
     $addVoice = "ffmpeg  -async 1 -i video\Yashmovyy+plyazh.mp4
         -itsoffset 00:00:01 -i voice\\nameBeach.ogg 
