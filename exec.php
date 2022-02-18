@@ -260,9 +260,9 @@ while($j != $lengthArr){
  
 
 function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, $endOfstreamService, $cellSize, $transitionDuration){
-//  $infoBeach[4]
-    $strq = strtolower('FdfdFFFsds');
-    echo "VIDEO $strq \n" ;
+
+    $infoBeach[4] = mb_strtolower($infoBeach[4]);
+    echo "VIDEO $infoBeach[4] \n" ;
 
 
     $comm = "ffmpeg  
