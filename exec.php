@@ -65,7 +65,7 @@ while($j != $lengthArr){
                     $stream[2] = $stream[2] +  2;
                     $timeOfVisService= $timeOfVisService + 20;
 
-                    $voiceOfService .= "$srv";
+                    $voiceOfService .= " $srv";
                 break;
 
             case "Терминал оплаты": 
@@ -97,7 +97,7 @@ while($j != $lengthArr){
                 $stream[2] =$stream[2] +  2;
                 $timeOfVisService= $timeOfVisService + 20;
 
-                $voiceOfService .= "$srv";
+                $voiceOfService .= " $srv";
                 break;
             case "Парк": 
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
@@ -125,7 +125,7 @@ while($j != $lengthArr){
                 $stream[2] =$stream[2] +  2;
                 $timeOfVisService= $timeOfVisService + 20;
 
-                $voiceOfService .= "$srv";
+                $voiceOfService .= " $srv";
                 break;
             case "Кабины для переодевания": 
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
@@ -155,7 +155,7 @@ while($j != $lengthArr){
                 $stream[2] =$stream[2] +  2;
                 $timeOfVisService= $timeOfVisService + 20;
 
-                $voiceOfService .= "$srv";
+                $voiceOfService .= " $srv";
                 break;
             case "Пункт медицинской помощи":
                  $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
@@ -187,7 +187,7 @@ while($j != $lengthArr){
                 $stream[2] =$stream[2] +  2;
                 $timeOfVisService= $timeOfVisService + 20;
 
-                $voiceOfService .= "$srv";
+                $voiceOfService .= " $srv";
                  break;
             case "Спасательная вышка": 
                  $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas -loop 1 -i fly.png ";
@@ -217,7 +217,7 @@ while($j != $lengthArr){
                 $stream[2] =$stream[2] +  2;
                 $timeOfVisService= $timeOfVisService + 20;
                 
-                $voiceOfService .= "$srv";
+                $voiceOfService .= "$ srv";
              break;
             case "Бар": 
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas -loop 1 -i fly.png ";
@@ -245,7 +245,7 @@ while($j != $lengthArr){
                 $timeOfVisService= $timeOfVisService + 20;
 
                 
-                $voiceOfService .= "$srv";
+                $voiceOfService .= " $srv";
                  break;
             default: 
                 echo "Ниxего не нашлось: $srv\n";
@@ -279,7 +279,6 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
 
     switch($infoBeach[3]){
         case "Бетонные пляжи": $infoBeach[3]="бетонная";
-            
             break;
         case "Галечные пляжи": $infoBeach[3]="галичная";
             break;
@@ -294,39 +293,39 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
         case "Земляные пляжи": $infoBeach[3]="земляная";
             break;
             }
-        voice("$infoBeach[0]","nameBeach");
-        voice("Месторасположение $infoBeach[1]", "placeBeach");
-        voice("Протяженность береговой линии примерно $infoBeach[2]", "length");
-        voice("Поверхность пляжа $infoBeach[3]","surface");
-        voice("Морское дно $infoBeach[4]", "bottom");
+        // voice("$infoBeach[0]","nameBeach");
+        // voice("Месторасположение $infoBeach[1]", "placeBeach");
+        // voice("Протяженность береговой линии примерно $infoBeach[2]", "length");
+        // voice("Поверхность пляжа $infoBeach[3]","surface");
+        // voice("Морское дно $infoBeach[4]", "bottom");
         // voiceService  уже готово
-        $receiveBeach= "Добраться до пляжа можно на ";
-        $l = 0;
         
-        $receive = explode("\n", $infoBeach[7]);
-        foreach($receive as $s){
-            switch($s){
-                case "Автомобиль":
-                    if($l == 0){
-                        $receiveBeach .= "автомобиле ";
-                        $l = $l +1;
-                    }else 
-                        $receiveBeach .= "и автомобиле";
-                
+        $receiveBeach= "Добраться до пляжа можно на ";
+            $l = 0;
+            $receive = explode("\n", $infoBeach[7]);
+            foreach($receive as $s){
+                switch($s){
+                    case "Автомобиль":
+                        if($l == 0){
+                            $receiveBeach .= "автомобиле ";
+                            $l = $l +1;
+                        }else 
+                            $receiveBeach .= "и автомобиле";
+                    
 
-                    break;
-                case "Общественный транспорт":
-                    if($l == 0){
-                        $receiveBeach .= "общественом транспорте ";
-                        $l = $l +1;
-                    }else 
-                        $receiveBeach .= "и общественом транспорте";
-                    break;
-                default : ;
+                        break;
+                    case "Общественный транспорт":
+                        if($l == 0){
+                            $receiveBeach .= "общественом транспорте ";
+                            $l = $l +1;
+                        }else 
+                            $receiveBeach .= "и общественом транспорте";
+                        break;
+                    default : $receiveBeach = "";
+                }
             }
-        }
-        voice($receiveBeach, "reсeive");
-        voice("Посетители дают оценку $infoBeach[9]", "score");
+        // voice($receiveBeach, "receive");
+        // voice("Посетители дают оценку $infoBeach[8]", "score");
 
     $comm = "ffmpeg  
         -loop 1 -t 2 -i img\\" . $enBeach . "0.jpg 
@@ -408,20 +407,25 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
         -itsoffset 00:00:06 -i voice\\length.ogg 
         -itsoffset 00:00:10 -i voice\\surface.ogg 
         -itsoffset 00:00:10 -i voice\bottom.ogg 
+
+        -itsoffset 00:00:10 -i voice\\voiceService.ogg
         -itsoffset 00:00:10 -i voice\\receive.ogg
         -itsoffset 00:00:10 -i voice\score.ogg
-        -f lavfi -t 4 -i anullsrc=channel_layout=stereo:sample_rate=44100 
-        -f lavfi -t 7 -i anullsrc=channel_layout=stereo:sample_rate=44100 
-        -f lavfi -t 14 -i anullsrc=channel_layout=stereo:sample_rate=44100 
         -f lavfi -t 1 -i anullsrc=channel_layout=stereo:sample_rate=44100 
+        -f lavfi -t 4 -i anullsrc=channel_layout=stereo:sample_rate=44100 
+        
+        -f lavfi -t 7 -i anullsrc=channel_layout=stereo:sample_rate=44100 
+        -f lavfi -t 10 -i anullsrc=channel_layout=stereo:sample_rate=44100 
+        -f lavfi -t 13 -i anullsrc=channel_layout=stereo:sample_rate=44100 
 
         -filter_complex \"
-            [8:a][5:a]concat=v=0:a=1 [addSilence1];
-            [9:a][6:a]concat=v=0:a=1 [addSilence2];
-            [10:a][7:a]concat=v=0:a=1 [addSilence3];
-            [11:a][4:a]concat=v=0:a=1 [addSilence4];
-            
-            [1][2][3][addSilence4][addSilence1][addSilence2][addSilence3]amix=inputs=7\" 
+            [9:a][4:a]concat=v=0:a=1 [addSilence1];
+            [10:a][5:a]concat=v=0:a=1 [addSilence2];
+            [11:a][6:a]concat=v=0:a=1 [addSilence3];
+            [12:a][7:a]concat=v=0:a=1 [addSilence4];
+            [13:a][8:a]concat=v=0:a=1 [addSilence5];
+
+            [1][2][3][addSilence1][addSilence2][addSilence3][addSilence4][addSilence5]amix=inputs=8\" 
         -c:v copy -c:a aac  -y video\\test.mp4";
 
 
