@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__.'\SimpleXLSX.php';
+require_once __DIR__.'\Voice.php';
 
 if ( $xlsx = SimpleXLSX::parse('beach.xlsx')) {
     $beaches= $xlsx->rows();
@@ -25,7 +26,8 @@ $position[0] = 40;
 $position[1] = 200;
 $cellSize = 64;
 $transitionDuration = 0.5;
-$timeOfVisService=10;
+$timeOfVisService=0;
+$voiceOfService = "Инфраструктура пляжа разнообразная. Здесь есть ";
 
 while($j != $lengthArr){
     $receiveBeach =  explode(" ", $arrayOfBeaches[$j]);
@@ -50,6 +52,7 @@ while($j != $lengthArr){
                     $pred[0] = "[x0$stream[0]];";
                     $pred[1] = "[x0$stream[0]]";
                     
+
                     if($position[0] < 880)
                         $position[0] = $position[0] + 200;
                     else{
@@ -62,6 +65,7 @@ while($j != $lengthArr){
                     $stream[2] = $stream[2] +  2;
                     $timeOfVisService= $timeOfVisService + 20;
 
+                    $voiceOfService .= "$srv";
                 break;
 
             case "Терминал оплаты": 
@@ -93,6 +97,7 @@ while($j != $lengthArr){
                 $stream[2] =$stream[2] +  2;
                 $timeOfVisService= $timeOfVisService + 20;
 
+                $voiceOfService .= "$srv";
                 break;
             case "Парк": 
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
@@ -120,6 +125,7 @@ while($j != $lengthArr){
                 $stream[2] =$stream[2] +  2;
                 $timeOfVisService= $timeOfVisService + 20;
 
+                $voiceOfService .= "$srv";
                 break;
             case "Кабины для переодевания": 
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
@@ -149,6 +155,7 @@ while($j != $lengthArr){
                 $stream[2] =$stream[2] +  2;
                 $timeOfVisService= $timeOfVisService + 20;
 
+                $voiceOfService .= "$srv";
                 break;
             case "Пункт медицинской помощи":
                  $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
@@ -180,6 +187,7 @@ while($j != $lengthArr){
                 $stream[2] =$stream[2] +  2;
                 $timeOfVisService= $timeOfVisService + 20;
 
+                $voiceOfService .= "$srv";
                  break;
             case "Спасательная вышка": 
                  $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas -loop 1 -i fly.png ";
@@ -209,6 +217,7 @@ while($j != $lengthArr){
                 $stream[2] =$stream[2] +  2;
                 $timeOfVisService= $timeOfVisService + 20;
                 
+                $voiceOfService .= "$srv";
              break;
             case "Бар": 
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas -loop 1 -i fly.png ";
@@ -235,6 +244,8 @@ while($j != $lengthArr){
                 $stream[2] =$stream[2] +  2;
                 $timeOfVisService= $timeOfVisService + 20;
 
+                
+                $voiceOfService .= "$srv";
                  break;
             default: 
                 echo "Ниxего не нашлось: $srv\n";
@@ -245,13 +256,15 @@ while($j != $lengthArr){
     if($stream[0] != 0){
         $endOfstreamService = "[endService]";
         $services[2] = "$services[1]$pred[1];";
-        $services[3] = 20;
+        $services[3] = 21;
         $pred[1] = "$pred[1]trim=0:5$endOfstreamService;";
+
+        voice($voiceOfService, "voiceService");
     }else {
 
         $services[2]=null;
         $pred[1]= null;
-        $services[3] = 19;
+        $services[3] = 20;
         $endOfstreamService=null;
     }
 
@@ -266,6 +279,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
 
     switch($infoBeach[3]){
         case "Бетонные пляжи": $infoBeach[3]="бетонная";
+            
             break;
         case "Галечные пляжи": $infoBeach[3]="галичная";
             break;
@@ -280,10 +294,43 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
         case "Земляные пляжи": $infoBeach[3]="земляная";
             break;
             }
+        voice("$infoBeach[0]","nameBeach");
+        voice("Месторасположение $infoBeach[1]", "placeBeach");
+        voice("Протяженность береговой линии примерно $infoBeach[2]", "length");
+        voice("Поверхность пляжа $infoBeach[3]","surface");
+        voice("Морское дно $infoBeach[4]", "bottom");
+        // voiceService  уже готово
+        $receiveBeach= "Добраться до пляжа можно на ";
+        $l = 0;
+        
+        $receive = explode("\n", $infoBeach[7]);
+        foreach($receive as $s){
+            switch($s){
+                case "Автомобиль":
+                    if($l == 0){
+                        $receiveBeach .= "автомобиле ";
+                        $l = $l +1;
+                    }else 
+                        $receiveBeach .= "и автомобиле";
+                
+
+                    break;
+                case "Общественный транспорт":
+                    if($l == 0){
+                        $receiveBeach .= "общественом транспорте ";
+                        $l = $l +1;
+                    }else 
+                        $receiveBeach .= "и общественом транспорте";
+                    break;
+                default : ;
+            }
+        }
+        voice($receiveBeach, "reсeive");
+        voice("Посетители дают оценку $infoBeach[9]", "score");
 
     $comm = "ffmpeg  
         -loop 1 -t 2 -i img\\" . $enBeach . "0.jpg 
-        -loop 1 -t 3 -i img\\" . $enBeach . "1.jpg 
+        -loop 1 -t 4 -i img\\" . $enBeach . "1.jpg 
         -loop 1 -t 2 -i img\\" . $enBeach . "2.jpg 
         -loop 1 -t 2 -i img\\" . $enBeach . "3.jpg 
         -loop 1 -t 2 -i img\\" . $enBeach . "4.jpg
@@ -346,19 +393,19 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
         $services[2]
         $pred
 
-         [v0][0v1m][map1][map2][map3][3m1v][v1][12v][v2][23v][v3][v3v11] $endOfstreamService [8v11v] [v8][89v][v9][910v][v10][104v][v4]concat=n=21,format=yuv420p[v] \" -map \"[v]\" -s \"1280x720\" -y $enBeach.mp4";
-        // [v8] $services[3] 
+         [v0][0v1m][map1][map2][map3][3m1v][v1][12v][v2][23v][v3][v3v11] $endOfstreamService [8v11v] [v8][89v][v9][910v][v10][104v][v4]concat=n=$services[3],format=yuv420p[v] \" -map \"[v]\" -s \"1280x720\" -y video\\$enBeach.mp4";
+        
 
     
     file_put_contents("coman.txt",$comm);
     $text =str_replace(array("\n\r","\r\n"), "", $comm);
     //  echo $text;
-    exec($text);
+    // exec($text);
     
     $addVoice = "ffmpeg  -async 1 -i video\Yashmovyy+plyazh.mp4
         -itsoffset 00:00:01 -i voice\\nameBeach.ogg 
-        -itsoffset 00:00:04 -i voice\\placeBeach.ogg 
-        -itsoffset 00:00:07 -i voice\\length.ogg 
+        -itsoffset 00:00:03 -i voice\\placeBeach.ogg 
+        -itsoffset 00:00:06 -i voice\\length.ogg 
         -itsoffset 00:00:10 -i voice\\surface.ogg 
         -itsoffset 00:00:10 -i voice\bottom.ogg 
         -itsoffset 00:00:10 -i voice\\receive.ogg
@@ -369,13 +416,13 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
         -f lavfi -t 1 -i anullsrc=channel_layout=stereo:sample_rate=44100 
 
         -filter_complex \"
-            [8:a][5:a]concat=v=0:a=1 [addSilence1],
-            [9:a][6:a]concat=v=0:a=1 [addSilence2],
-            [10:a][7:a]concat=v=0:a=1 [addSilence3],
-            [11:a][4:a]concat=v=0:a=1 [addSilence4],
+            [8:a][5:a]concat=v=0:a=1 [addSilence1];
+            [9:a][6:a]concat=v=0:a=1 [addSilence2];
+            [10:a][7:a]concat=v=0:a=1 [addSilence3];
+            [11:a][4:a]concat=v=0:a=1 [addSilence4];
             
-            [0][1][2][3][addSilence4][addSilence1][addSilence2][addSilence3]amix=inputs=8\" 
-        -c:v copy -c:a aac  -y test.mp4";
+            [1][2][3][addSilence4][addSilence1][addSilence2][addSilence3]amix=inputs=7\" 
+        -c:v copy -c:a aac  -y video\\test.mp4";
 
 
     
@@ -383,8 +430,8 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
     $addBG = "ffmpeg  -i Hand.mp4 -i Yashmovyy+plyazh.mp4
               -filter_complex \"[0:v]alphaextract[alfa];[1:v][alfa]alphamerge\"                
               -y testBG.mp4";
-    $text2= str_replace(array("\n\r","\r\n"), "", $addBG);
-    // exec($text2);
+    $text2= str_replace(array("\n\r","\r\n"), "", $addVoice);
+    exec($text2);
     
         // unlink("$enBeach.mp4");
 }
