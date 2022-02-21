@@ -96,7 +96,7 @@ while($j != $lengthArr){
                 $stream[0] =$stream[0] +  1;
                 $stream[1] =$stream[1] +  2;
                 $stream[2] =$stream[2] +  2;
-                $timeOfVisService= $timeOfVisService + 20;
+                $timeOfVisService = $timeOfVisService + 20;
 
                 $voiceOfService .= " $srv.";
                 break;
@@ -124,6 +124,7 @@ while($j != $lengthArr){
                 $stream[0] =$stream[0] +  1;
                 $stream[1] =$stream[1] +  2;
                 $stream[2] =$stream[2] +  2;
+                
                 $timeOfVisService= $timeOfVisService + 20;
 
                 $voiceOfService .= " $srv.";
@@ -254,11 +255,14 @@ while($j != $lengthArr){
         }
     }
 
+    // $time = $endOfstreamService + $stream[0]/2;
+
     if($stream[0] != 0){
         $endOfstreamService = "[endService]";
         $services[2] = "$services[1]$pred[1];";
         $services[3] = 21;
-        $pred[1] = "$pred[1]trim=0:$endOfstreamService;";
+        $time = $stream[0] + 4.5;
+        $pred[1] = "$pred[1]trim=0:$time $endOfstreamService;";
 
         voice($voiceOfService, "voiceService");
     }else {
@@ -269,7 +273,7 @@ while($j != $lengthArr){
         $endOfstreamService=null;
     }
 
-    video($infoBeach,$receiveBeach[1], $zoompanupto, $zoomdelta, $services, $pred[1], $endOfstreamService, $cellSize, $transitionDuration, $timeOfVisService);
+    video($infoBeach,$receiveBeach[1], $zoompanupto, $zoomdelta, $services, $pred[1], $endOfstreamService, $cellSize, $transitionDuration, $time);
 }
  
 
@@ -400,9 +404,12 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
     file_put_contents("coman.txt",$comm);
     $text =str_replace(array("\n\r","\r\n"), "", $comm);
     //  echo $text;
-    // exec($text);
-    $time[0] = $timeOfVisService + 1;
-    $time[1] = $timeOfVisService + 1; 
+    exec($text);
+
+
+    $time[0] = $timeOfVisService + 10  ;
+    $time[1] = $timeOfVisService + 10 + 3; 
+
     $addVoice = "ffmpeg  -async 1 -i video\Yashmovyy+plyazh.mp4
         -itsoffset 00:00:01 -i voice\\nameBeach.ogg 
         -itsoffset 00:00:03 -i voice\\placeBeach.ogg 
