@@ -265,19 +265,19 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
     echo "VIDEO $infoBeach[4] \n" ;
 
     switch($infoBeach[3]){
-        case "Бетонные пляжи": $infoBeach[3]="бетонное";
+        case "Бетонные пляжи": $infoBeach[3]="бетонная";
             break;
-        case "Галечные пляжи": $infoBeach[3]="галичное";
+        case "Галечные пляжи": $infoBeach[3]="галичная";
             break;
-        case "Песчаные пляжи": $infoBeach[3]="песчаное";
+        case "Песчаные пляжи": $infoBeach[3]="песчаная";
             break;
-        case "Песчано-галечные пляжи": $infoBeach[3]="песчано-галечное";
+        case "Песчано-галечные пляжи": $infoBeach[3]="песчано-галечная";
             break;
-        case "Крупно-каменные пляжи": $infoBeach[3]="купно-каменное";
+        case "Крупно-каменные пляжи": $infoBeach[3]="купно-каменная";
             break;
-        case "Ракушечные пляжи": $infoBeach[3]="ракушечное";
+        case "Ракушечные пляжи": $infoBeach[3]="ракушечная";
             break;
-        case "Земляные пляжи": $infoBeach[3]="земляное";
+        case "Земляные пляжи": $infoBeach[3]="земляная";
             break;
             }
 
