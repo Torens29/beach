@@ -41,7 +41,7 @@ while($j != $lengthArr){
     // var_dump($infrastructure);
     foreach($infrastructure as $srv){
         switch ("$srv") {
-            case "Туалет": 
+            case "Туалетl": 
                 $services[0] .= " -f lavfi -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0][$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
@@ -69,7 +69,7 @@ while($j != $lengthArr){
                     $voiceOfService .= " $srv.";
                 break;
 
-            case "Терминал оплаты": 
+            case "Терминал оплатыl": 
                 
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
@@ -100,7 +100,7 @@ while($j != $lengthArr){
 
                 $voiceOfService .= " $srv.";
                 break;
-            case "Парк": 
+            case "Паркl": 
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
@@ -129,7 +129,7 @@ while($j != $lengthArr){
 
                 $voiceOfService .= " $srv.";
                 break;
-            case "Кабины для переодевания": 
+            case "Кабины для переодеванияl": 
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
@@ -159,7 +159,7 @@ while($j != $lengthArr){
 
                 $voiceOfService .= " $srv.";
                 break;
-            case "Пункт медицинской помощи":
+            case "Пункт медицинской помощиl":
                  $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
@@ -401,7 +401,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
     file_put_contents("coman.txt",$comm);
     $text =str_replace(array("\n\r","\r\n"), "", $comm);
     //  echo $text;
-    // exec($text);
+    exec($text);
 
 
     $time[0] = $timeOfVisService + 8  ;
