@@ -10,38 +10,39 @@ if ( $xlsx = SimpleXLSX::parse('beach.xlsx')) {
     
 $filename = __DIR__ . '/receive_img.txt';
 $arrayOfBeaches = file($filename);
+
+
 $j=0;
-
-// for zoom
-$zoompanupto = 1.5;
-$duration = 1;
-$zoomdelta = ($zoompanupto - 1) / 25 / $duration;
-$services[0] = '';$services[1]='';
 $lengthArr = count($arrayOfBeaches);
-$stream[0] = 0; $stream[1] = 12; $stream[2] = 13;
-$pred[0] = ""; $pred[1]="[11v]";
-$endOfstreamService = "";
-$whCanvas = "200x200";
-$position[0] = 40;
-$position[1] = 200;
-$cellSize = 64;
-$transitionDuration = 0.5;
-$timeOfVisService=0;
-$voiceOfService = "Инфраструктура пляжа разнообразная. Здесь есть ";
-
-
 while($j != $lengthArr){
+
+    
+    // for zoom
+    $zoompanupto = 1.5;
+    $duration = 1;
+    $zoomdelta = ($zoompanupto - 1) / 25 / $duration;
+    $services[0] = '';$services[1]='';
+    $stream[0] = 0; $stream[1] = 12; $stream[2] = 13;
+    $pred[0] = ""; $pred[1]="[11v]";
+    $endOfstreamService = "";
+    $whCanvas = "200x200";
+    $position[0] = 40;
+    $position[1] = 200;
+    $cellSize = 64;
+    $transitionDuration = 0.5;
+    $timeOfVisService=0;
+    $voiceOfService = "Инфраструктура пляжа разнообразная. Здесь есть ";
+
+
     $receiveBeach =  explode(" ", $arrayOfBeaches[$j]);
-    // echo $receiveBeach[2];
     $j++;
 
     $infoBeach = $beaches[$receiveBeach[0]-1]; // info of the beach
     $infrastructure = explode("\n", $infoBeach[5]);
 
-    // var_dump($infrastructure);
     foreach($infrastructure as $srv){
         switch ("$srv") {
-            case "Туалетl": 
+            case "Туалет": 
                 $services[0] .= " -f lavfi -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0][$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
@@ -69,7 +70,7 @@ while($j != $lengthArr){
                     $voiceOfService .= " $srv.";
                 break;
 
-            case "Терминал оплатыl": 
+            case "Терминал оплаты": 
                 
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
@@ -100,7 +101,7 @@ while($j != $lengthArr){
 
                 $voiceOfService .= " $srv.";
                 break;
-            case "Паркl": 
+            case "Парк": 
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
@@ -129,7 +130,7 @@ while($j != $lengthArr){
 
                 $voiceOfService .= " $srv.";
                 break;
-            case "Кабины для переодеванияl": 
+            case "Кабины для переодевания": 
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
@@ -159,7 +160,7 @@ while($j != $lengthArr){
 
                 $voiceOfService .= " $srv.";
                 break;
-            case "Пункт медицинской помощиl":
+            case "Пункт медицинской помощи":
                  $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
@@ -401,13 +402,13 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
     file_put_contents("coman.txt",$comm);
     $text =str_replace(array("\n\r","\r\n"), "", $comm);
     //  echo $text;
-    exec($text);
+    // exec($text);
 
 
     $time[0] = $timeOfVisService + 8  ;
     $time[1] = $timeOfVisService + 9 + 3; 
 
-    $addVoice = "ffmpeg  -async 1 -i video\Yashmovyy+plyazh.mp4
+    $addVoice = "ffmpeg  -async 1 -i video\\$enBeach.mp4
         -itsoffset 00:00:01 -i voice\\nameBeach.ogg 
         -itsoffset 00:00:03 -i voice\\placeBeach.ogg 
         -itsoffset 00:00:06 -i voice\\length.ogg 
@@ -432,16 +433,22 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
             [13:a][8:a]concat=v=0:a=1 [addSilence5];
 
             [1][2][3][addSilence1][addSilence2][addSilence3][addSilence4][addSilence5]amix=inputs=8\" 
-        -c:v copy -c:a aac  -y video\\test.mp4";
+        -c:v copy -c:a aac  -y video\\voice\\$enBeach.mp4";
 
+
+        $text2= str_replace(array("\n\r","\r\n"), "", $addVoice);
+        // exec($text2);
 
     
-
-    $addBG = "ffmpeg  -i Hand.mp4 -i Yashmovyy+plyazh.mp4
-              -filter_complex \"[0:v]alphaextract[alfa];[1:v][alfa]alphamerge\"                
-              -y testBG.mp4";
-    $text2= str_replace(array("\n\r","\r\n"), "", $addVoice);
-    exec($text2);
     
         // unlink("$enBeach.mp4");
 }
+
+$addBG = "ffmpeg   -i video\akerm.mp4 -i alpha.mov
+    -filter_complex \"
+                    [1]format=rgb24,colorkey=black,colorchannelmixer=aa=0.3,setpts=PTS+8/TB[1d];[0][1d]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2:shortest=1
+    \"                
+   -y testBG.mp4";
+    
+    $text3= str_replace(array("\n\r","\r\n"), "", $addBG);
+    exec($text3);

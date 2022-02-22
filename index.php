@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__.'\SimpleXLSX.php';
-require_once __DIR__.'\Exec.php';
+// require_once __DIR__.'\Exec.php';
 include('SimpleImage.php');
 $beaches = []; 
 
@@ -59,7 +59,7 @@ foreach($beaches as $beach){
             echo "COORD of $beach[1]: ";
             var_dump($coord);
 
-            //receive  PNG
+            //receive map .PNG
             $z = 0;
             for ($i=1;$i<=3;$i++) {
                 switch($i){
@@ -114,7 +114,6 @@ foreach($beaches as $beach){
                 }   
             }
 
-            echo '  qw4easdacxz    ';
             $nameBeach = str_replace(" ", "+",$beach[0]);
             file_put_contents('receive_img.txt', $j . " " . $enBeach . " $nameBeach" . PHP_EOL, FILE_APPEND);
             // video($enBeach);
@@ -125,7 +124,7 @@ foreach($beaches as $beach){
     }
 
    
-    if($j==5) break;
+    if($j==10) break;
     
 }   
 curl_close($ch);
