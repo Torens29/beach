@@ -260,7 +260,7 @@ while($j != $lengthArr){
     if($stream[0] != 0){
         $endOfstreamService = "[endService]";
         $services[2] = "$services[1]$pred[1];";
-        $services[3] = 21;
+        $services[3] = 19;
         $time = $stream[0] + 4.5;
         $pred[1] = "$pred[1]trim=0:$time $endOfstreamService;";
 
@@ -269,7 +269,7 @@ while($j != $lengthArr){
 
         $services[2]=null;
         $pred[1]= null;
-        $services[3] = 20;
+        $services[3] = 18;
         $endOfstreamService=null;
     }
 
@@ -298,11 +298,11 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
         case "Земляные пляжи": $infoBeach[3]="земляная";
             break;
             }
-        // voice("$infoBeach[0]","nameBeach");
-        // voice("Месторасположение $infoBeach[1]", "placeBeach");
-        // voice("Протяженность береговой линии примерно $infoBeach[2]", "length");
-        // voice("Поверхность пляжа $infoBeach[3]","surface");
-        // voice("Морское дно $infoBeach[4]", "bottom");
+        voice("$infoBeach[0]","nameBeach");
+        voice("Месторасположение $infoBeach[1]", "placeBeach");
+        voice("Протяженность береговой линии примерно $infoBeach[2]", "length");
+        voice("Поверхность пляжа $infoBeach[3]","surface");
+        voice("Морское дно $infoBeach[4]", "bottom");
         // voiceService  уже готово
         
         $receiveBeach= "Добраться до пляжа можно на ";
@@ -312,12 +312,10 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
                 switch($s){
                     case "Автомобиль":
                         if($l == 0){
-                            $receiveBeach .= "автомобиле ";
+                            $receiveBeach .= "автомобиле и общественом транспорте";
                             $l = $l +1;
                         }else 
                             $receiveBeach .= "и автомобиле";
-                    
-
                         break;
                     case "Общественный транспорт":
                         if($l == 0){
@@ -329,8 +327,8 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
                     default : $receiveBeach = "";
                 }
             }
-        // voice($receiveBeach, "receive");
-        // voice("Посетители дают оценку $infoBeach[8]", "score");
+        voice($receiveBeach, "receive");
+        voice("Посетители дают оценку $infoBeach[8]", "score");
 
     $comm = "ffmpeg  
         -loop 1 -t 2 -i img\\" . $enBeach . "0.jpg 
@@ -345,8 +343,8 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
 
         -loop 1 -t 2 -i img\\" . $enBeach . "5.jpg
         -loop 1 -t 2 -i img\\" . $enBeach . "6.jpg 
-        -loop 1 -t 2 -i img\\" . $enBeach . "7.jpg
-        
+        -loop 1 -t 2 -i img\\" . $enBeach . "7.jpg 
+
         -f lavfi  -i color=c=white:s=1280x720
 
         $services[0] 
@@ -376,7 +374,6 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
         
         [8:v]split=3[bv8a][bv8b][v8];
         [9:v]split=3[bv9a][bv9b][v9];
-        [10:v]split=3[bv10a][bv10b][v10];
 
         [bv1m][bv0]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[0v1m];
         [bv1a][bv3m]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[3m1v]; 
@@ -384,8 +381,8 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
         [bv3a][bv2b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[23v]; 
 
         [bv9a][bv8b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[89v];
-        [bv10a][bv9b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[910v];
-        [bv4][bv10b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[104v]; 
+        [bv4][bv9b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[94v];
+
 
         [11:v]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Инфраструктура пляжа':fontcolor=blue:fontsize=70:x=(w-tw)/2:y=40,
         split=3[bv11a][bv11b][11v];
@@ -397,18 +394,18 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
         $services[2]
         $pred
 
-         [v0][0v1m][map1][map2][map3][3m1v][v1][12v][v2][23v][v3][v3v11] $endOfstreamService [8v11v] [v8][89v][v9][910v][v10][104v][v4]concat=n=$services[3],format=yuv420p[v] \" -map \"[v]\" -s \"1280x720\" -y video\\$enBeach.mp4";
+         [v0][0v1m][map1][map2][map3][3m1v][v1][12v][v2][23v][v3][v3v11] $endOfstreamService [8v11v] [v8][89v][v9][94v][v4]concat=n=$services[3],format=yuv420p[v] \" -map \"[v]\" -s \"1280x720\" -y video\\$enBeach.mp4";
         
 
     
     file_put_contents("coman.txt",$comm);
     $text =str_replace(array("\n\r","\r\n"), "", $comm);
     //  echo $text;
-    exec($text);
+    // exec($text);
 
 
-    $time[0] = $timeOfVisService + 10  ;
-    $time[1] = $timeOfVisService + 10 + 3; 
+    $time[0] = $timeOfVisService + 8  ;
+    $time[1] = $timeOfVisService + 9 + 3; 
 
     $addVoice = "ffmpeg  -async 1 -i video\Yashmovyy+plyazh.mp4
         -itsoffset 00:00:01 -i voice\\nameBeach.ogg 
