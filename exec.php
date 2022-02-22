@@ -402,7 +402,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
     file_put_contents("coman.txt",$comm);
     $text =str_replace(array("\n\r","\r\n"), "", $comm);
     //  echo $text;
-    // exec($text);
+    exec($text);
 
 
     $time[0] = $timeOfVisService + 8  ;
@@ -436,11 +436,9 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
         -c:v copy -c:a aac  -y video\\voice\\$enBeach.mp4";
 
 
-        $text2= str_replace(array("\n\r","\r\n"), "", $addVoice);
-        // exec($text2);
-
-    
-    
+    $text2= str_replace(array("\n\r","\r\n"), "", $addVoice);
+    exec($text2);
+ 
         // unlink("$enBeach.mp4");
 }
 
@@ -451,4 +449,4 @@ $addBG = "ffmpeg   -i video\akerm.mp4 -i alpha.mov
    -y testBG.mp4";
     
     $text3= str_replace(array("\n\r","\r\n"), "", $addBG);
-    exec($text3);
+    // exec($text3);
