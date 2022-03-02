@@ -6,7 +6,7 @@ if ( $xlsx = SimpleXLSX::parse('beach.xlsx')) {
     $beaches= $xlsx->rows();
 } else {
     echo SimpleXLSX::parseError();
-}
+} 
     
 $filename = __DIR__ . '/receive_img.txt';
 $arrayOfBeaches = file($filename);
@@ -353,13 +353,13 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
         -filter_complex 
         \"
         [0:v]format=yuv444p,split[pr1][pbv0];
-            [pr1]scale=iw*4:ih*4,zoompan=z=min(max(zoom\,pzoom)+($zoompanupto - 1) / 25 / 2\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[qw];
+            [pr1]scale=iw*4:ih*4, zoompan=z=min(max(zoom\,pzoom)+($zoompanupto - 1) / 25 / 2\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[qw];
             [qw]drawtext=text='$infoBeach[0]':borderw=1:fontcolor=white:fontsize=40:x=200+n/2:y=250,
             drawtext=text='       $infoBeach[1]':borderw=1:fontcolor=white:fontsize=40:x=350-n/2:y=300[pre2];
             [pre2]fade=t=in:st=0:d=1[v0]; 
 
-            [pbv0]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[0]':borderw=1:fontcolor=white:fontsize=40:x=200+25+n/2:y=250,
-            drawtext=fontfile=/Library/Fonts/Arial.ttf:text='       $infoBeach[1]':borderw=1:fontcolor=white:fontsize=40:x=350-25-n/2:y=300, zoompan=z='1.1+zoom':d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'[bv0];
+            [pbv0]scale=iw*4:ih*4, drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[0]':borderw=1:fontcolor=white:fontsize=40:x=200+25+n/2:y=250,
+            drawtext=fontfile=/Library/Fonts/Arial.ttf:text='       $infoBeach[1]':borderw=1:fontcolor=white:fontsize=40:x=350-25-n/2:y=300, zoompan=z='1.1':d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'[bv0];
                 
         [1:v]split=2[pbv1b][v1a];
             
@@ -405,27 +405,21 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
             drawtext=fontfile=/Library/Fonts/Arial.ttf:text='       $infoBeach[8]':borderw=1:fontcolor=white:fontsize=40:x=350-12-n/2:y=300,
             scale=iw*4:ih*4,zoompan=z=min(max(zoom\,pzoom)+($zoompanupto - 1) / 25 / 2\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[v4];
 
-        [5]split=3[bv1m][m1][m1b];
-            [m1] scale=iw*4:ih*4,zoompan=z=min(max(zoom\,pzoom)+($zoompanupto    - 1) / 25 / 2\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[map1];
-            [m1b]scale=iw*4:ih*4,zoompan=z='zoom+0.03':d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)',trim=0:0.2[m1tom2];
+        [5]split=[bv1ma][m1];
+            [m1]scale=iw*4:ih*4, zoompan=z='if(between(time,0,1), zoom+0.005+0.2,zoom+0.05 )':d=500:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720,trim=0:0.2[map1];
+            [bv1ma] scale=iw*4:ih*4, zoompan=z='zoom+0.005':d=500:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720 [bv1m];
 
 
-        [6]split[m2][m2b];
-            [m2]scale=iw*4:ih*4,
-            zoompan=z='if(between(time,0.2,1.2), zoom+0.001,zoom+0.05 )':d=500:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720,trim=0:1.4
-            [map2];
+        [6]scale=iw*4:ih*4,
+            zoompan=z='if(between(time,0.2,1.2), zoom+0.005,zoom+0.05 )':d=500:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720,trim=0:1.4[map2];
 
-            убрать нвхуй ->
-            [m2b]scale=iw*4:ih*4,zoompan=z=min(max(zoom\,pzoom)+(5 - 1) / 25 / 0.2\,5):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)',trim=0:0.2[m2tom3];
 
-        [7]split[bv3m][m3];
-            [m3]scale=iw*4:ih*4,zoompan=z=min(max(zoom\,pzoom)+($zoompanupto - 1) / 25 / 2\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[map3];
-            [bv3m]scale=iw*4:ih*4,zoompan=z=min(max(zoom\,pzoom)+(5 - 1) / 25 / 0.2\,5):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)',trim=0:0.2[3m1v];
+        [7]scale=iw*4:ih*4,zoompan=z='if(between(time,0.2,1.2), zoom+0.005,zoom+0.05 )':d=500:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2) ':s=1280x720,trim=0:1.4[map3];
         
         [8:v]split=3[bv8a][bv8b][v8];
         [9:v]split=3[bv9a][bv9b][v9];
 
-        [bv1m][bv0]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[0v1m];
+        [bv1m][bv0]blend=all_expr='if(gte(Y,H - H*T/0.1),A,B)':shortest=1[0v1m];
         
         [bv2a][bv1b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[12v]; 
         [bv3a][bv2b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[23v]; 
@@ -444,7 +438,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
         $services[2]
         $pred
 
-         [v0][0v1m][map1][m1tom2][map2][m2tom3][map3][3m1v][v1][12v][v2][23v][v3][v3v11] $endOfstreamService [8v11v] [v8][89v][v9][94v][v4]concat=n=21,format=yuv420p[v] \" -map \"[v]\" -s \"1280x720\"  -y testAnim.mp4";
+         [v0][0v1m][map1][map2][map3][v1][12v][v2][23v][v3][v3v11] $endOfstreamService [8v11v] [v8][89v][v9][94v][v4]concat=n=19,format=yuv420p[v] \" -map \"[v]\" -s \"1280x720\"  -y testAnim.mp4";
         
 
     
