@@ -42,7 +42,7 @@ while($j != $lengthArr){
 
     foreach($infrastructure as $srv){
         switch ("$srv") {
-            case "lТуалет": 
+            case "Туалет": 
                 $services[0] .= " -f lavfi -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0][$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
@@ -70,7 +70,7 @@ while($j != $lengthArr){
                     $voiceOfService .= " $srv.";
                 break;
 
-            case "lТерминал оплаты": 
+            case "Терминал оплаты": 
                 
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
@@ -101,7 +101,7 @@ while($j != $lengthArr){
 
                 $voiceOfService .= " $srv.";
                 break;
-            case "lПарк": 
+            case "Парк": 
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
@@ -130,7 +130,7 @@ while($j != $lengthArr){
 
                 $voiceOfService .= " $srv.";
                 break;
-            case "lКабины для переодевания": 
+            case "Кабины для переодевания": 
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
@@ -160,7 +160,7 @@ while($j != $lengthArr){
 
                 $voiceOfService .= " $srv.";
                 break;
-            case "lПункт медицинской помощи":
+            case "Пункт медицинской помощи":
                  $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
@@ -192,7 +192,7 @@ while($j != $lengthArr){
 
                 $voiceOfService .= " $srv.";
                  break;
-            case "lСпасательная вышка": 
+            case "Спасательная вышка": 
                  $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
@@ -222,7 +222,7 @@ while($j != $lengthArr){
                 
                 $voiceOfService .= " $srv.";
              break;
-            case "lБар": 
+            case "Бар": 
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
@@ -263,7 +263,7 @@ while($j != $lengthArr){
         $services[2] = "$services[1]$pred[1];";
         $services[3] = 19;
         $time = $stream[0] + 4.5;
-        $pred[1] = "$pred[1]trim=0:$time $endOfstreamService;";
+        $pred[1] = "$pred[1]trim=0:$time [endService];";
         $stream11 = "
             [11:v]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Инфраструктура пляжа':fontcolor=#56b2df:fontsize=70:x=(w-tw)/2:y=40,
             split=3[bv11a][bv11b][11v];
