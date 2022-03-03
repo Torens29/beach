@@ -46,7 +46,7 @@ while($j != $lengthArr){
                 $services[0] .= " -f lavfi -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0][$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
-                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$srv':fontcolor=blue:
+                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$srv':fontcolor=#56b2df:
                                 fontsize=20:x=(w-text_w)/2:y=h-th-20[x$stream[1]t$stream[2]],
                             [x$stream[1]t$stream[2]]fade=t=in:$timeOfVisService:90:alpha=1[X$stream[1]];
                             $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
@@ -75,9 +75,9 @@ while($j != $lengthArr){
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
-                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Терминал':fontcolor=blue:
+                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Терминал':fontcolor=#56b2df:
                                 fontsize=20:x=(w-text_w)/2:y=h-th-30,
-                                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='оплаты':fontcolor=blue:                                fontsize=20:x=(w-text_w)/2:y=h-th-10
+                                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='оплаты':fontcolor=#56b2df:                                fontsize=20:x=(w-text_w)/2:y=h-th-10
                                 [x$stream[1]t$stream[2]];
                             [x$stream[1]t$stream[2]]fade=t=in:$timeOfVisService:90:alpha=1[X$stream[1]];
                             $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
@@ -105,7 +105,7 @@ while($j != $lengthArr){
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
-                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$srv':fontcolor=blue:
+                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$srv':fontcolor=#56b2df:
                                 fontsize=20:x=(w-text_w)/2:y=h-th-20[x$stream[1]t$stream[2]],
                             [x$stream[1]t$stream[2]]fade=t=in:$timeOfVisService:90:alpha=1[X$stream[1]];
                             $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
@@ -134,9 +134,9 @@ while($j != $lengthArr){
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
-                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Кабины':fontcolor=blue:fontsize=20:x=(w-text_w)/2:y=h-th-40,
-                            drawtext=fontfile=/Library/Fonts/Arial.ttf:text='для':fontcolor=blue:fontsize=20:x=(w-text_w)/2:y=h-th-20,
-                            drawtext=fontfile=/Library/Fonts/Arial.ttf:text='переодевания':fontcolor=blue:fontsize=20:x=(w-text_w)/2:y=h-th
+                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Кабины':fontcolor=#56b2df:fontsize=20:x=(w-text_w)/2:y=h-th-40,
+                            drawtext=fontfile=/Library/Fonts/Arial.ttf:text='для':fontcolor=#56b2df:fontsize=20:x=(w-text_w)/2:y=h-th-20,
+                            drawtext=fontfile=/Library/Fonts/Arial.ttf:text='переодевания':fontcolor=#56b2df:fontsize=20:x=(w-text_w)/2:y=h-th
                                 [x$stream[1]t$stream[2]],
                             [x$stream[1]t$stream[2]]fade=t=in:$timeOfVisService:90:alpha=1[X$stream[1]];
                             $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
@@ -164,11 +164,11 @@ while($j != $lengthArr){
                  $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
-                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Пункт':fontcolor=blue:
+                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Пункт':fontcolor=#56b2df:
                                 fontsize=20:x=(w-text_w)/2:y=h-th-40,
-                                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='медицинской':fontcolor=blue:
+                                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='медицинской':fontcolor=#56b2df:
                                 fontsize=20:x=(w-text_w)/2:y=h-th-20,
-                                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='помощи':fontcolor=blue:
+                                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='помощи':fontcolor=#56b2df:
                                 fontsize=20:x=(w-text_w)/2:y=h-th
                                 [x$stream[1]t$stream[2]],
                             [x$stream[1]t$stream[2]]fade=t=in:$timeOfVisService:90:alpha=1[X$stream[1]];
@@ -196,9 +196,9 @@ while($j != $lengthArr){
                  $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
-                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Спасательная':fontcolor=blue:
+                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Спасательная':fontcolor=#56b2df:
                                 fontsize=20:x=(w-text_w)/2:y=h-th-30,
-                                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='вышка':fontcolor=blue:
+                                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='вышка':fontcolor=#56b2df:
                                 fontsize=20:x=(w-text_w)/2:y=h-th-10
                                 [x$stream[1]t$stream[2]],
                             [x$stream[1]t$stream[2]]fade=t=in:$timeOfVisService:90:alpha=1[X$stream[1]];
@@ -226,7 +226,7 @@ while($j != $lengthArr){
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
-                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Бар':fontcolor=blue:
+                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Бар':fontcolor=#56b2df:
                                 fontsize=20:x=(w-text_w)/2:y=h-th-20[x$stream[1]t$stream[2]],
                             [x$stream[1]t$stream[2]]fade=t=in:$timeOfVisService:90:alpha=1[X$stream[1]];
                             $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
@@ -391,8 +391,8 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
                 drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[4]':borderw=1:fontcolor=white:fontsize=40:x=300-6-n/2:y=300[v3];
             
             [pbv3b]zoompan=z=1.1:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)',
-                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Морское дно':borderw=1:fontcolor=white:fontsize=40:x=200+50+6+n/2:y=250,
-                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[4]':borderw=1:fontcolor=white:fontsize=40:x=350-50-6-n/2:y=300[bv3b];
+                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Морское дно':borderw=1:fontcolor=white:fontsize=40:x=200+25+6+n/2:y=250,
+                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[4]':borderw=1:fontcolor=white:fontsize=40:x=300-25-6-n/2:y=300[bv3b];
 
         [4:v] split[pbv4][v4a];
             [pbv4]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Оценка поситителей':borderw=1:fontcolor=white:fontsize=40:x=200+n/2:y=250,
@@ -430,18 +430,18 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
         [bv4][bv9b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[94v];
 
 
-        [11:v]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Инфраструктура пляжа':fontcolor=blue:fontsize=70:x=(w-tw)/2:y=40,
+        [11:v]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Инфраструктура пляжа':fontcolor=#56b2df:fontsize=70:x=(w-tw)/2:y=40,
         split=3[bv11a][bv11b][11v];
         
         [bv11a][bv3b]blend=all_expr='if((lte(mod(X,$cellSize),$cellSize/2-($cellSize/2)*T/$transitionDuration)+lte(mod(Y,$cellSize),$cellSize/2-($cellSize/2)*T/$transitionDuration))+(gte(mod(X,$cellSize),($cellSize/2)+($cellSize/2)*T/$transitionDuration)+gte(mod(Y,$cellSize),($cellSize/2)+($cellSize/2)*T/$transitionDuration)),B,A)':shortest=1[v3v11];
 
-        [bv8a][bv11b]blend=all_expr='if(gte(Y,H - H*T/0.5),A,B)':shortest=1[8v11v];
+        [bv8a][bv11b]blend=all_expr='if(gte(Y,H - H*T/0.5),A,B)':shortest=1,trim=0:0.2[8v11v];
 
         $services[2]
         $pred
 
         [v0][0v1m][map1][map2][map3][v1][12v][v2][23v][v3][v3v11] $endOfstreamService [8v11v] [v8][89v][v9][94v][v4]concat=n=19,
-        format=yuv420p[v] \" -map \"[v]\" -s \"1280x720\"  -y Anim.mp4";
+        format=yuv420p[v] \" -map \"[v]\" -s \"1280x720\"  -y Anim1.mp4";
         
 
     
