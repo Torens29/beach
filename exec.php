@@ -42,7 +42,7 @@ while($j != $lengthArr){
 
     foreach($infrastructure as $srv){
         switch ("$srv") {
-            case "Туалет": 
+            case "lТуалет": 
                 $services[0] .= " -f lavfi -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0][$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
@@ -70,7 +70,7 @@ while($j != $lengthArr){
                     $voiceOfService .= " $srv.";
                 break;
 
-            case "Терминал оплаты": 
+            case "lТерминал оплаты": 
                 
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
@@ -101,7 +101,7 @@ while($j != $lengthArr){
 
                 $voiceOfService .= " $srv.";
                 break;
-            case "Парк": 
+            case "lПарк": 
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
@@ -130,7 +130,7 @@ while($j != $lengthArr){
 
                 $voiceOfService .= " $srv.";
                 break;
-            case "Кабины для переодевания": 
+            case "lКабины для переодевания": 
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
@@ -160,7 +160,7 @@ while($j != $lengthArr){
 
                 $voiceOfService .= " $srv.";
                 break;
-            case "Пункт медицинской помощи":
+            case "lПункт медицинской помощи":
                  $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
@@ -192,7 +192,7 @@ while($j != $lengthArr){
 
                 $voiceOfService .= " $srv.";
                  break;
-            case "Спасательная вышка": 
+            case "lСпасательная вышка": 
                  $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
@@ -222,7 +222,7 @@ while($j != $lengthArr){
                 
                 $voiceOfService .= " $srv.";
              break;
-            case "Бар": 
+            case "lБар": 
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
@@ -259,26 +259,35 @@ while($j != $lengthArr){
     // $time = $endOfstreamService + $stream[0]/2;
 
     if($stream[0] != 0){
-        $endOfstreamService = "[endService]";
+        $endOfstreamService = "[v3v11][endService][8v11v]";
         $services[2] = "$services[1]$pred[1];";
         $services[3] = 19;
         $time = $stream[0] + 4.5;
         $pred[1] = "$pred[1]trim=0:$time $endOfstreamService;";
+        $stream11 = "
+            [11:v]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Инфраструктура пляжа':fontcolor=#56b2df:fontsize=70:x=(w-tw)/2:y=40,
+            split=3[bv11a][bv11b][11v];
+            
+            [bv11a][bv3b]blend=all_expr='if((lte(mod(X,$cellSize),$cellSize/2-($cellSize/2)*T/$transitionDuration)+lte(mod(Y,$cellSize),$cellSize/2-($cellSize/2)*T/$transitionDuration))+(gte(mod(X,$cellSize),($cellSize/2)+($cellSize/2)*T/$transitionDuration)+gte(mod(Y,$cellSize),($cellSize/2)+($cellSize/2)*T/$transitionDuration)),B,A)':shortest=1[v3v11];
+            
+            [bv8a][bv11b]blend=all_expr='if(gte(Y,H - H*T/0.5),A,B)':shortest=1,trim=0:0.2[8v11v];";
+
 
         // voice($voiceOfService, "voiceService");
     }else {
-
+        $stream11= "
+        [bv8a][bv3b]blend=all_expr='if(gte(Y,H - H*T/0.5),A,B)':shortest=1,trim=0:0.2[3v8v];";
         $services[2]=null;
         $pred[1]= null;
-        $services[3] = 18;
-        $endOfstreamService=null;
+        $services[3] = 16;
+        $endOfstreamService="[3v8v]";
     }
 
-    video($infoBeach,$receiveBeach[1], $zoompanupto, $zoomdelta, $services, $pred[1], $endOfstreamService, $cellSize, $transitionDuration, $time);
+    video($infoBeach,$receiveBeach[1], $zoompanupto, $zoomdelta, $services, $pred[1], $endOfstreamService, $cellSize, $transitionDuration, $time,$stream11);
 }
  
 
-function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, $endOfstreamService, $cellSize, $transitionDuration, $timeOfVisService){
+function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, $endOfstreamService, $cellSize, $transitionDuration, $timeOfVisService, $stream11){
 
     $infoBeach[4] = mb_strtolower($infoBeach[4]);
     echo "VIDEO $infoBeach[4] \n" ;
@@ -429,19 +438,13 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
         [bv9a][bv8b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[89v];
         [bv4][bv9b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[94v];
 
-
-        [11:v]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Инфраструктура пляжа':fontcolor=#56b2df:fontsize=70:x=(w-tw)/2:y=40,
-        split=3[bv11a][bv11b][11v];
-        
-        [bv11a][bv3b]blend=all_expr='if((lte(mod(X,$cellSize),$cellSize/2-($cellSize/2)*T/$transitionDuration)+lte(mod(Y,$cellSize),$cellSize/2-($cellSize/2)*T/$transitionDuration))+(gte(mod(X,$cellSize),($cellSize/2)+($cellSize/2)*T/$transitionDuration)+gte(mod(Y,$cellSize),($cellSize/2)+($cellSize/2)*T/$transitionDuration)),B,A)':shortest=1[v3v11];
-
-        [bv8a][bv11b]blend=all_expr='if(gte(Y,H - H*T/0.5),A,B)':shortest=1,trim=0:0.2[8v11v];
+        $stream11
 
         $services[2]
         $pred
 
-        [v0][0v1m][map1][map2][map3][v1][12v][v2][23v][v3][v3v11] $endOfstreamService [8v11v] [v8][89v][v9][94v][v4]concat=n=19,
-        format=yuv420p[v] \" -map \"[v]\" -s \"1280x720\"  -y Anim1.mp4";
+        [v0][0v1m][map1][map2][map3][v1][12v][v2][23v][v3] $endOfstreamService [v8][89v][v9][94v][v4]concat=n=$services[3],
+        format=yuv420p[v] \" -map \"[v]\" -s \"1280x720\"  -y Anim.mp4";
         
 
     
@@ -454,10 +457,10 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
     $time[0] = $timeOfVisService + 8  ;
     $time[1] = $timeOfVisService + 9 + 3; 
 
-    $addVoice = "ffmpeg  -async 1 -i video\\$enBeach.mp4
+    $addVoice = "ffmpeg  -async 1 -i Anim.mp4
         -itsoffset 00:00:01 -i voice\\nameBeach.ogg 
         -itsoffset 00:00:03 -i voice\\placeBeach.ogg 
-        -itsoffset 00:00:06 -i voice\\length.ogg 
+        -itsoffset 00:00:07 -i voice\\length.ogg 
         -itsoffset 00:00:10 -i voice\\surface.ogg 
         -itsoffset 00:00:10 -i voice\bottom.ogg 
 
