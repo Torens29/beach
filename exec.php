@@ -289,7 +289,11 @@ while($j != $lengthArr){
 
 function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, $endOfstreamService, $cellSize, $transitionDuration, $timeOfVisService, $stream11){
 
-    $infoBeach[4] = mb_strtolower($infoBeach[4]);
+    if($infoBeach[4]==null){
+        $infoBeach[4]="неизвестно";
+    }else
+        $infoBeach[4] = mb_strtolower($infoBeach[4]);
+        
     echo "VIDEO $infoBeach[4] \n" ;
 
     switch($infoBeach[3]){
@@ -308,11 +312,11 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
         case "Земляные пляжи": $infoBeach[3]="земляная";
             break;
             }
-        // voice("$infoBeach[0]","nameBeach");
-        // voice("Месторасположение $infoBeach[1]", "placeBeach");
-        // voice("Протяженность береговой линии примерно $infoBeach[2]", "length");
-        // voice("Поверхность пляжа $infoBeach[3]","surface");
-        // voice("Морское дно $infoBeach[4]", "bottom");
+        voice("$infoBeach[0]","nameBeach");
+        voice("Месторасположение $infoBeach[1]", "placeBeach");
+        voice("Протяженность береговой линии примерно $infoBeach[2]", "length");
+        voice("Поверхность пляжа $infoBeach[3]","surface");
+        voice("Морское дно $infoBeach[4]", "bottom");
         // // voiceService  уже готово
         
         // $receiveBeach= "Добраться до пляжа можно на ";
