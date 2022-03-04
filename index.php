@@ -40,96 +40,99 @@ foreach($beaches as $beach){
     curl_setopt($ch, CURLOPT_URL, $URL);
     
     $json = curl_exec($ch);
+    // echo($json);
+    // echo "\n";
+    $fd = json_decode($json,false);
+    //     var_dump($fd);
     if (curl_errno($ch)) {  //ошибка в получении координат
         $info = curl_getinfo($ch);
         var_dump($info);
         echo 'Error:' . curl_error($ch);
-    }
-    else{ //получили координаты
-        $fd = json_decode($json,false);
-        // var_dump($fd);
-        echo "\n";
-        if ($fd==null){ // проблема с координатами
-            echo 'ERROR:' . $enBeach . "\n";
-            file_put_contents('errorBeach.txt', $j . ": " . $enBeach .'- Error with coord'. PHP_EOL, FILE_APPEND);
-            continue;
-        } 
-        else{ //получаем карту
-            if ( count($fd->response->GeoObjectCollection->featureMember) == 0) continue;
-            else{
+        file_put_contents('errorBeach.txt', $j . ": " . $enBeach .'- Error with receive coord - '. $info . PHP_EOL, FILE_APPEND);
+    } //получили координаты
+    elseif ($fd==null || count($fd->response->GeoObjectCollection->featureMember) == 0)
+    { // проблема с координатами
+        echo $j . ' ERROR:coord ' . $enBeach . "\n";
+        file_put_contents('errorBeach.txt', $j . ": " . $enBeach .'- Error with search coord'. PHP_EOL, FILE_APPEND);
+        continue;
+    } 
+    else{ //получаем карту
+        
+        $coord =str_replace(' ', ',', $fd->response->GeoObjectCollection->featureMember[0]->GeoObject-> Point-> pos);
+        
+        echo "COORD of $beach[0]: ";
+        // var_dump($coord);
 
-                $coord =str_replace(' ', ',', $fd->response->GeoObjectCollection->featureMember[0]->GeoObject-> Point-> pos);
+        //receive map .PNG
+        $zoom = 0;
+        for ($z=1;$z<=3;$z++) {
+            switch($z){
+                case 1: $zoom=10;
+                        break;
+                case 2: $zoom=13;
+                        break;
+                case 3: $zoom=16;
+                        break;
+            }
+
+            $URL ="https://static-maps.yandex.ru/1.x/?ll=$coord&pt=$coord,org,l&size=1280,720&z=$zoom&l=map&key=APeD310BAAAALOt-HAMAAfLbAiZoUWW9QhK-Di0vA9V64lMAAAAAAAAAAADA-ZKiGOZHTc7Nt7dlEdOj78HURA%3D%3D";
+
+
+            curl_setopt($ch, CURLOPT_URL, $URL);
+
+            // var_dump($ch);
+            $png = curl_exec($ch);
+
+            if (curl_errno($ch)) {
+                $info = curl_getinfo($ch);
+                var_dump($info);
+
+                echo 'Error:' . curl_error($ch);
+            } else {
+                // var_dump($png);
+                $s = str_replace('"','',$enBeach);
+                $str = "map/" . $s . $z . ".png";
+                file_put_contents($str, $png);
+                $mapTrue= true;
                 
-                echo "COORD of $beach[0]: ";
-                var_dump($coord);
+            }
+        }    
 
-                //receive map .PNG
-                $zoom = 0;
-                for ($z=1;$z<=3;$z++) {
-                    switch($z){
-                        case 1: $zoom=10;
-                                break;
-                        case 2: $zoom=13;
-                                break;
-                        case 3: $zoom=16;
-                                break;
-                    }
+        if ($mapTrue){
+            //receive img (6)
+            $receiveIMG=true;
+            $imgArr = explode("\n", $beach[9]);
+            for($i=0; $i<8;$i++){
+                curl_setopt($ch, CURLOPT_URL, $imgArr[$i]);
+                    
+                $img = curl_exec($ch);
 
-                    $URL ="https://static-maps.yandex.ru/1.x/?ll=$coord&pt=$coord,org,l&size=1280,720&z=$zoom&l=map&key=APeD310BAAAALOt-HAMAAfLbAiZoUWW9QhK-Di0vA9V64lMAAAAAAAAAAADA-ZKiGOZHTc7Nt7dlEdOj78HURA%3D%3D";
-
-
-                    curl_setopt($ch, CURLOPT_URL, $URL);
-
-                    // var_dump($ch);
-                    $png = curl_exec($ch);
-
-                    if (curl_errno($ch)) {
-                        $info = curl_getinfo($ch);
-                        var_dump($info);
-
-                        echo 'Error:' . curl_error($ch);
-                    } else {
-                        // var_dump($png);
-                        $s = str_replace('"','',$enBeach);
-                        $str = "map/" . $s . $z . ".png";
-                        file_put_contents($str, $png);
-                        $mapTrue= true;
-                        
-                    }
-                }    
-
-                if ($mapTrue){
-                    //receive img (6)
-                    $imgArr = explode("\n", $beach[9]);
-                    for($i=0; $i<8;$i++){
-                        curl_setopt($ch, CURLOPT_URL, $imgArr[$i]);
+                $src= "img\\" . $s . $i . ".jpg";
+                file_put_contents($src, $img);
+                try {
+                    $image  ->fromFile($src)
+                            ->resize(1280,720)
+                            -> toFile($src,'image/jpeg');
                             
-                        $img = curl_exec($ch);
-
-                        $src= "img\\" . $s . $i . ".jpg";
-                        file_put_contents($src, $img);
-                        try {
-                            $image  ->fromFile($src)
-                                    ->resize(1280,720)
-                                    -> toFile($src,'image/jpeg');
-                        } catch(Exception $err) {
-                            $msg= $err->getMessage();
-                            file_put_contents('errorBeach.txt', $j . ": " . $enBeach . "- ". $msg . PHP_EOL, FILE_APPEND);
-                            echo 'ERROR:' . $beach[1] . "\n";
-                            echo $msg;
-                            unlink($src);
-                            continue;
-                        }   
-                    }
-
-                    $nameBeach = str_replace(" ", "+",$beach[0]);
-                    file_put_contents('receive_img.txt', $j . " " . $s . " $nameBeach" . PHP_EOL, FILE_APPEND);
-                
-                }
-            }           
+                } catch(Exception $err) {
+                    $msg= $err->getMessage();
+                    file_put_contents('errorBeach.txt', $j . ": " . $enBeach . "- ". $msg . PHP_EOL, FILE_APPEND);
+                    
+                    unlink($src);
+                    $receiveIMG=false;
+                    continue;
+                }   
+            }
+            if($receiveIMG){
+                $nameBeach = str_replace(" ", "+",$beach[0]);
+                file_put_contents('receive_img.txt', $j . " " . $s . " $nameBeach" . PHP_EOL, FILE_APPEND);
+            }
+        
         }
+                    
     }
-    if($j>10) break;
+    
+    if($j>9) break;
 }   
 curl_close($ch);
 
