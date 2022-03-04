@@ -256,7 +256,6 @@ while($j != $lengthArr){
         }
     }
 
-    // $time = $endOfstreamService + $stream[0]/2;
 
     if($stream[0] != 0){
         $endOfstreamService = "[v3v11][endService][8v11v]";
@@ -273,7 +272,7 @@ while($j != $lengthArr){
             [bv8a][bv11b]blend=all_expr='if(gte(Y,H - H*T/0.5),A,B)':shortest=1,trim=0:0.2[8v11v];";
 
 
-        // voice($voiceOfService, "voiceService");
+        voice($voiceOfService, "voiceService");
     }else {
         $stream11= "
         [bv8a][bv3b]blend=all_expr='if(gte(Y,H - H*T/0.5),A,B)':shortest=1,trim=0:0.2[3v8v];";
@@ -283,11 +282,11 @@ while($j != $lengthArr){
         $endOfstreamService="[3v8v]";
     }
 
-    video($infoBeach,$receiveBeach[1], $zoompanupto, $zoomdelta, $services, $pred[1], $endOfstreamService, $cellSize, $transitionDuration, $time,$stream11);
+    video($infoBeach,$receiveBeach[1], $zoompanupto, $zoomdelta, $services, $pred[1], $endOfstreamService, $cellSize, $transitionDuration, $time,$stream11, $arrayOfBeaches[$j-1]);
 }
  
 
-function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, $endOfstreamService, $cellSize, $transitionDuration, $timeOfVisService, $stream11){
+function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, $endOfstreamService, $cellSize, $transitionDuration, $timeOfVisService, $stream11, $beach){
 
     if($infoBeach[4]==null){
         $infoBeach[4]="неизвестно";
@@ -312,37 +311,40 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
         case "Земляные пляжи": $infoBeach[3]="земляная";
             break;
             }
-        voice("$infoBeach[0]","nameBeach");
-        voice("Месторасположение $infoBeach[1]", "placeBeach");
-        voice("Протяженность береговой линии примерно $infoBeach[2]", "length");
-        voice("Поверхность пляжа $infoBeach[3]","surface");
-        voice("Морское дно $infoBeach[4]", "bottom");
+        voice("$infoBeach[0]","nameBeach$enBeach");
+        voice("Месторасположение $infoBeach[1]", "placeBeach$enBeach");
+        voice("Протяженность береговой линии примерно $infoBeach[2]", "length$enBeach");
+        voice("Поверхность пляжа $infoBeach[3]","surface$enBeach");
+        voice("Морское дно $infoBeach[4]", "bottom$enBeach");
         // // voiceService  уже готово
         
-        // $receiveBeach= "Добраться до пляжа можно на ";
-        //     $l = 0;
-        //     $receive = explode("\n", $infoBeach[7]);
-        //     foreach($receive as $s){
-        //         switch($s){
-        //             case "Автомобиль":
-        //                 if($l == 0){
-        //                     $receiveBeach .= "автомобиле и общественом транспорте";
-        //                     $l = $l +1;
-        //                 }else 
-        //                     $receiveBeach .= "и автомобиле";
-        //                 break;
-        //             case "Общественный транспорт":
-        //                 if($l == 0){
-        //                     $receiveBeach .= "общественом транспорте ";
-        //                     $l = $l +1;
-        //                 }else 
-        //                     $receiveBeach .= "и общественом транспорте";
-        //                 break;
-        //             default : $receiveBeach = "";
-        //         }
-        //     }
-        // voice($receiveBeach, "receive");
-        // voice("Посетители дают оценку $infoBeach[8]", "score");
+        if($infoBeach[7] != null ){
+            $receiveBeach= "Добраться до пляжа можно на ";
+            $l = 0;
+            $receive = explode("\n", $infoBeach[7]);
+            foreach($receive as $s){
+                switch($s){
+                    case "Автомобиль":
+                        if($l == 0){
+                            $receiveBeach .= "автомобиле и общественом транспорте";
+                            $l = $l +1;
+                        }else 
+                            $receiveBeach .= "и автомобиле";
+                        break;
+                    case "Общественный транспорт":
+                        if($l == 0){
+                            $receiveBeach .= "общественом транспорте ";
+                            $l = $l +1;
+                        }else 
+                            $receiveBeach .= "и общественом транспорте";
+                        break;
+                    default : $receiveBeach = "";
+                }
+            }
+        }
+        
+        voice($receiveBeach, "receive$enBeach");
+        voice("Посетители дают оценку $infoBeach[8]", "score$enBeach");
 
     $comm = "ffmpeg 
         -loop 1 -t 2 -i img\\" . $enBeach . "0.jpg 
@@ -363,114 +365,115 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
 
         $services[0] 
 
-        -filter_complex 
-        \"
-        [0:v]format=yuv444p,split[pr1][pbv0];
-            [pr1]scale=iw*4:ih*4, zoompan=z=min(max(zoom\,pzoom)+($zoompanupto - 1) / 25 / 2\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[q1];
-            [q1]drawtext=text='$infoBeach[0]':borderw=1:fontcolor=white:fontsize=40:x=200+n/2:y=250,
-            drawtext=text='$infoBeach[1]':borderw=1:fontcolor=white:fontsize=40:x=350-n/2:y=300[pre2];
-            [pre2]fade=t=in:st=0:d=1[v0]; 
+        -filter_complex \"
+            [0:v]format=yuv444p,split[pr1][pbv0];
+                [pr1]scale=iw*4:ih*4, zoompan=z=min(max(zoom\,pzoom)+($zoompanupto - 1) / 25 / 2\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[q1];
+                [q1]drawtext=text='$infoBeach[0]':borderw=1:fontcolor=white:fontsize=40:x=200+n/2:y=250,
+                drawtext=text='$infoBeach[1]':borderw=1:fontcolor=white:fontsize=40:x=350-n/2:y=300[pre2];
+                [pre2]fade=t=in:st=0:d=1[v0]; 
 
-            [pbv0] zoompan=z=1.1:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'[bv0];
+                [pbv0] zoompan=z=1.1:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'[bv0];
+                    
+            [1:v]split=2[pbv1b][v1a];
+
+                [v1a] scale=iw*4:ih*4,zoompan=z=min(max(zoom\,pzoom)+($zoompanupto - 1) / 25 / 4\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[we];
+                    [we]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Длина береговой линии':borderw=1:fontcolor=white:fontsize=40:x=200+n/2:y=250,
+                    drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[2]':borderw=1:fontcolor=white:fontsize=40:x=350-n/2:y=300[v1];
+
+                    [pbv1b]scale=iw*4:ih*4,zoompan=z=1.1:d=25:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)', 
+                        drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Длина береговой линии ':borderw=1:fontcolor=white:fontsize=40:x=200+25/2*4+n/2:y=250,
+                        drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[2]':borderw=1: fontcolor=white: fontsize=40:x=350-25/2*4-n/2:y=300[bv1b];
                 
-        [1:v]split=2[pbv1b][v1a];
+            [2:v]split=3[pbv2a][pbv2b][v2a];
+                [pbv2a]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Поверхность пляжа':borderw=1:fontcolor=white:fontsize=40:x=200+n/2:y=250,
+                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[3]':borderw=1:fontcolor=white:fontsize=40:x=350-n/2:y=300[bv2a];
 
-            [v1a] scale=iw*4:ih*4,zoompan=z=min(max(zoom\,pzoom)+($zoompanupto - 1) / 25 / 4\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[we];
-                [we]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Длина береговой линии':borderw=1:fontcolor=white:fontsize=40:x=200+n/2:y=250,
-                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[2]':borderw=1:fontcolor=white:fontsize=40:x=350-n/2:y=300[v1];
+                [v2a]scale=iw*4:ih*4,zoompan=z=min(max(zoom\,pzoom)+($zoompanupto - 1) / 25 / 2\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720,
+                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Поверхность пляжа':borderw=1:fontcolor=white:fontsize=40:x=200+6+n/2:y=250,
+                    drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[3]':borderw=1:fontcolor=white:fontsize=40:x=350-6-n/2:y=300[v2];
 
-                [pbv1b]scale=iw*4:ih*4,zoompan=z=1.1:d=25:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)', 
-                    drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Длина береговой линии ':borderw=1:fontcolor=white:fontsize=40:x=200+25/2*4+n/2:y=250,
-                    drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[2]':borderw=1: fontcolor=white: fontsize=40:x=350-25/2*4-n/2:y=300[bv1b];
+                [pbv2b]zoompan=z=1.1:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)',
+                    drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Поверхность пляжа':borderw=1:fontcolor=white:fontsize=40:x=200+50+n/2:y=250,
+                    drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[3]':borderw=1:fontcolor=white:fontsize=40:x=350-50-n/2:y=300[bv2b];
+
+            [3:v]split=3[pbv3a][pbv3b][v3a];
+                [pbv3a]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Морское дно':borderw=1:fontcolor=white:fontsize=40:x=200+n/2:y=250,
+                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[4]':borderw=1:fontcolor=white:fontsize=40:x=300-n/2:y=300[bv3a];
+                
+                [v3a]scale=iw*4:ih*4,zoompan=z=min(max(zoom\,pzoom)+($zoompanupto - 1) / 25 / 2\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[q3];
+                [q3]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Морское дно':borderw=1:fontcolor=white:fontsize=40:x=200+6+n/2:y=250,
+                    drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[4]':borderw=1:fontcolor=white:fontsize=40:x=300-6-n/2:y=300[v3];
+                
+                [pbv3b]zoompan=z=1.1:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)',
+                    drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Морское дно':borderw=1:fontcolor=white:fontsize=40:x=200+25+6+n/2:y=250,
+                    drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[4]':borderw=1:fontcolor=white:fontsize=40:x=300-25-6-n/2:y=300[bv3b];
+
+            [4:v] split[pbv4][v4a];
+                [pbv4]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Оценка поситителей':borderw=1:fontcolor=white:fontsize=40:x=200+n/2:y=250,
+                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[8]':borderw=1:fontcolor=white:fontsize=40:x=350-n/2:y=300[bv4];
+
+                [v4a]scale=iw*4:ih*4,zoompan=z=min(max(zoom\,pzoom)+($zoompanupto - 1) / 25 / 2\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720,
+                    drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Оценка поситителей':borderw=1:fontcolor=white:fontsize=40:x=200+6+n/2:y=250,
+                    drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[8]':borderw=1:fontcolor=white:fontsize=40:x=350-6-n/2:y=300[v4];
+
+            [5]split=[bv1ma][m1];
+                [m1]scale=iw*4:ih*4, zoompan=z='if(between(time,0,1), zoom+0.005+0.2,zoom+0.05 )':d=500:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720,trim=0:0[map1];
+                [bv1ma] scale=iw*4:ih*4, zoompan=z='zoom+0.005':d=500:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720 [bv1m];
+
+
+            [6]scale=iw*4:ih*4,
+                zoompan=z='if(between(time,0.2,1.2), zoom+0.005,zoom+0.05 )':d=500:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720,trim=0:1.4[map2];
+
+
+            [7]scale=iw*4:ih*4,zoompan=z='if(between(time,0.2,1.2), zoom+0.005,zoom+0.05 )':d=500:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2) ':s=1280x720,trim=0:1.4[map3];
             
-        [2:v]split=3[pbv2a][pbv2b][v2a];
-            [pbv2a]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Поверхность пляжа':borderw=1:fontcolor=white:fontsize=40:x=200+n/2:y=250,
-            drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[3]':borderw=1:fontcolor=white:fontsize=40:x=350-n/2:y=300[bv2a];
+            [8:v]split=3[bv8a][bv8ba][v8a];
+                [v8a]scale=iw*4:ih*4, zoompan=z=min(max(zoom\,pzoom)+($zoompanupto - 1) / 25 / 2\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[v8];
+                [bv8ba]zoompan=z=1.1:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[bv8b];
+            [9:v]split=3[bv9a][bv9ba][v9a];
+                [v9a]scale=iw*4:ih*4, zoompan=z=min(max(zoom\,pzoom)+($zoompanupto - 1) / 25 / 2\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[v9];
+                [bv9ba]zoompan=z=1.1:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[bv9b];
 
-            [v2a]scale=iw*4:ih*4,zoompan=z=min(max(zoom\,pzoom)+($zoompanupto - 1) / 25 / 2\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720,
-            drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Поверхность пляжа':borderw=1:fontcolor=white:fontsize=40:x=200+6+n/2:y=250,
-                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[3]':borderw=1:fontcolor=white:fontsize=40:x=350-6-n/2:y=300[v2];
 
-            [pbv2b]zoompan=z=1.1:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)',
-                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Поверхность пляжа':borderw=1:fontcolor=white:fontsize=40:x=200+50+n/2:y=250,
-                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[3]':borderw=1:fontcolor=white:fontsize=40:x=350-50-n/2:y=300[bv2b];
-
-        [3:v]split=3[pbv3a][pbv3b][v3a];
-            [pbv3a]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Морское дно':borderw=1:fontcolor=white:fontsize=40:x=200+n/2:y=250,
-            drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[4]':borderw=1:fontcolor=white:fontsize=40:x=300-n/2:y=300[bv3a];
+            [bv1m][bv0]blend=all_expr='if(gte(Y,H - H*T/0.1),A,B)':shortest=1[0v1m];
             
-            [v3a]scale=iw*4:ih*4,zoompan=z=min(max(zoom\,pzoom)+($zoompanupto - 1) / 25 / 2\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[q3];
-            [q3]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Морское дно':borderw=1:fontcolor=white:fontsize=40:x=200+6+n/2:y=250,
-                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[4]':borderw=1:fontcolor=white:fontsize=40:x=300-6-n/2:y=300[v3];
-            
-            [pbv3b]zoompan=z=1.1:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)',
-                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Морское дно':borderw=1:fontcolor=white:fontsize=40:x=200+25+6+n/2:y=250,
-                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[4]':borderw=1:fontcolor=white:fontsize=40:x=300-25-6-n/2:y=300[bv3b];
+            [bv2a][bv1b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[12v]; 
+            [bv3a][bv2b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[23v]; 
 
-        [4:v] split[pbv4][v4a];
-            [pbv4]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Оценка поситителей':borderw=1:fontcolor=white:fontsize=40:x=200+n/2:y=250,
-            drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[8]':borderw=1:fontcolor=white:fontsize=40:x=350-n/2:y=300[bv4];
+            [bv9a][bv8b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[89v];
+            [bv4][bv9b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[94v];
 
-            [v4a]scale=iw*4:ih*4,zoompan=z=min(max(zoom\,pzoom)+($zoompanupto - 1) / 25 / 2\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720,
-                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Оценка поситителей':borderw=1:fontcolor=white:fontsize=40:x=200+6+n/2:y=250,
-                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[8]':borderw=1:fontcolor=white:fontsize=40:x=350-6-n/2:y=300[v4];
+            $stream11
 
-        [5]split=[bv1ma][m1];
-            [m1]scale=iw*4:ih*4, zoompan=z='if(between(time,0,1), zoom+0.005+0.2,zoom+0.05 )':d=500:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720,trim=0:0[map1];
-            [bv1ma] scale=iw*4:ih*4, zoompan=z='zoom+0.005':d=500:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720 [bv1m];
+            $services[2]
+            $pred
 
-
-        [6]scale=iw*4:ih*4,
-            zoompan=z='if(between(time,0.2,1.2), zoom+0.005,zoom+0.05 )':d=500:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720,trim=0:1.4[map2];
-
-
-        [7]scale=iw*4:ih*4,zoompan=z='if(between(time,0.2,1.2), zoom+0.005,zoom+0.05 )':d=500:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2) ':s=1280x720,trim=0:1.4[map3];
-        
-        [8:v]split=3[bv8a][bv8ba][v8a];
-            [v8a]scale=iw*4:ih*4, zoompan=z=min(max(zoom\,pzoom)+($zoompanupto - 1) / 25 / 2\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[v8];
-            [bv8ba]zoompan=z=1.1:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[bv8b];
-        [9:v]split=3[bv9a][bv9ba][v9a];
-            [v9a]scale=iw*4:ih*4, zoompan=z=min(max(zoom\,pzoom)+($zoompanupto - 1) / 25 / 2\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[v9];
-            [bv9ba]zoompan=z=1.1:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[bv9b];
-
-
-        [bv1m][bv0]blend=all_expr='if(gte(Y,H - H*T/0.1),A,B)':shortest=1[0v1m];
-        
-        [bv2a][bv1b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[12v]; 
-        [bv3a][bv2b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[23v]; 
-
-        [bv9a][bv8b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[89v];
-        [bv4][bv9b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[94v];
-
-        $stream11
-
-        $services[2]
-        $pred
-
-        [v0][0v1m][map1][map2][map3][v1][12v][v2][23v][v3] $endOfstreamService [v8][89v][v9][94v][v4]concat=n=$services[3],
-        format=yuv420p[v] \" -map \"[v]\" -s \"1280x720\"  -y Anim.mp4";
+            [v0][0v1m][map1][map2][map3][v1][12v][v2][23v][v3] $endOfstreamService [v8][89v][v9][94v][v4]concat=n=$services[3],
+            format=yuv420p[v] 
+        \"
+        -map \"[v]\" -s \"1280x720\"  -y video\\$enBeach.mp4";
         
 
     
     $text =str_replace(array("\n\r","\r\n"), "", $comm);
-    file_put_contents("coman.txt",$text);
+    file_put_contents("coman.txt", $beach . "\n" . $text  . "\n" . PHP_EOL, FILE_APPEND);
     //  echo $text;
     exec($text);
 
 
-    $time[0] = $timeOfVisService + 8  ;
+    $time[0] = $timeOfVisService + 8;
     $time[1] = $timeOfVisService + 9 + 3; 
 
-    $addVoice = "ffmpeg  -async 1 -i Anim.mp4
-        -itsoffset 00:00:01 -i voice\\nameBeach.ogg 
-        -itsoffset 00:00:03 -i voice\\placeBeach.ogg 
-        -itsoffset 00:00:07 -i voice\\length.ogg 
-        -itsoffset 00:00:10 -i voice\\surface.ogg 
-        -itsoffset 00:00:10 -i voice\bottom.ogg 
+    $addVoice = "ffmpeg  -async 1 -i video\\$enBeach.mp4
+        -itsoffset 00:00:01 -i voice\\nameBeach$enBeach.ogg 
+        -itsoffset 00:00:03 -i voice\\placeBeach$enBeach.ogg 
+        -itsoffset 00:00:07 -i voice\\length$enBeach.ogg 
+        -itsoffset 00:00:10 -i voice\\surface$enBeach.ogg 
+        -itsoffset 00:00:10 -i voice\bottom$enBeach.ogg 
 
-        -itsoffset 00:00:10 -i voice\\voiceService.ogg
-        -itsoffset 00:00:10 -i voice\\receive.ogg
-        -itsoffset 00:00:10 -i voice\score.ogg
+        -itsoffset 00:00:10 -i voice\\voiceService$enBeach.ogg
+        -itsoffset 00:00:10 -i voice\\receive$enBeach.ogg
+        -itsoffset 00:00:10 -i voice\score$enBeach.ogg
         -f lavfi -t 1 -i anullsrc=channel_layout=stereo:sample_rate=44100 
         -f lavfi -t 4 -i anullsrc=channel_layout=stereo:sample_rate=44100 
         
