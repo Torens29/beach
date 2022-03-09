@@ -368,8 +368,8 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
         -filter_complex \"
             [0:v]format=yuv444p,split[pr1][pbv0];
                 [pr1]scale=iw*4:ih*4, zoompan=z=min(max(zoom\,pzoom)+($zoompanupto - 1) / 25 / 2\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[q1];
-                [q1]drawtext=text='$infoBeach[0]':borderw=1:fontcolor=white:fontsize=40:x=200+n/2:y=250,
-                drawtext=text='$infoBeach[1]':borderw=1:fontcolor=white:fontsize=40:x=350-n/2:y=300[pre2];
+                [q1]drawtext=fontfile=Noah-Bold.ttf:text='$infoBeach[0]':fontcolor=white:shadowcolor=black@0.5:shadowy=3:shadowx=3:fontsize=45:x=200+n/2:y=600,
+                    drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[1]':fontcolor=white:shadowcolor=black@0.5:shadowy=3:shadowx=3:fontsize=45:x=300-n/2:y=650[pre2];
                 [pre2]fade=t=in:st=0:d=1[v0]; 
 
                 [pbv0] zoompan=z=1.1:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'[bv0];
@@ -377,44 +377,44 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
             [1:v]split=2[pbv1b][v1a];
 
                 [v1a] scale=iw*4:ih*4,zoompan=z=min(max(zoom\,pzoom)+($zoompanupto - 1) / 25 / 4\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[we];
-                    [we]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Длина береговой линии':borderw=1:fontcolor=white:fontsize=40:x=200+n/2:y=250,
-                    drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[2]':borderw=1:fontcolor=white:fontsize=40:x=350-n/2:y=300[v1];
+                    [we]drawtext=fontfile=Noah-Bold.ttf:text='Длина береговой линии':fontcolor=white:shadowcolor=black@0.5:shadowy=3:shadowx=3:fontsize=40:x=200+n/2:y=600,
+                    drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[2]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=40:x=300-n/2:y=650[v1];
 
                     [pbv1b]scale=iw*4:ih*4,zoompan=z=1.1:d=25:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)', 
-                        drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Длина береговой линии ':borderw=1:fontcolor=white:fontsize=40:x=200+25/2*4+n/2:y=250,
-                        drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[2]':borderw=1: fontcolor=white: fontsize=40:x=350-25/2*4-n/2:y=300[bv1b];
+                        drawtext=fontfile=Noah-Bold.ttf:text='Длина береговой линии ':fontcolor=white:shadowcolor=black@0.5:shadowy=3:shadowx=3:fontsize=40:x=200+25/2*4+n/2:y=650,
+                        drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[2]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=40:x=300-25/2*4-n/2:y=650 [bv1b];
                 
             [2:v]split=3[pbv2a][pbv2b][v2a];
-                [pbv2a]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Поверхность пляжа':borderw=1:fontcolor=white:fontsize=40:x=200+n/2:y=250,
-                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[3]':borderw=1:fontcolor=white:fontsize=40:x=350-n/2:y=300[bv2a];
+                [pbv2a]drawtext=fontfile=Noah-Bold.ttf:text='Поверхность пляжа':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=200+n/2:y=600,
+                drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[3]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=350-n/2:y=650[bv2a];
 
                 [v2a]scale=iw*4:ih*4,zoompan=z=min(max(zoom\,pzoom)+($zoompanupto - 1) / 25 / 2\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720,
-                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Поверхность пляжа':borderw=1:fontcolor=white:fontsize=40:x=200+6+n/2:y=250,
-                    drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[3]':borderw=1:fontcolor=white:fontsize=40:x=350-6-n/2:y=300[v2];
+                drawtext=fontfile=Noah-Bold.ttf:text='Поверхность пляжа':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=200+6+n/2:y=600,
+                    drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[3]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=300-6-n/2:y=650[v2];
 
                 [pbv2b]zoompan=z=1.1:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)',
-                    drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Поверхность пляжа':borderw=1:fontcolor=white:fontsize=40:x=200+50+n/2:y=250,
-                    drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[3]':borderw=1:fontcolor=white:fontsize=40:x=350-50-n/2:y=300[bv2b];
+                    drawtext=fontfile=Noah-Bold.ttf:text='Поверхность пляжа':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=200+50+n/2:y=600,
+                    drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[3]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=350-50-n/2:y=650[bv2b];
 
             [3:v]split=3[pbv3a][pbv3b][v3a];
-                [pbv3a]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Морское дно':borderw=1:fontcolor=white:fontsize=40:x=200+n/2:y=250,
-                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[4]':borderw=1:fontcolor=white:fontsize=40:x=300-n/2:y=300[bv3a];
+                [pbv3a]drawtext=fontfile=Noah-Bold.ttf:text='Морское дно':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=200+n/2:y=600,
+                drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[4]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=300-n/2:y=650[bv3a];
                 
                 [v3a]scale=iw*4:ih*4,zoompan=z=min(max(zoom\,pzoom)+($zoompanupto - 1) / 25 / 2\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[q3];
-                [q3]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Морское дно':borderw=1:fontcolor=white:fontsize=40:x=200+6+n/2:y=250,
-                    drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[4]':borderw=1:fontcolor=white:fontsize=40:x=300-6-n/2:y=300[v3];
+                [q3]drawtext=fontfile=Noah-Bold.ttf:text='Морское дно':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=200+6+n/2:y=600,
+                    drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[4]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=300-6-n/2:y=650[v3];
                 
                 [pbv3b]zoompan=z=1.1:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)',
-                    drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Морское дно':borderw=1:fontcolor=white:fontsize=40:x=200+25+6+n/2:y=250,
-                    drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[4]':borderw=1:fontcolor=white:fontsize=40:x=300-25-6-n/2:y=300[bv3b];
+                    drawtext=fontfile=Noah-Bold.ttf:text='Морское дно':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=200+25+6+n/2:y=600,
+                    drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[4]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=300-25-6-n/2:y=650[bv3b];
 
             [4:v] split[pbv4][v4a];
-                [pbv4]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Оценка поситителей':borderw=1:fontcolor=white:fontsize=40:x=200+n/2:y=250,
-                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[8]':borderw=1:fontcolor=white:fontsize=40:x=350-n/2:y=300[bv4];
+                [pbv4]drawtext=fontfile=Noah-Bold.ttf:text='Оценка поситителей':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=200+n/2:y=600,
+                drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[8]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=350-n/2:y=650[bv4];
 
                 [v4a]scale=iw*4:ih*4,zoompan=z=min(max(zoom\,pzoom)+($zoompanupto - 1) / 25 / 2\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720,
-                    drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Оценка поситителей':borderw=1:fontcolor=white:fontsize=40:x=200+6+n/2:y=250,
-                    drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$infoBeach[8]':borderw=1:fontcolor=white:fontsize=40:x=350-6-n/2:y=300[v4];
+                    drawtext=fontfile=Noah-Bold.ttf:text='Оценка поситителей':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=200+6+n/2:y=600,
+                    drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[8]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=350-6-n/2:y=650[v4];
 
             [5]split=[bv1ma][m1];
                 [m1]scale=iw*4:ih*4, zoompan=z='if(between(time,0,1), zoom+0.005+0.2,zoom+0.05 )':d=500:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720,trim=0:0[map1];
