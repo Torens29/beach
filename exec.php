@@ -32,7 +32,7 @@ while($j != $lengthArr){
     $transitionDuration = 0.5;
     $timeOfVisService=0;
     $voiceOfService = "Инфраструктура пляжа разнообразная. Здесь есть ";
-   
+   $time = 0;
     $receiveBeach =  explode(" ", $arrayOfBeaches[$j]);
     $j++;
 
@@ -44,7 +44,7 @@ while($j != $lengthArr){
     
     foreach($infrastructure as $srv){
         switch ("$srv") {
-            case "Туалет": 
+            case "dТуалет": 
                 $services[0] .= " -f lavfi -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0][$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
@@ -72,7 +72,7 @@ while($j != $lengthArr){
                     $voiceOfService .= " $srv.";
                 break;
 
-            case "Терминал оплаты": 
+            case "dТерминал оплаты": 
                 
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
@@ -103,7 +103,7 @@ while($j != $lengthArr){
 
                 $voiceOfService .= " $srv.";
                 break;
-            case "Парк": 
+            case "dПарк": 
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
@@ -132,7 +132,7 @@ while($j != $lengthArr){
 
                 $voiceOfService .= " $srv.";
                 break;
-            case "Кабины для переодевания": 
+            case "dКабины для переодевания": 
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
@@ -162,7 +162,7 @@ while($j != $lengthArr){
 
                 $voiceOfService .= " $srv.";
                 break;
-            case "Пункт медицинской помощи":
+            case "dПункт медицинской помощи":
                  $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
@@ -194,7 +194,7 @@ while($j != $lengthArr){
 
                 $voiceOfService .= " $srv.";
                  break;
-            case "Спасательная вышка": 
+            case "dСпасательная вышка": 
                  $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
@@ -224,7 +224,7 @@ while($j != $lengthArr){
                 
                 $voiceOfService .= " $srv.";
              break;
-            case "Бар": 
+            case "dБар": 
                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas -loop 1 -i fly.png ";
                 $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
                             [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
@@ -257,12 +257,11 @@ while($j != $lengthArr){
                 break;
         }
     }
-//морское дно "неизвестно"
     
         
 
-    if($stream[0] == null){
-        if($infoBeach[4]!=null){
+    if($stream[0] != 0){
+        if($infoBeach[4] != null){
             $infoBeach[4] = mb_strtolower($infoBeach[4]);
             $v3[0]="
                 [3:v]split=3[pbv3a][pbv3b][v3a];
@@ -304,7 +303,7 @@ while($j != $lengthArr){
 
         voice($voiceOfService, "voiceService");
     }else {
-        if($infoBeach[4]!=null){
+        if($infoBeach[4] != null){
             $infoBeach[4] = mb_strtolower($infoBeach[4]);
             $v3[0]="
                 [3:v]split=3[pbv3a][pbv3b][v3a];
@@ -323,14 +322,14 @@ while($j != $lengthArr){
                     [bv3a][bv2b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[23v];";
             $v3[1]="[23v][v3]";
             $v3[2]="[bv3b]";
-            $services[3] = 20;
+            $services[3] = 18;
             $stream11= "[bv8a][bv3b]blend=all_expr='if(gte(Y,H - H*T/0.5),A,B)':shortest=1,trim=0:0.2[3v8v];";
             $endOfstreamService="$v3[1][3v8v]";
         }else{
             $v3[0]=null;
             $v3[1]=null;
             $v3[2]="[bv2b]";
-            $services[3] = 18;   
+            $services[3] = 16;   
             $stream11= "[bv8a][bv2b]blend=all_expr='if(gte(Y,H - H*T/0.5),A,B)':shortest=1,trim=0:0.2[2v8v];";        
             $endOfstreamService="[2v8v]"; 
         }
@@ -338,7 +337,6 @@ while($j != $lengthArr){
         
         $services[2]=null;
         $pred[1]= null;
-        $services[3] = 18;
     }
 
     video($infoBeach,$receiveBeach[1], $zoompanupto, $zoomdelta, $services, $pred[1], $endOfstreamService, $cellSize, $transitionDuration, $time,$stream11, $arrayOfBeaches[$j-1],$v3);
@@ -440,7 +438,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
                         drawtext=fontfile=Noah-Bold.ttf:text='Длина береговой линии ':fontcolor=white:shadowcolor=black@0.5:shadowy=3:shadowx=3:fontsize=40:x=200+25/2*4+n/2:y=600,
                         drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[2]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=40:x=300-25/2*4-n/2:y=650 [bv1b];
                 
-            $v3[0]
+            
 
             [2:v]split=3[pbv2a][pbv2b][v2a];
                 [pbv2a]zoompan=z=1.2:x='0':y='0':d=1:s=1280x720,
@@ -457,6 +455,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
 
            
 
+            $v3[0]
             [4:v] split=3[pbv4][v4a][bv4ba];
                 [pbv4]zoompan=z=1.2:x='0':y='ih/2-(ih/zoom)/2':d=1:s=1280x720,
                 drawtext=fontfile=Noah-Bold.ttf:text='Оценка поситителей':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=200+n/2:y=600,
@@ -510,7 +509,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
             [v0][0v1m][map1][map2][map3][v1][12v][v2] $endOfstreamService [v8][89v][v9][94v][v4][410v][v10]concat=n=$services[3],
             format=yuv420p[v] 
         \"
-        -map \"[v]\" -s \"1280x720\"  -y video\\$enBeach.mp4";
+         -map \"[v]\" -s \"1280x720\"  -y video\\$enBeach.mp4";
         
 
                 // [bv10ba]zoompan=z=1.2:d=1.2:x='iw/2-(iw/zoom/2)':y='50':s=1280x720[bv10b];
