@@ -301,7 +301,7 @@ while($j != $lengthArr){
             [bv8a][bv11b]blend=all_expr='if(gte(Y,H - H*T/0.5),A,B)':shortest=1,trim=0:0.2[8v11v];";
 
 
-        voice($voiceOfService, "voiceService");
+        voice($voiceOfService, "voiceService$receiveBeach[1]");
     }else {
         if($infoBeach[4] != null){
             $infoBeach[4] = mb_strtolower($infoBeach[4]);
@@ -334,7 +334,7 @@ while($j != $lengthArr){
             $endOfstreamService="[2v8v]"; 
         }
 
-        
+        voice("", "voiceService$receiveBeach[1]");
         $services[2]=null;
         $pred[1]= null;
     }
@@ -343,12 +343,9 @@ while($j != $lengthArr){
 }
  
 
-function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, $endOfstreamService, $cellSize, $transitionDuration, $timeOfVisService, $stream11, $beach,$v3){
-
+function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred, $endOfstreamService, $cellSize, $transitionDuration, $timeOfVisService, $stream11, $beach, $v3){
     
-        
-
-    switch($infoBeach[3]){
+    switch ($infoBeach[3]) {
         case "Бетонные пляжи": $infoBeach[3]="бетонная";
             break;
         case "Галечные пляжи": $infoBeach[3]="галичная";
@@ -364,40 +361,40 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
         case "Земляные пляжи": $infoBeach[3]="земляная";
             break;
             }
-        voice("$infoBeach[0]","nameBeach$enBeach");
-        voice("Месторасположение $infoBeach[1]", "placeBeach$enBeach");
-        voice("Протяженность береговой линии примерно $infoBeach[2]", "length$enBeach");
-        voice("Поверхность пляжа $infoBeach[3]","surface$enBeach");
-        voice("Морское дно $infoBeach[4]", "bottom$enBeach");
-        // // voiceService  уже готово
+    voice("$infoBeach[0]", "nameBeach$enBeach");
+    voice("Месторасположение $infoBeach[1]", "placeBeach$enBeach");
+    voice("Протяженность береговой линии примерно $infoBeach[2]", "length$enBeach");
+    voice("Поверхность пляжа $infoBeach[3]", "surface$enBeach");
+    voice("Морское дно $infoBeach[4]", "bottom$enBeach");
+    // // voiceService  уже готово
         
-        if($infoBeach[7] != null ){
-            $receiveBeach= "Добраться до пляжа можно на ";
-            $l = 0;
-            $receive = explode("\n", $infoBeach[7]);
-            foreach($receive as $s){
-                switch($s){
-                    case "Автомобиль":
-                        if($l == 0){
-                            $receiveBeach .= "автомобиле и общественом транспорте";
-                            $l = $l +1;
-                        }else 
-                            $receiveBeach .= "и автомобиле";
-                        break;
-                    case "Общественный транспорт":
-                        if($l == 0){
-                            $receiveBeach .= "общественом транспорте ";
-                            $l = $l +1;
-                        }else 
-                            $receiveBeach .= "и общественом транспорте";
-                        break;
-                    default : $receiveBeach = "";
+        
+    $receiveBeach= "Добраться до пляжа можно на ";
+    $l = 0;
+    $receive = explode("\n", $infoBeach[7]);
+    foreach ($receive as $s) {
+        switch ($s) {
+            case "Автомобиль":
+                if ($l == 0) {
+                    $receiveBeach .= "автомобиле и общественом транспорте";
+                    $l = $l +1;
+                } else {
+                    $receiveBeach .= "и автомобиле";
                 }
-            }
+                break;
+            case "Общественный транспорт":
+                if ($l == 0) {
+                    $receiveBeach .= "общественом транспорте ";
+                    $l = $l +1;
+                } else {
+                    $receiveBeach .= "и общественом транспорте";
+                }
+                break;
         }
-        
-        voice($receiveBeach, "receive$enBeach");
-        voice("Посетители дают оценку $infoBeach[8]", "score$enBeach");
+    }
+
+    voice($receiveBeach, "receive$enBeach");
+    voice("Посетители дают оценку $infoBeach[8]", "score$enBeach");
 
     $comm = "ffmpeg 
         -loop 1 -t 2 -i img\\" . $enBeach . "0.jpg 
@@ -517,15 +514,50 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
     $text =str_replace(array("\n\r","\r\n"), "", $comm);
     file_put_contents("coman.txt", $beach . "\n" . $text  . "\n" . PHP_EOL, FILE_APPEND);
     //  echo $text;
-    exec($text);
+    // exec($text);
+   
 
+    $time=[];
+    $vService=[];
+    $countStream=6;
+    
+    if($timeOfVisService == 0){
+        $vService[0] = null;
+        $vService[1] = null;
+        $vService[2]=null;
+        $time[0]= 4 + 2+1;
+        $time[1]=  4+2+2 + 3;
+    } 
+    else{
+        $vService[0] = "[13:a][6:a]concat=v=0:a=1[addSilence3];";
+        $vService[1] = "[addSilence3]";
+        $time[2]= '7';
+        $vService[2] = "-f lavfi -t $time[2] -i anullsrc=channel_layout=stereo:sample_rate=44100";
+        
+        $time[0] = $timeOfVisService + (int)$time[2] + 2;
+        $time[1] = $timeOfVisService + (int)$time[2] + 3 + 3; 
+        $countStream++;
+    }
 
-    $time[0] = $timeOfVisService + 8;
-    $time[1] = $timeOfVisService + 9 + 3; 
+    if($infoBeach[4] != null){
+        $voiceOfBot[0]='[12:a][5:a]concat=v=0:a=1 [addSilence2];';
+        $voiceOfBot[1]='[addSilence2]';
+        $voiceOfBot[2]="-f lavfi -t 4 -i anullsrc=channel_layout=stereo:sample_rate=44100 ";
+        
+        $countStream++;
+    }else{
+        $voiceOfBot[0]=null;
+        $voiceOfBot[1]=null;
+        $voiceOfBot[2]=null;
+        $time[2]="4";
+        $time[0] = $timeOfVisService + (int)$time[2] ;
+        $time[1] = $timeOfVisService + (int)$time[2]  + 3+2;
+        $vService[2] = "-f lavfi -t $time[2] -i anullsrc=channel_layout=stereo:sample_rate=44100";
+    }
 
     $addVoice = "ffmpeg  -async 1 -i video\\$enBeach.mp4
         -itsoffset 00:00:01 -i voice\\nameBeach$enBeach.ogg 
-        -itsoffset 00:00:03 -i voice\\placeBeach$enBeach.ogg 
+        -itsoffset 00:00:04 -i voice\\placeBeach$enBeach.ogg 
         -itsoffset 00:00:07 -i voice\\length$enBeach.ogg 
         -itsoffset 00:00:10 -i voice\\surface$enBeach.ogg 
         -itsoffset 00:00:10 -i voice\bottom$enBeach.ogg 
@@ -534,25 +566,26 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
         -itsoffset 00:00:10 -i voice\\receive$enBeach.ogg
         -itsoffset 00:00:10 -i voice\score$enBeach.ogg
         -f lavfi -t 1 -i anullsrc=channel_layout=stereo:sample_rate=44100 
-        -f lavfi -t 4 -i anullsrc=channel_layout=stereo:sample_rate=44100 
         
-        -f lavfi -t 7 -i anullsrc=channel_layout=stereo:sample_rate=44100 
         -f lavfi -t $time[0] -i anullsrc=channel_layout=stereo:sample_rate=44100 
         -f lavfi -t $time[1] -i anullsrc=channel_layout=stereo:sample_rate=44100 
+        $voiceOfBot[2]
+        $vService[2]
+        
 
         -filter_complex \"
             [9:a][4:a]concat=v=0:a=1 [addSilence1];
-            [10:a][5:a]concat=v=0:a=1 [addSilence2];
-            [11:a][6:a]concat=v=0:a=1 [addSilence3];
-            [12:a][7:a]concat=v=0:a=1 [addSilence4];
-            [13:a][8:a]concat=v=0:a=1 [addSilence5];
+            $voiceOfBot[0]
+            $vService[0]
+            [10:a][7:a]concat=v=0:a=1 [addSilence4];
+            [11:a][8:a]concat=v=0:a=1 [addSilence5];
 
-            [1][2][3][addSilence1][addSilence2][addSilence3][addSilence4][addSilence5]amix=inputs=8\" 
-        -c:v copy -c:a aac  -y video\\voice\\$enBeach.mp4";
+            [1][2][3][addSilence1]$voiceOfBot[1]$vService[1][addSilence4][addSilence5]amix=inputs=$countStream\" 
+        -c:v copy -c:a aac  -y video\\voice\\1$enBeach.mp4";
 
 
     $text2= str_replace(array("\n\r","\r\n"), "", $addVoice);
-    // exec($text2);
+    exec($text2);
  
         // unlink("$enBeach.mp4");
 }
