@@ -255,12 +255,17 @@ while($j != $lengthArr){
                 break;
         }
     }
-
+//морское дно "неизвестно"
+    if($infoBeach[4]==null){
+        $infoBeach[4]="неизвестно";
+        
+    }else
+        $infoBeach[4] = mb_strtolower($infoBeach[4]);
 
     if($stream[0] != 0){
         $endOfstreamService = "[v3v11][endService][8v11v]";
         $services[2] = "$services[1]$pred[1];";
-        $services[3] = 19;
+        $services[3] = 20;
         $time = $stream[0] + 4.5;
         $pred[1] = "$pred[1]trim=0:$time [endService];";
         $stream11 = "
@@ -278,7 +283,7 @@ while($j != $lengthArr){
         [bv8a][bv3b]blend=all_expr='if(gte(Y,H - H*T/0.5),A,B)':shortest=1,trim=0:0.2[3v8v];";
         $services[2]=null;
         $pred[1]= null;
-        $services[3] = 16;
+        $services[3] = 18;
         $endOfstreamService="[3v8v]";
     }
 
@@ -288,12 +293,8 @@ while($j != $lengthArr){
 
 function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, $endOfstreamService, $cellSize, $transitionDuration, $timeOfVisService, $stream11, $beach){
 
-    if($infoBeach[4]==null){
-        $infoBeach[4]="неизвестно";
-    }else
-        $infoBeach[4] = mb_strtolower($infoBeach[4]);
+    
         
-    echo "VIDEO $infoBeach[4] \n" ;
 
     switch($infoBeach[3]){
         case "Бетонные пляжи": $infoBeach[3]="бетонная";
@@ -377,9 +378,9 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
             [1:v]split=2[pbv1b][v1a];
 
                 [v1a] scale=iw*4:ih*4,
-                zoompan=z=1.4-(on/500): d=2: x='iw/2.5-(iw/zoom/2.5)': y='ih/2.5-(ih/zoom/2.5)':s=1280x720[we];
+                zoompan=z=1.2-(on/500): d=2: x='iw/2.5-(iw/zoom/2.5)': y='ih/2.5-(ih/zoom/2.5)':s=1280x720[we];
                     [we]drawtext=fontfile=Noah-Bold.ttf:text='Длина береговой линии':fontcolor=white:shadowcolor=black@0.5:shadowy=3:shadowx=3:fontsize=40:x=200+n/2:y=600,
-                    drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[2]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=40:x=300-n/2:y=650[v1];
+                    drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[2]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=40:x=300-n/2:y=650,trim=0:4[v1];
 
                     [pbv1b]zoompan=z=1:d=25:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)', 
                         drawtext=fontfile=Noah-Bold.ttf:text='Длина береговой линии ':fontcolor=white:shadowcolor=black@0.5:shadowy=3:shadowx=3:fontsize=40:x=200+25/2*4+n/2:y=600,
@@ -395,15 +396,15 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
                     drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[3]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=300-6-n/2:y=650[v2];
 
                 [pbv2b]zoompan=z=1.2:d=1:x='50':y='50',
-                    drawtext=fontfile=Noah-Bold.ttf:text='Поверхность пляжа':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=200+6+50+n/2:y=600,
-                    drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[3]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=300-6-50-n/2:y=650[bv2b];
+                    drawtext=fontfile=Noah-Bold.ttf:text='Поверхность пляжа':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=200+6+25+n/2:y=600,
+                    drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[3]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=300-6-25-n/2:y=650[bv2b];
 
             [3:v]split=3[pbv3a][pbv3b][v3a];
                 [pbv3a]zoompan=z=1.2:x='ih/2-(ih/zoom)/2':y='0',
                 drawtext=fontfile=Noah-Bold.ttf:text='Морское дно':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=200+n/2:y=600,
                 drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[4]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=300-n/2:y=650[bv3a];
                 
-                [v3a]format=yuv444p,zoompan=z=1.2:x='ih/2-(ih/zoom)/2':y='in':d=1:s=1280x720[q3];
+                [v3a]format=yuv444p,zoompan=z=1.2:x='iw/2-(iw/zoom)/2':y='in':d=1:s=1280x720[q3];
                 [q3]drawtext=fontfile=Noah-Bold.ttf:text='Морское дно':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=200+6+n/2:y=600,
                     drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[4]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=300-6-n/2:y=650[v3];
                 
@@ -411,7 +412,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
                     drawtext=fontfile=Noah-Bold.ttf:text='Морское дно':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=200+25+6+n/2:y=600,
                     drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[4]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=300-25-6-n/2:y=650[bv3b];
 
-            [4:v] split[pbv4][v4a];
+            [4:v] split=3[pbv4][v4a][bv4ba];
                 [pbv4]zoompan=z=1.2:x='0':y='ih/2-(ih/zoom)/2':d=1:s=1280x720,
                 drawtext=fontfile=Noah-Bold.ttf:text='Оценка поситителей':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=200+n/2:y=600,
                 drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[8]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=350-n/2:y=650[bv4];
@@ -419,6 +420,10 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
                 [v4a]format=yuv444p,zoompan=z=1.2:x='in':y='ih/2-(ih/zoom)/2':d=1:s=1280x720,
                     drawtext=fontfile=Noah-Bold.ttf:text='Оценка поситителей':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=200+6+n/2:y=600,
                     drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[8]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=350-6-n/2:y=650[v4];
+
+                    [bv4ba]format=yuv444p,zoompan=z=1.2:x='50':y='ih/2-(ih/zoom)/2':d=1:s=1280x720,
+                    drawtext=fontfile=Noah-Bold.ttf:text='Оценка поситителей':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=200+6+25+n/2:y=600,
+                    drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[8]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=45:x=350-6-25-n/2:y=650[bv4b];
 
             [5]split=[bv1ma][m1];
                 [m1]scale=iw*4:ih*4, zoompan=z='if(between(time,0,1), zoom+0.005+0.2,zoom+0.05 )':d=500:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720,trim=0:0[map1];
@@ -435,10 +440,14 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
                 [v8a]scale=iw*4:ih*4, zoompan=z=min(max(zoom\,pzoom)+($zoompanupto - 1) / 25 / 2\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[v8];
                 [bv8ba]zoompan=z=1.1:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[bv8b];
 
-            [9:v]split=3[bv9a][bv9ba][v9a];
-                [v9a]format=yuv444p,zoompan=z=1.2:x='in':y='ih/2-(ih/zoom/2)':d=1:s=1280x720[v9];
-                [bv9ba]zoompan=z=1.2:d=1:x='0':y='ih/2-(ih/zoom/2)':s=1280x720[bv9b];
+            [9:v]split=3[bv9aa][bv9baa][v9a];
+                [bv9aa]zoompan=z=1.2:x='0':y='0':d=1:s=1280x720[bv9a];
+                [v9a]format=yuv444p,zoompan=z=1.2:x='in':y='in':d=1:s=1280x720[v9];
+                [bv9baa]zoompan=z=1.2:d=1.2:x='50':y='50':s=1280x720[bv9b];
 
+            [10:v]split[bv10aa][v10a];
+                [bv10aa]zoompan=z=1.2:x='iw/2-(iw/zoom/2)':y='0':d=1:s=1280x720[bv10a];
+                [v10a]format=yuv444p,zoompan=z=1.2:x='iw/2-(iw/zoom/2)':y='in':d=1:s=1280x720[v10];
 
             [bv1m][bv0]blend=all_expr='if(gte(Y,H - H*T/0.1),A,B)':shortest=1[0v1m];
             
@@ -447,18 +456,20 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services,$pred, 
 
             [bv9a][bv8b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[89v];
             [bv4][bv9b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[94v];
+            [bv10a][bv4b]blend=all_expr='A*T/0.5+B*(0.5-T)/0.5',trim=0:0.5[410v];
 
             $stream11
 
             $services[2]
             $pred
 
-            [v0][0v1m][map1][map2][map3][v1][12v][v2][23v][v3] $endOfstreamService [v8][89v][v9][94v][v4]concat=n=$services[3],
+            [v0][0v1m][map1][map2][map3][v1][12v][v2][23v][v3] $endOfstreamService [v8][89v][v9][94v][v4][410v][v10]concat=n=$services[3],
             format=yuv420p[v] 
         \"
         -map \"[v]\" -s \"1280x720\"  -y video\\$enBeach.mp4";
         
 
+                // [bv10ba]zoompan=z=1.2:d=1.2:x='iw/2-(iw/zoom/2)':y='50':s=1280x720[bv10b];
     
     $text =str_replace(array("\n\r","\r\n"), "", $comm);
     file_put_contents("coman.txt", $beach . "\n" . $text  . "\n" . PHP_EOL, FILE_APPEND);
