@@ -261,7 +261,7 @@ while($j != $lengthArr){
         
 
     if($stream[0] != 0){
-        if(false){//$infoBeach[4] != null
+        if($infoBeach[4] != null){//
             $infoBeach[4] = mb_strtolower($infoBeach[4]);
             $v3[0]="
                 [3:v]split=4[pbv3a][pbv3b][v3a][pbv3aa];
@@ -269,10 +269,10 @@ while($j != $lengthArr){
                     [pbv3aa]zoompan=z=1.25:x='iw/2-(iw/zoom)/2':y='12+in':d=2,split=3[a3d][a3b][a3c];
                 
                 [v3a]zoompan=z=1.25:x='iw/2-(iw/zoom)/2':y='25+in':d=2:s=1280x720,
-                    drawtext=fontfile=Noah-Bold.ttf:text='Морское дно':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=50:x=200+6+n/2:y=600:alpha='if(lt(t,0.1),0,if(lt(t,0.5),(t-0.4),if(lt(t,1.5),1,if(lt(t,1.9),(1-(t-1.5)),0))))',
-                    drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[4]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=50:x=300-6-n/2:y=650:alpha='if(lt(t,0.1),0,if(lt(t,0.5),(t-0.4),if(lt(t,1.5),1,if(lt(t,1.9),(1-(t-1.5)),0))))'[v3];
+                    drawtext=fontfile=Noah-Bold.ttf:text='Морское дно':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=50:x=200+6+n/2:y=600 :alpha='if(lt(t,0.1),0,if(lt(t,0.5),(t/0.5),if(lt(t,1.5),1,if(lt(t,1.9),(1-(t-1.5)),0))))',
+                    drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[4]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=50:x=300-6-n/2:y=650 :alpha='if(lt(t,0.1),0,if(lt(t,0.5),(t/0.5),if(lt(t,1.5),1,if(lt(t,1.9),(1-(t-1.5)),0))))'[v3];
                 
-                [pbv3b]zoompan=z=1.25:x='iw/2-(iw/zoom/2)':y='100+in':d=2[bv3b];
+                [pbv3b]zoompan=z=1.25:x='iw/2-(iw/zoom/2)':y='75+in':d=2[bv3b];
                 
                 [bv2b]split[b2a][b2b];
                     [b2a]zoompan=z=1.25:d=1:x='100+in':y='100+in',split[2a][2b];
