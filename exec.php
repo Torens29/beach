@@ -26,8 +26,8 @@ while($j != $lengthArr){
     $pred[0] = ""; $pred[1]="[13v]";
     $endOfstreamService = "";
     $whCanvas = "200x200";
-    $position[0] = 40;
-    $position[1] = 200;
+    $position[0] = -550;
+    $position[1] = 25;
     $cellSize = 64;
     $transitionDuration = 0.5;
     $timeOfVisService=2;
@@ -35,218 +35,899 @@ while($j != $lengthArr){
    $time = 0;
     $receiveBeach =  explode(" ", $arrayOfBeaches[$j]);
     $j++;
+    $upDown=true;
 
     $infoBeach = $beaches[$receiveBeach[0]-1]; // info of the beach
     $infrastructure = explode("\n", $infoBeach[5]);
     
 
                 
-    
+    $counServ=0;
     foreach($infrastructure as $srv){
-        switch ("$srv") {
-            case "dТуалет": 
-                $services[0] .= " -f lavfi -i color=c=white:s=$whCanvas   -i mat\Иконки\Туалет.mov";
-                $services[1] .= " $pred[0][$stream[2]:v]scale=150:-1[x$stream[2]];
-                            [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]];
-                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$srv':fontcolor=#56b2df:
-                                fontsize=20:x=(w-text_w)/2:y=h-th-20[x$stream[1]t$stream[2]];
-                            [x$stream[1]t$stream[2]]fade=t=in:$timeOfVisService:90:alpha=1[X$stream[1]];
-                            $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+        if($counServ <= 14){
+            switch ("$srv") {
+                case "Туалет": 
+                    $services[0] .= " -i mat\Иконки\\$srv.mov ";
+                    $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
 
-                    $pred[0] = "[x0$stream[0]];";
-                    $pred[1] = "[x0$stream[0]]";
-                    
+                                $pred[0] = "[x0$stream[0]];";
+                                $pred[1] = "[x0$stream[0]]";
 
-                    if($position[0] < 880)
-                        $position[0] = $position[0] + 200;
+                    if($position[0] < 380){
+                        $position[0] = $position[0] + 175;
+                        if($upDown){
+                            $position[1] = $position[1]-75;
+                            $upDown=false;
+                        }else {
+                            $position[1] = $position[1]+75;
+                            $upDown=true;
+                        }
+                    }
                     else{
-                        $position[0]=40;
-                        $position[1] = 400;
+                        $position[0]=-550;
+                        $position[1] = 275;
                     }
 
-                    $stream[0] = $stream[0] +  1;
-                    $stream[1] = $stream[1] +  2;
-                    $stream[2] = $stream[2] +  2;
-                    $timeOfVisService= $timeOfVisService + 20;
+                    $stream[0] =$stream[0] +  1;
+                    $stream[1] =$stream[1] +  1;
+                    $timeOfVisService = $timeOfVisService + 0.2;
 
                     $voiceOfService .= " $srv.";
-                break;
+                    break;
 
-            case "Терминал оплаты": 
-                
-                $services[0] .= " -i mat\Иконки\Терминал.mov ";
-                $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
-                            $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
-
-                            $pred[0] = "[x0$stream[0]];";
-                            $pred[1] = "[x0$stream[0]]";
-
-                if($position[0] < 880)
-                        $position[0] = $position[0] + 200;
-                    else{
-                        $position[0]=40;
-                        $position[1] = 400;
-                    }
-
-                $stream[0] =$stream[0] +  1;
-                $stream[1] =$stream[1] +  1;
-                $timeOfVisService = $timeOfVisService + 20;
-
-                $voiceOfService .= " $srv.";
-                break;
-            case "dПарк": 
-                $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
-                $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
-                            [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
-                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='$srv':fontcolor=#56b2df:
-                                fontsize=20:x=(w-text_w)/2:y=h-th-20[x$stream[1]t$stream[2]],
-                            [x$stream[1]t$stream[2]]fade=t=in:$timeOfVisService:90:alpha=1[X$stream[1]];
-                            $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
-
-                            $pred[0] =  "[x0$stream[0]];";
-                            $pred[1] = "[x0$stream[0]]";
-                $pred[0] =  "[x0$stream[0]];";
-                $pred[1] = "[x0$stream[0]]";
+                case "Терминал оплаты": 
                     
-                if($position[0] < 880)
-                        $position[0] = $position[0] + 200;
+                    $services[0] .= " -i mat\Иконки\Терминал.mov ";
+                    $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+
+                                $pred[0] = "[x0$stream[0]];";
+                                $pred[1] = "[x0$stream[0]]";
+
+                    if($position[0] < 380){
+                        $position[0] = $position[0] + 175;
+                        if($upDown){
+                            $position[1] = $position[1]-75;
+                            $upDown=false;
+                        }else {
+                            $position[1] = $position[1]+75;
+                            $upDown=true;
+                        }
+                    }
                     else{
-                        $position[0]=40;
-                        $position[1] = 400;
+                        $position[0]=-550;
+                        $position[1] = 275;
                     }
 
-                $stream[0] =$stream[0] +  1;
-                $stream[1] =$stream[1] +  2;
-                $stream[2] =$stream[2] +  2;
+                    $stream[0] =$stream[0] +  1;
+                    $stream[1] =$stream[1] +  1;
+                    $timeOfVisService = $timeOfVisService + 0.5;
+
+                    $voiceOfService .= " $srv.";
+                    break;
+                case "Парк": 
+                    $services[0] .= " -i mat\Иконки\\$srv.mov ";
+                    $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+
+                                $pred[0] = "[x0$stream[0]];";
+                                $pred[1] = "[x0$stream[0]]";
+
+                    if($position[0] < 380){
+                        $position[0] = $position[0] + 175;
+                        if($upDown){
+                            $position[1] = $position[1]-75;
+                            $upDown=false;
+                        }else {
+                            $position[1] = $position[1]+75;
+                            $upDown=true;
+                        }
+                    }
+                    else{
+                        $position[0]=-550;
+                        $position[1] = 275;
+                    }
+
+                    $stream[0] =$stream[0] +  1;
+                    $stream[1] =$stream[1] +  1;
+                    $timeOfVisService = $timeOfVisService + 0.2;
+
+                    $voiceOfService .= " $srv.";
+                    break;
+
+                case "Кабины для переодевания": 
+                    $ser =str_replace(" ", "_", $srv);
+                    $services[0] .= " -i mat\Иконки\\$ser.mov ";
+                    $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+
+                                $pred[0] = "[x0$stream[0]];";
+                                $pred[1] = "[x0$stream[0]]";
+
+                    if($position[0] < 380){
+                        $position[0] = $position[0] + 175;
+                        if($upDown){
+                            $position[1] = $position[1]-75;
+                            $upDown=false;
+                        }else {
+                            $position[1] = $position[1]+75;
+                            $upDown=true;
+                        }
+                    }
+                    else{
+                        $position[0]=-550;
+                        $position[1] = 275;
+                    }
+
+                    $stream[0] =$stream[0] +  1;
+                    $stream[1] =$stream[1] +  1;
+                    $timeOfVisService = $timeOfVisService + 0.2;
+
+                    $voiceOfService .= " $srv.";
+                    break;
+
+                case "Пункт медицинской помощи":
+                    $ser =str_replace(" ", "_", $srv);
+                    $services[0] .= " -i mat\Иконки\\$ser.mov ";
+                    $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+
+                                $pred[0] = "[x0$stream[0]];";
+                                $pred[1] = "[x0$stream[0]]";
+
+                    if($position[0] < 380){
+                        $position[0] = $position[0] + 175;
+                        if($upDown){
+                            $position[1] = $position[1]-75;
+                            $upDown=false;
+                        }else {
+                            $position[1] = $position[1]+75;
+                            $upDown=true;
+                        }
+                    }
+                    else{
+                        $position[0]=-550;
+                        $position[1] = 275;
+                    }
+
+                    $stream[0] =$stream[0] +  1;
+                    $stream[1] =$stream[1] +  1;
+                    $timeOfVisService = $timeOfVisService + 0.2;
+
+                    $voiceOfService .= " $srv.";
+                    break;
+
+                case "Спасательная вышка": 
+                    $ser =str_replace(" ", "_", $srv);
+                    $services[0] .= " -i mat\Иконки\\$ser.mov ";
+                    $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+
+                                $pred[0] = "[x0$stream[0]];";
+                                $pred[1] = "[x0$stream[0]]";
+
+                    if($position[0] < 380){
+                        $position[0] = $position[0] + 175;
+                        if($upDown){
+                            $position[1] = $position[1]-75;
+                            $upDown=false;
+                        }else {
+                            $position[1] = $position[1]+75;
+                            $upDown=true;
+                        }
+                    }
+                    else{
+                        $position[0]=-550;
+                        $position[1] = 275;
+                    }
+
+                    $stream[0] =$stream[0] +  1;
+                    $stream[1] =$stream[1] +  1;
+                    $timeOfVisService = $timeOfVisService + 0.2;
+
+                    $voiceOfService .= " $srv.";
+                    break;
+
+                case "Бар": 
+                    $services[0] .= " -i mat\Иконки\\$srv.mov ";
+                    $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+
+                                $pred[0] = "[x0$stream[0]];";
+                                $pred[1] = "[x0$stream[0]]";
+
+                    if($position[0] < 380){
+                        $position[0] = $position[0] + 175;
+                        if($upDown){
+                            $position[1] = $position[1]-75;
+                            $upDown=false;
+                        }else {
+                            $position[1] = $position[1]+75;
+                            $upDown=true;
+                        }
+                    }
+                    else{
+                        $position[0]=-550;
+                        $position[1] = 275;
+                    }
+
+                    $stream[0] =$stream[0] +  1;
+                    $stream[1] =$stream[1] +  1;
+                    $timeOfVisService = $timeOfVisService + 0.2;
+
+                    $voiceOfService .= " $srv.";
+                    break;
+
                 
-                $timeOfVisService= $timeOfVisService + 20;
 
-                $voiceOfService .= " $srv.";
-                break;
-            case "dКабины для переодевания": 
-                $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
-                $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
-                            [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
-                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Кабины':fontcolor=#56b2df:fontsize=20:x=(w-text_w)/2:y=h-th-40,
-                            drawtext=fontfile=/Library/Fonts/Arial.ttf:text='для':fontcolor=#56b2df:fontsize=20:x=(w-text_w)/2:y=h-th-20,
-                            drawtext=fontfile=/Library/Fonts/Arial.ttf:text='переодевания':fontcolor=#56b2df:fontsize=20:x=(w-text_w)/2:y=h-th
-                                [x$stream[1]t$stream[2]],
-                            [x$stream[1]t$stream[2]]fade=t=in:$timeOfVisService:90:alpha=1[X$stream[1]];
-                            $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+                case "Душевые кабины" :
+                        $ser =str_replace(" ", "_", $srv);
+                        $services[0] .= " -i mat\Иконки\\$ser.mov ";
+                        $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                    $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
 
-                            $pred[0] =  "[x0$stream[0]];";
-                            $pred[1] = "[x0$stream[0]]";
-                $pred[0] =  "[x0$stream[0]];";
-                $pred[1] = "[x0$stream[0]]";
+                                    $pred[0] = "[x0$stream[0]];";
+                                    $pred[1] = "[x0$stream[0]]";
 
-                if($position[0] < 880)
-                        $position[0] = $position[0] + 200;
+                        if($position[0] < 380){
+                            $position[0] = $position[0] + 175;
+                            if($upDown){
+                                $position[1] = $position[1]-75;
+                                $upDown=false;
+                            }else {
+                                $position[1] = $position[1]+75;
+                                $upDown=true;
+                            }
+                        }
+                        else{
+                            $position[0]=-550;
+                            $position[1] = 275;
+                        }
+
+                        $stream[0] =$stream[0] +  1;
+                        $stream[1] =$stream[1] +  1;
+                        $timeOfVisService = $timeOfVisService + 0.2;
+
+                        $voiceOfService .= " $srv.";
+                        break;
+                case 'Кафе'  :
+                    $ser =str_replace(" ", "_", $srv);
+                    $services[0] .= " -i mat\Иконки\\$ser.mov ";
+                    $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+
+                                $pred[0] = "[x0$stream[0]];";
+                                $pred[1] = "[x0$stream[0]]";
+
+                    if($position[0] < 380){
+                        $position[0] = $position[0] + 175;
+                        if($upDown){
+                            $position[1] = $position[1]-75;
+                            $upDown=false;
+                        }else {
+                            $position[1] = $position[1]+75;
+                            $upDown=true;
+                        }
+                    }
                     else{
-                        $position[0]=40;
-                        $position[1] = 400;
+                        $position[0]=-550;
+                        $position[1] = 275;
                     }
 
-                $stream[0] =$stream[0] +  1;
-                $stream[1] =$stream[1] +  2;
-                $stream[2] =$stream[2] +  2;
-                $timeOfVisService= $timeOfVisService + 20;
+                    $stream[0] =$stream[0] +  1;
+                    $stream[1] =$stream[1] +  1;
+                    $timeOfVisService = $timeOfVisService + 0.2;
 
-                $voiceOfService .= " $srv.";
-                break;
-            case "dПункт медицинской помощи":
-                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas  -loop 1 -i fly.png ";
-                $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
-                            [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
-                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Пункт':fontcolor=#56b2df:
-                                fontsize=20:x=(w-text_w)/2:y=h-th-40,
-                                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='медицинской':fontcolor=#56b2df:
-                                fontsize=20:x=(w-text_w)/2:y=h-th-20,
-                                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='помощи':fontcolor=#56b2df:
-                                fontsize=20:x=(w-text_w)/2:y=h-th
-                                [x$stream[1]t$stream[2]],
-                            [x$stream[1]t$stream[2]]fade=t=in:$timeOfVisService:90:alpha=1[X$stream[1]];
-                            $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+                    $voiceOfService .= " $srv.";
+                    break;
+                case 'Банкомат'  :
+                    $ser =str_replace(" ", "_", $srv);
+                    $services[0] .= " -i mat\Иконки\\$ser.mov ";
+                    $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
 
-                            $pred[0] =  "[x0$stream[0]];";
-                            $pred[1] = "[x0$stream[0]]";
-                $pred[0] =  "[x0$stream[0]];";
-                $pred[1] = "[x0$stream[0]]";
+                                $pred[0] = "[x0$stream[0]];";
+                                $pred[1] = "[x0$stream[0]]";
 
-                if($position[0] < 880)
-                        $position[0] = $position[0] + 200;
-                    else{
-                        $position[0]=40;
-                        $position[1] = 400;
+                    if($position[0] < 380){
+                        $position[0] = $position[0] + 175;
+                        if($upDown){
+                            $position[1] = $position[1]-75;
+                            $upDown=false;
+                        }else {
+                            $position[1] = $position[1]+75;
+                            $upDown=true;
+                        }
                     }
-                $stream[0] =$stream[0] +  1;
-                $stream[1] =$stream[1] +  2;
-                $stream[2] =$stream[2] +  2;
-                $timeOfVisService= $timeOfVisService + 20;
-
-                $voiceOfService .= " $srv.";
-                 break;
-            case "dСпасательная вышка": 
-                 $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas -loop 1 -i fly.png ";
-                $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
-                            [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
-                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Спасательная':fontcolor=#56b2df:
-                                fontsize=20:x=(w-text_w)/2:y=h-th-30,
-                                drawtext=fontfile=/Library/Fonts/Arial.ttf:text='вышка':fontcolor=#56b2df:
-                                fontsize=20:x=(w-text_w)/2:y=h-th-10
-                                [x$stream[1]t$stream[2]],
-                            [x$stream[1]t$stream[2]]fade=t=in:$timeOfVisService:90:alpha=1[X$stream[1]];
-                            $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
-
-                            $pred[0] =  "[x0$stream[0]];";
-                            $pred[1] = "[x0$stream[0]]";
-                $pred[0] =  "[x0$stream[0]];";
-                $pred[1] = "[x0$stream[0]]";
-
-                if($position[0] < 880)
-                        $position[0] = $position[0] + 200;
                     else{
-                        $position[0]=40;
-                        $position[1] = 400;
+                        $position[0]=-550;
+                        $position[1] = 275;
                     }
-                $stream[0] =$stream[0] +  1;
-                $stream[1] =$stream[1] +  2;
-                $stream[2] =$stream[2] +  2;
-                $timeOfVisService= $timeOfVisService + 20;
+
+                    $stream[0] =$stream[0] +  1;
+                    $stream[1] =$stream[1] +  1;
+                    $timeOfVisService = $timeOfVisService + 0.2;
+
+                    $voiceOfService .= " $srv.";
+                    break;
+                case 'Гостиница'  :
+                    $ser =str_replace(" ", "_", $srv);
+                    $services[0] .= " -i mat\Иконки\\$ser.mov ";
+                    $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+
+                                $pred[0] = "[x0$stream[0]];";
+                                $pred[1] = "[x0$stream[0]]";
+
+                    if($position[0] < 380){
+                        $position[0] = $position[0] + 175;
+                        if($upDown){
+                            $position[1] = $position[1]-75;
+                            $upDown=false;
+                        }else {
+                            $position[1] = $position[1]+75;
+                            $upDown=true;
+                        }
+                    }
+                    else{
+                        $position[0]=-550;
+                        $position[1] = 275;
+                    }
+
+                    $stream[0] =$stream[0] +  1;
+                    $stream[1] =$stream[1] +  1;
+                    $timeOfVisService = $timeOfVisService + 0.2;
+
+                    $voiceOfService .= " $srv.";
+                    break;
+                case 'Аттракционы'  :
+                    $ser =str_replace(" ", "_", $srv);
+                    $services[0] .= " -i mat\Иконки\\$ser.mov ";
+                    $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+
+                                $pred[0] = "[x0$stream[0]];";
+                                $pred[1] = "[x0$stream[0]]";
+
+                    if($position[0] < 380){
+                        $position[0] = $position[0] + 175;
+                        if($upDown){
+                            $position[1] = $position[1]-75;
+                            $upDown=false;
+                        }else {
+                            $position[1] = $position[1]+75;
+                            $upDown=true;
+                        }
+                    }
+                    else{
+                        $position[0]=-550;
+                        $position[1] = 275;
+                    }
+
+                    $stream[0] =$stream[0] +  1;
+                    $stream[1] =$stream[1] +  1;
+                    $timeOfVisService = $timeOfVisService + 0.2;
+
+                    $voiceOfService .= " $srv.";
+                    break;
+                case 'Ресторан'  :
+                    $ser =str_replace(" ", "_", $srv);
+                    $services[0] .= " -i mat\Иконки\\$ser.mov ";
+                    $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+
+                                $pred[0] = "[x0$stream[0]];";
+                                $pred[1] = "[x0$stream[0]]";
+
+                    if($position[0] < 380){
+                        $position[0] = $position[0] + 175;
+                        if($upDown){
+                            $position[1] = $position[1]-75;
+                            $upDown=false;
+                        }else {
+                            $position[1] = $position[1]+75;
+                            $upDown=true;
+                        }
+                    }
+                    else{
+                        $position[0]=-550;
+                        $position[1] = 275;
+                    }
+
+                    $stream[0] =$stream[0] +  1;
+                    $stream[1] =$stream[1] +  1;
+                    $timeOfVisService = $timeOfVisService + 0.2;
+
+                    $voiceOfService .= " $srv.";
+                    break;
+                case 'Место для курения ' :
+                    $ser =str_replace(" ", "_", $srv);
+                    $services[0] .= " -i mat\Иконки\\$ser.mov ";
+                    $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+
+                                $pred[0] = "[x0$stream[0]];";
+                                $pred[1] = "[x0$stream[0]]";
+
+                    if($position[0] < 380){
+                        $position[0] = $position[0] + 175;
+                        if($upDown){
+                            $position[1] = $position[1]-75;
+                            $upDown=false;
+                        }else {
+                            $position[1] = $position[1]+75;
+                            $upDown=true;
+                        }
+                    }
+                    else{
+                        $position[0]=-550;
+                        $position[1] = 275;
+                    }
+
+                    $stream[0] =$stream[0] +  1;
+                    $stream[1] =$stream[1] +  1;
+                    $timeOfVisService = $timeOfVisService + 0.2;
+
+                    $voiceOfService .= " $srv.";
+                    break;
+                case 'Спортплощадка'  :
+                    $ser =str_replace(" ", "_", $srv);
+                    $services[0] .= " -i mat\Иконки\\Спорт_площадка.mov ";
+                    $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+
+                                $pred[0] = "[x0$stream[0]];";
+                                $pred[1] = "[x0$stream[0]]";
+
+                    if($position[0] < 380){
+                        $position[0] = $position[0] + 175;
+                        if($upDown){
+                            $position[1] = $position[1]-75;
+                            $upDown=false;
+                        }else {
+                            $position[1] = $position[1]+75;
+                            $upDown=true;
+                        }
+                    }
+                    else{
+                        $position[0]=-550;
+                        $position[1] = 275;
+                    }
+
+                    $stream[0] =$stream[0] +  1;
+                    $stream[1] =$stream[1] +  1;
+                    $timeOfVisService = $timeOfVisService + 0.2;
+
+                    $voiceOfService .= " $srv.";
+                    break;
+                case 'Камера хранения'  :
+                    $ser =str_replace(" ", "_", $srv);
+                    $services[0] .= " -i mat\Иконки\\$ser.mov ";
+                    $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+
+                                $pred[0] = "[x0$stream[0]];";
+                                $pred[1] = "[x0$stream[0]]";
+
+                    if($position[0] < 380){
+                        $position[0] = $position[0] + 175;
+                        if($upDown){
+                            $position[1] = $position[1]-75;
+                            $upDown=false;
+                        }else {
+                            $position[1] = $position[1]+75;
+                            $upDown=true;
+                        }
+                    }
+                    else{
+                        $position[0]=-550;
+                        $position[1] = 275;
+                    }
+
+                    $stream[0] =$stream[0] +  1;
+                    $stream[1] =$stream[1] +  1;
+                    $timeOfVisService = $timeOfVisService + 0.2;
+
+                    $voiceOfService .= " $srv.";
+                    break;
+                case 'Санаторий'  :
+                    $ser =str_replace(" ", "_", $srv);
+                    $services[0] .= " -i mat\Иконки\\$ser.mov ";
+                    $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+
+                                $pred[0] = "[x0$stream[0]];";
+                                $pred[1] = "[x0$stream[0]]";
+
+                    if($position[0] < 380){
+                        $position[0] = $position[0] + 175;
+                        if($upDown){
+                            $position[1] = $position[1]-75;
+                            $upDown=false;
+                        }else {
+                            $position[1] = $position[1]+75;
+                            $upDown=true;
+                        }
+                    }
+                    else{
+                        $position[0]=-550;
+                        $position[1] = 275;
+                    }
+
+                    $stream[0] =$stream[0] +  1;
+                    $stream[1] =$stream[1] +  1;
+                    $timeOfVisService = $timeOfVisService + 0.2;
+
+                    $voiceOfService .= " $srv.";
+                    break;
+                case 'Гостевой дом'  :
+                    $ser =str_replace(" ", "_", $srv);
+                    $services[0] .= " -i mat\Иконки\\$ser.mov ";
+                    $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+
+                                $pred[0] = "[x0$stream[0]];";
+                                $pred[1] = "[x0$stream[0]]";
+
+                    if($position[0] < 380){
+                        $position[0] = $position[0] + 175;
+                        if($upDown){
+                            $position[1] = $position[1]-75;
+                            $upDown=false;
+                        }else {
+                            $position[1] = $position[1]+75;
+                            $upDown=true;
+                        }
+                    }
+                    else{
+                        $position[0]=-550;
+                        $position[1] = 275;
+                    }
+
+                    $stream[0] =$stream[0] +  1;
+                    $stream[1] =$stream[1] +  1;
+                    $timeOfVisService = $timeOfVisService + 0.2;
+
+                    $voiceOfService .= " $srv.";
+                    break;
+                case 'Бассейн' :
+                        $ser =str_replace(" ", "_", $srv);
+                        $services[0] .= " -i mat\Иконки\\$ser.mov ";
+                        $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                    $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+
+                                    $pred[0] = "[x0$stream[0]];";
+                                    $pred[1] = "[x0$stream[0]]";
+
+                        if($position[0] < 380){
+                            $position[0] = $position[0] + 175;
+                            if($upDown){
+                                $position[1] = $position[1]-75;
+                                $upDown=false;
+                            }else {
+                                $position[1] = $position[1]+75;
+                                $upDown=true;
+                            }
+                        }
+                        else{
+                            $position[0]=-550;
+                            $position[1] = 275;
+                        }
+
+                        $stream[0] =$stream[0] +  1;
+                        $stream[1] =$stream[1] +  1;
+                        $timeOfVisService = $timeOfVisService + 0.2;
+
+                        $voiceOfService .= " $srv.";
+                        break;
+                case 'Пандус' :
+                    $ser =str_replace(" ", "_", $srv);
+                    $services[0] .= " -i mat\Иконки\\$ser.mov ";
+                    $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+
+                                $pred[0] = "[x0$stream[0]];";
+                                $pred[1] = "[x0$stream[0]]";
+
+                    if($position[0] < 380){
+                        $position[0] = $position[0] + 175;
+                        if($upDown){
+                            $position[1] = $position[1]-75;
+                            $upDown=false;
+                        }else {
+                            $position[1] = $position[1]+75;
+                            $upDown=true;
+                        }
+                    }
+                    else{
+                        $position[0]=-550;
+                        $position[1] = 275;
+                    }
+
+                    $stream[0] =$stream[0] +  1;
+                    $stream[1] =$stream[1] +  1;
+                    $timeOfVisService = $timeOfVisService + 0.2;
+
+                    $voiceOfService .= " $srv.";
+                    break;
+                case 'Глэмпинг'  :
+                        $ser =str_replace(" ", "_", $srv);
+                        $services[0] .= " -i mat\Иконки\\$ser.mov ";
+                        $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                    $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+
+                                    $pred[0] = "[x0$stream[0]];";
+                                    $pred[1] = "[x0$stream[0]]";
+
+                        if($position[0] < 380){
+                            $position[0] = $position[0] + 175;
+                            if($upDown){
+                                $position[1] = $position[1]-75;
+                                $upDown=false;
+                            }else {
+                                $position[1] = $position[1]+75;
+                                $upDown=true;
+                            }
+                        }
+                        else{
+                            $position[0]=-550;
+                            $position[1] = 275;
+                        }
+
+                        $stream[0] =$stream[0] +  1;
+                        $stream[1] =$stream[1] +  1;
+                        $timeOfVisService = $timeOfVisService + 0.2;
+
+                        $voiceOfService .= " $srv.";
+                        break;
+                case 'Детский лагерь'  :
+                    $ser =str_replace(" ", "_", $srv);
+                    $services[0] .= " -i mat\Иконки\\$ser.mov ";
+                    $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+
+                                $pred[0] = "[x0$stream[0]];";
+                                $pred[1] = "[x0$stream[0]]";
+
+                    if($position[0] < 380){
+                        $position[0] = $position[0] + 175;
+                        if($upDown){
+                            $position[1] = $position[1]-75;
+                            $upDown=false;
+                        }else {
+                            $position[1] = $position[1]+75;
+                            $upDown=true;
+                        }
+                    }
+                    else{
+                        $position[0]=-550;
+                        $position[1] = 275;
+                    }
+
+                    $stream[0] =$stream[0] +  1;
+                    $stream[1] =$stream[1] +  1;
+                    $timeOfVisService = $timeOfVisService + 0.2;
+
+                    $voiceOfService .= " $srv.";
+                    break;
+                case 'Пляж'  :
+                    $ser =str_replace(" ", "_", $srv);
+                    $services[0] .= " -i mat\Иконки\\$ser.mov ";
+                    $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+
+                                $pred[0] = "[x0$stream[0]];";
+                                $pred[1] = "[x0$stream[0]]";
+
+                    if($position[0] < 380){
+                        $position[0] = $position[0] + 175;
+                        if($upDown){
+                            $position[1] = $position[1]-75;
+                            $upDown=false;
+                        }else {
+                            $position[1] = $position[1]+75;
+                            $upDown=true;
+                        }
+                    }
+                    else{
+                        $position[0]=-550;
+                        $position[1] = 275;
+                    }
+
+                    $stream[0] =$stream[0] +  1;
+                    $stream[1] =$stream[1] +  1;
+                    $timeOfVisService = $timeOfVisService + 0.2;
+
+                    $voiceOfService .= " $srv.";
+                    break;
+                case 'Место для купания детей' :
+                    $ser =str_replace(" ", "_", $srv);
+                    $services[0] .= " -i mat\Иконки\\$ser.mov ";
+                    $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+
+                                $pred[0] = "[x0$stream[0]];";
+                                $pred[1] = "[x0$stream[0]]";
+
+                    if($position[0] < 380){
+                        $position[0] = $position[0] + 175;
+                        if($upDown){
+                            $position[1] = $position[1]-75;
+                            $upDown=false;
+                        }else {
+                            $position[1] = $position[1]+75;
+                            $upDown=true;
+                        }
+                    }
+                    else{
+                        $position[0]=-550;
+                        $position[1] = 275;
+                    }
+
+                    $stream[0] =$stream[0] +  1;
+                    $stream[1] =$stream[1] +  1;
+                    $timeOfVisService = $timeOfVisService + 0.2;
+
+                    $voiceOfService .= " $srv.";
+                    break;
                 
-                $voiceOfService .= " $srv.";
-             break;
-            case "dБар": 
-                $services[0] .= " -f lavfi  -i color=c=white:s=$whCanvas -loop 1 -i fly.png ";
-                $services[1] .= " $pred[0] [$stream[2]:v]scale=150:-1[x$stream[2]],
-                            [$stream[1]:v][x$stream[2]]overlay=(W-w)/2:0[x$stream[1]$stream[2]],
-                            [x$stream[1]$stream[2]]drawtext=fontfile=/Library/Fonts/Arial.ttf:text='Бар':fontcolor=#56b2df:
-                                fontsize=20:x=(w-text_w)/2:y=h-th-20[x$stream[1]t$stream[2]],
-                            [x$stream[1]t$stream[2]]fade=t=in:$timeOfVisService:90:alpha=1[X$stream[1]];
-                            $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+                case 'Шезлонги' :
+                    $ser =str_replace(" ", "_", $srv);
+                    $services[0] .= " -i mat\Иконки\\$ser.mov ";
+                    $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
 
-                            $pred[0] =  "[x0$stream[0]];";
-                            $pred[1] = "[x0$stream[0]]";
-                $pred[0] =  "[x0$stream[0]];";
-                $pred[1] = "[x0$stream[0]]";
+                                $pred[0] = "[x0$stream[0]];";
+                                $pred[1] = "[x0$stream[0]]";
 
-                if($position[0] < 880)
-                        $position[0] = $position[0] + 200;
-                    else{
-                        $position[0]=40;
-                        $position[1] = 400;
+                    if($position[0] < 380){
+                        $position[0] = $position[0] + 175;
+                        if($upDown){
+                            $position[1] = $position[1]-75;
+                            $upDown=false;
+                        }else {
+                            $position[1] = $position[1]+75;
+                            $upDown=true;
+                        }
                     }
-                $stream[0] =$stream[0] +  1;
-                $stream[1] =$stream[1] +  2;
-                $stream[2] =$stream[2] +  2;
-                $timeOfVisService= $timeOfVisService + 20;
+                    else{
+                        $position[0]=-550;
+                        $position[1] = 275;
+                    }
 
-                
-                $voiceOfService .= " $srv.";
-                 break;
-            default: 
-                echo "Ниxего не нашлось: $srv\n";
-                break;
-        }
+                    $stream[0] =$stream[0] +  1;
+                    $stream[1] =$stream[1] +  1;
+                    $timeOfVisService = $timeOfVisService + 0.2;
+
+                    $voiceOfService .= " $srv.";
+                    break;
+                case 'Пляжные зонтики' :
+                    $ser =str_replace(" ", "_", $srv);
+                    $services[0] .= " -i mat\Иконки\\$ser.mov ";
+                    $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+
+                                $pred[0] = "[x0$stream[0]];";
+                                $pred[1] = "[x0$stream[0]]";
+
+                    if($position[0] < 380){
+                        $position[0] = $position[0] + 175;
+                        if($upDown){
+                            $position[1] = $position[1]-75;
+                            $upDown=false;
+                        }else {
+                            $position[1] = $position[1]+75;
+                            $upDown=true;
+                        }
+                    }
+                    else{
+                        $position[0]=-550;
+                        $position[1] = 275;
+                    }
+
+                    $stream[0] =$stream[0] +  1;
+                    $stream[1] =$stream[1] +  1;
+                    $timeOfVisService = $timeOfVisService + 0.2;
+
+                    $voiceOfService .= " $srv.";
+                    break;
+                case 'Пляжные полотенца' :
+                    $ser =str_replace(" ", "_", $srv);
+                    $services[0] .= " -i mat\Иконки\\$ser.mov ";
+                    $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+
+                                $pred[0] = "[x0$stream[0]];";
+                                $pred[1] = "[x0$stream[0]]";
+
+                    if($position[0] < 380){
+                        $position[0] = $position[0] + 175;
+                        if($upDown){
+                            $position[1] = $position[1]-75;
+                            $upDown=false;
+                        }else {
+                            $position[1] = $position[1]+75;
+                            $upDown=true;
+                        }
+                    }
+                    else{
+                        $position[0]=-550;
+                        $position[1] = 275;
+                    }
+
+                    $stream[0] =$stream[0] +  1;
+                    $stream[1] =$stream[1] +  1;
+                    $timeOfVisService = $timeOfVisService + 0.2;
+
+                    $voiceOfService .= " $srv.";
+                    break;
+                case 'Инвентарь для активного отдыха' :
+                    $ser =str_replace(" ", "_", $srv);
+                    $services[0] .= " -i mat\Иконки\\$ser.mov ";
+                    $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+
+                                $pred[0] = "[x0$stream[0]];";
+                                $pred[1] = "[x0$stream[0]]";
+
+                    if($position[0] < 380){
+                        $position[0] = $position[0] + 175;
+                        if($upDown){
+                            $position[1] = $position[1]-75;
+                            $upDown=false;
+                        }else {
+                            $position[1] = $position[1]+75;
+                            $upDown=true;
+                        }
+                    }
+                    else{
+                        $position[0]=-550;
+                        $position[1] = 275;
+                    }
+
+                    $stream[0] =$stream[0] +  1;
+                    $stream[1] =$stream[1] +  1;
+                    $timeOfVisService = $timeOfVisService + 0.2;
+
+                    $voiceOfService .= " $srv.";
+                    break;
+                case 'Инвентарь для плавания':
+                    $ser =str_replace(" ", "_", $srv);
+                    $services[0] .= " -i mat\Иконки\\$ser.mov ";
+                    $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
+                                $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
+
+                                $pred[0] = "[x0$stream[0]];";
+                                $pred[1] = "[x0$stream[0]]";
+
+                    if($position[0] < 380){
+                        $position[0] = $position[0] + 175;
+                        if($upDown){
+                            $position[1] = $position[1]-75;
+                            $upDown=false;
+                        }else {
+                            $position[1] = $position[1]+75;
+                            $upDown=true;
+                        }
+                    }
+                    else{
+                        $position[0]=-550;
+                        $position[1] = 275;
+                    }
+
+                    $stream[0] =$stream[0] +  1;
+                    $stream[1] =$stream[1] +  1;
+                    $timeOfVisService = $timeOfVisService + 0.2;
+
+                    $voiceOfService .= " $srv.";
+                    break;
+
+                default: 
+                    echo "Ниxего не нашлось: $srv\n";
+                    break;
+            }
+        }else break;
     }
     
         
@@ -481,10 +1162,10 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
                 [pbv1b]zoompan=z=1.3-((62+in)/500):d=2:x='iw/2.5-(iw/zoom/2.5)':y='ih/2.5-(ih/zoom/2.5)'[bv1b];
 
             [2:v]split=4[bv2b][v2a][a2aa][a2ba];
-                [a2aa]zoompan=z=1.25:x='in':y='in':d=1:s=1280x720[a2a];
-                [a2ba]zoompan=z=1.25:x='25+in':y='25+in':d=1:s=1280x720,split=3[a2b][a2c][a2d];
+                [a2aa]scale=iw*4:ih*4,zoompan=z=1.25:x='in':y='in':d=1:s=1280x720[a2a];
+                [a2ba]scale=iw*4:ih*4,zoompan=z=1.25:x='25+in':y='25+in':d=1:s=1280x720,split=3[a2b][a2c][a2d];
 
-                [v2a]zoompan=z=1.25:x='50+in':y='50+in':d=1:s=1280x720,
+                [v2a]scale=iw*4:ih*4,zoompan=z=1.25:x='50+in':y='50+in':d=1:s=1280x720,
                 drawtext=fontfile=Noah-Bold.ttf:text='Поверхность пляжа':fontcolor=white:shadowcolor=black@0.5:shadowy=3:shadowx=3:fontsize=50:x=200+6+n/2:y=600
                     :alpha='if(lt(t,0.1),0,if(lt(t,0.5),(t/0.5),if(lt(t,1.5),1,if(lt(t,1.9),(1-(t-1.5)),0))))',
                 drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[3]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=50:x=300-6-n/2:y=650
@@ -523,8 +1204,8 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
             [8:v]split=3[bv8a][bv8b][v8a];
                 [v8a]scale=iw*4:ih*4, zoompan=z=1+0.05+in/1000:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[v8];
                 [bv8b]split[b8a][b8b];
-                    [b8a]zoompan=z=1.1+in/1000:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720,split[8a][8b];
-                    [b8b]zoompan=z=1.1+0.025+in/1000:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[8av];
+                    [b8a]scale=iw*4:ih*4,zoompan=z=1.1+in/1000:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720,split[8a][8b];
+                    [b8b]scale=iw*4:ih*4,zoompan=z=1.1+0.025+in/1000:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[8av];
 
             [9:v]split=3[bv9a][bv9b][v9a];
 
@@ -596,10 +1277,10 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
 
             [v10bb][12]overlay=0:0[v10x12];
 
-            [v2] $endOfstreamService [v8]  [11][v0][0v1m][map1][map2][map3][v1][an1x2a][an1x2b]    [an8x9a][an8x9b][v9][an9x4a][an9x4b][v4][an4x10a][an4x10b][v10][v10x12]concat=n=$services[3],
+              [11][v0][0v1m][map1][map2][map3][v1][an1x2a][an1x2b]  [v2] $endOfstreamService [v8]  [an8x9a][an8x9b][v9][an9x4a][an9x4b][v4][an4x10a][an4x10b][v10][v10x12]concat=n=$services[3],
             format=yuv420p[v] 
         \"
-         -map \"[v]\" -s \"1280x720\"  -y Anim.mp4";
+         -map \"[v]\" -s \"1280x720\"  -y AnimT.mp4";
         
                 // video\\$enBeach
     
