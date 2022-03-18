@@ -71,7 +71,7 @@ while($j != $lengthArr){
 
                     $stream[0] =$stream[0] +  1;
                     $stream[1] =$stream[1] +  1;
-                    $timeOfVisService = $timeOfVisService + 0.2;
+                    $timeOfVisService = $timeOfVisService + 0.5;
 
                     $voiceOfService .= " $srv.";
                     break;
@@ -131,7 +131,7 @@ while($j != $lengthArr){
 
                     $stream[0] =$stream[0] +  1;
                     $stream[1] =$stream[1] +  1;
-                    $timeOfVisService = $timeOfVisService + 0.2;
+                    $timeOfVisService = $timeOfVisService + 0.5;
 
                     $voiceOfService .= " $srv.";
                     break;
@@ -162,7 +162,7 @@ while($j != $lengthArr){
 
                     $stream[0] =$stream[0] +  1;
                     $stream[1] =$stream[1] +  1;
-                    $timeOfVisService = $timeOfVisService + 0.2;
+                    $timeOfVisService = $timeOfVisService + 0.5;
 
                     $voiceOfService .= " $srv.";
                     break;
@@ -193,7 +193,7 @@ while($j != $lengthArr){
 
                     $stream[0] =$stream[0] +  1;
                     $stream[1] =$stream[1] +  1;
-                    $timeOfVisService = $timeOfVisService + 0.2;
+                    $timeOfVisService = $timeOfVisService + 0.5;
 
                     $voiceOfService .= " $srv.";
                     break;
@@ -224,7 +224,7 @@ while($j != $lengthArr){
 
                     $stream[0] =$stream[0] +  1;
                     $stream[1] =$stream[1] +  1;
-                    $timeOfVisService = $timeOfVisService + 0.2;
+                    $timeOfVisService = $timeOfVisService + 0.5;
 
                     $voiceOfService .= " $srv.";
                     break;
@@ -254,7 +254,7 @@ while($j != $lengthArr){
 
                     $stream[0] =$stream[0] +  1;
                     $stream[1] =$stream[1] +  1;
-                    $timeOfVisService = $timeOfVisService + 0.2;
+                    $timeOfVisService = $timeOfVisService + 0.5;
 
                     $voiceOfService .= " $srv.";
                     break;
@@ -287,7 +287,7 @@ while($j != $lengthArr){
 
                         $stream[0] =$stream[0] +  1;
                         $stream[1] =$stream[1] +  1;
-                        $timeOfVisService = $timeOfVisService + 0.2;
+                        $timeOfVisService = $timeOfVisService + 0.5;
 
                         $voiceOfService .= " $srv.";
                         break;
@@ -317,7 +317,7 @@ while($j != $lengthArr){
 
                     $stream[0] =$stream[0] +  1;
                     $stream[1] =$stream[1] +  1;
-                    $timeOfVisService = $timeOfVisService + 0.2;
+                    $timeOfVisService = $timeOfVisService + 0.5;
 
                     $voiceOfService .= " $srv.";
                     break;
@@ -347,7 +347,7 @@ while($j != $lengthArr){
 
                     $stream[0] =$stream[0] +  1;
                     $stream[1] =$stream[1] +  1;
-                    $timeOfVisService = $timeOfVisService + 0.2;
+                    $timeOfVisService = $timeOfVisService + 0.5;
 
                     $voiceOfService .= " $srv.";
                     break;
@@ -377,7 +377,7 @@ while($j != $lengthArr){
 
                     $stream[0] =$stream[0] +  1;
                     $stream[1] =$stream[1] +  1;
-                    $timeOfVisService = $timeOfVisService + 0.2;
+                    $timeOfVisService = $timeOfVisService + 0.5;
 
                     $voiceOfService .= " $srv.";
                     break;
@@ -407,7 +407,7 @@ while($j != $lengthArr){
 
                     $stream[0] =$stream[0] +  1;
                     $stream[1] =$stream[1] +  1;
-                    $timeOfVisService = $timeOfVisService + 0.2;
+                    $timeOfVisService = $timeOfVisService + 0.5;
 
                     $voiceOfService .= " $srv.";
                     break;
@@ -437,7 +437,7 @@ while($j != $lengthArr){
 
                     $stream[0] =$stream[0] +  1;
                     $stream[1] =$stream[1] +  1;
-                    $timeOfVisService = $timeOfVisService + 0.2;
+                    $timeOfVisService = $timeOfVisService + 0.5;
 
                     $voiceOfService .= " $srv.";
                     break;
@@ -467,7 +467,7 @@ while($j != $lengthArr){
 
                     $stream[0] =$stream[0] +  1;
                     $stream[1] =$stream[1] +  1;
-                    $timeOfVisService = $timeOfVisService + 0.2;
+                    $timeOfVisService = $timeOfVisService + 0.5;
 
                     $voiceOfService .= " $srv.";
                     break;
@@ -497,7 +497,7 @@ while($j != $lengthArr){
 
                     $stream[0] =$stream[0] +  1;
                     $stream[1] =$stream[1] +  1;
-                    $timeOfVisService = $timeOfVisService + 0.2;
+                    $timeOfVisService = $timeOfVisService + 0.5;
 
                     $voiceOfService .= " $srv.";
                     break;
@@ -527,7 +527,7 @@ while($j != $lengthArr){
 
                     $stream[0] =$stream[0] +  1;
                     $stream[1] =$stream[1] +  1;
-                    $timeOfVisService = $timeOfVisService + 0.2;
+                    $timeOfVisService = $timeOfVisService + 0.5;
 
                     $voiceOfService .= " $srv.";
                     break;
@@ -557,7 +557,7 @@ while($j != $lengthArr){
 
                     $stream[0] =$stream[0] +  1;
                     $stream[1] =$stream[1] +  1;
-                    $timeOfVisService = $timeOfVisService + 0.2;
+                    $timeOfVisService = $timeOfVisService + 0.5;
 
                     $voiceOfService .= " $srv.";
                     break;
@@ -587,7 +587,7 @@ while($j != $lengthArr){
 
                     $stream[0] =$stream[0] +  1;
                     $stream[1] =$stream[1] +  1;
-                    $timeOfVisService = $timeOfVisService + 0.2;
+                    $timeOfVisService = $timeOfVisService + 0.5;
 
                     $voiceOfService .= " $srv.";
                     break;
@@ -617,7 +617,7 @@ while($j != $lengthArr){
 
                         $stream[0] =$stream[0] +  1;
                         $stream[1] =$stream[1] +  1;
-                        $timeOfVisService = $timeOfVisService + 0.2;
+                        $timeOfVisService = $timeOfVisService + 0.5;
 
                         $voiceOfService .= " $srv.";
                         break;
@@ -647,7 +647,7 @@ while($j != $lengthArr){
 
                     $stream[0] =$stream[0] +  1;
                     $stream[1] =$stream[1] +  1;
-                    $timeOfVisService = $timeOfVisService + 0.2;
+                    $timeOfVisService = $timeOfVisService + 0.5;
 
                     $voiceOfService .= " $srv.";
                     break;
@@ -677,7 +677,7 @@ while($j != $lengthArr){
 
                         $stream[0] =$stream[0] +  1;
                         $stream[1] =$stream[1] +  1;
-                        $timeOfVisService = $timeOfVisService + 0.2;
+                        $timeOfVisService = $timeOfVisService + 0.5;
 
                         $voiceOfService .= " $srv.";
                         break;
@@ -707,7 +707,7 @@ while($j != $lengthArr){
 
                     $stream[0] =$stream[0] +  1;
                     $stream[1] =$stream[1] +  1;
-                    $timeOfVisService = $timeOfVisService + 0.2;
+                    $timeOfVisService = $timeOfVisService + 0.5;
 
                     $voiceOfService .= " $srv.";
                     break;
@@ -737,7 +737,7 @@ while($j != $lengthArr){
 
                     $stream[0] =$stream[0] +  1;
                     $stream[1] =$stream[1] +  1;
-                    $timeOfVisService = $timeOfVisService + 0.2;
+                    $timeOfVisService = $timeOfVisService + 0.5;
 
                     $voiceOfService .= " $srv.";
                     break;
@@ -767,7 +767,7 @@ while($j != $lengthArr){
 
                     $stream[0] =$stream[0] +  1;
                     $stream[1] =$stream[1] +  1;
-                    $timeOfVisService = $timeOfVisService + 0.2;
+                    $timeOfVisService = $timeOfVisService + 0.5;
 
                     $voiceOfService .= " $srv.";
                     break;
@@ -798,7 +798,7 @@ while($j != $lengthArr){
 
                     $stream[0] =$stream[0] +  1;
                     $stream[1] =$stream[1] +  1;
-                    $timeOfVisService = $timeOfVisService + 0.2;
+                    $timeOfVisService = $timeOfVisService + 0.5;
 
                     $voiceOfService .= " $srv.";
                     break;
@@ -828,7 +828,7 @@ while($j != $lengthArr){
 
                     $stream[0] =$stream[0] +  1;
                     $stream[1] =$stream[1] +  1;
-                    $timeOfVisService = $timeOfVisService + 0.2;
+                    $timeOfVisService = $timeOfVisService + 0.5;
 
                     $voiceOfService .= " $srv.";
                     break;
@@ -858,7 +858,7 @@ while($j != $lengthArr){
 
                     $stream[0] =$stream[0] +  1;
                     $stream[1] =$stream[1] +  1;
-                    $timeOfVisService = $timeOfVisService + 0.2;
+                    $timeOfVisService = $timeOfVisService + 0.5;
 
                     $voiceOfService .= " $srv.";
                     break;
@@ -888,7 +888,7 @@ while($j != $lengthArr){
 
                     $stream[0] =$stream[0] +  1;
                     $stream[1] =$stream[1] +  1;
-                    $timeOfVisService = $timeOfVisService + 0.2;
+                    $timeOfVisService = $timeOfVisService + 0.5;
 
                     $voiceOfService .= " $srv.";
                     break;
@@ -918,7 +918,7 @@ while($j != $lengthArr){
 
                     $stream[0] =$stream[0] +  1;
                     $stream[1] =$stream[1] +  1;
-                    $timeOfVisService = $timeOfVisService + 0.2;
+                    $timeOfVisService = $timeOfVisService + 0.5;
 
                     $voiceOfService .= " $srv.";
                     break;
@@ -933,7 +933,7 @@ while($j != $lengthArr){
         
 
     if($stream[0] != 0){
-        if(false){//$infoBeach[4] != null
+        if($infoBeach[4] != null){//
             $infoBeach[4] = mb_strtolower($infoBeach[4]);
             $v3[0]="
                 [3:v]split=4[pbv3a][pbv3b][v3a][pbv3aa];
@@ -947,8 +947,8 @@ while($j != $lengthArr){
                 [pbv3b]zoompan=z=1.25:x='iw/2-(iw/zoom/2)':y='75+in':d=2[bv3b];
                 
                 [bv2b]split[b2a][b2b];
-                    [b2a]zoompan=z=1.25:d=1:x='100+in':y='100+in',split[2a][2b];
-                    [b2b]zoompan=z=1.25:d=1:x='125+in':y='125+in'[2av];
+                    [b2a]zoompan=z='zoom + 0.15 + in/500':x='iw/2-(iw/zoom/2)':y='iw/2-(iw/zoom/2)':d=1:s=1280x720,split[2a][2b];
+                    [b2b]zoompan=z='zoom + 0.2 + in/500':x='iw/2-(iw/zoom/2)':y='iw/2-(iw/zoom/2)':d=1:s=1280x720[2av];
     
                 [2av][a3d]blend=all_opacity = 0.5[2x3c];
                     [2a][a3a]blend=all_opacity = 0.5,split[2x3a][2x3b]; 
@@ -959,9 +959,9 @@ while($j != $lengthArr){
                         [2x3c][a3b]xfade=transition=vdslice:duration=1[b2x3];
                         [b2x3][a3c]xfade=transition=hrslice:duration=1,trim=0:1[an2x3b];";
 
-            $v3[1]="[an2x3a][an2x3b][v3][vXv13]";
+            $v3[1]="[an2x3a][an2x3b][v3]";
             $v3[2]="[bv3b]";
-            $services[3] = 27;
+            $services[3] = 26;
         }else{
             $v3[0]="[bv2b]zoompan=z=1.25:x='100+in':y='100+in':d=1:s=1280x720[v2b];";
             $v3[1]="";
@@ -974,11 +974,9 @@ while($j != $lengthArr){
         $time = $stream[0] + 4.5;
         $pred[1] = "$pred[1]trim=0:$time [endService];";
         $stream11 = "
-            [13:v]split[bv13a][bv13b];
-            
-            $v3[2][bv13a]overlay=0:0[13v];
-            
-            [bv8a][bv13b]blend=all_expr='if(gte(Y,H - H*T/0.5),A,B)':shortest=1,trim=0:0.2[8v13v];";
+            $v3[2][13]overlay=0:0[13v];
+            color=white:s=1280x720:d=25,split[canvas1][canvas2];
+            [canvas1][bv8a]xfade=transition=hblur:duration=1,trim=0:1[8v13v];";
 
 
         voice($voiceOfService, "voiceService$receiveBeach[1]");
@@ -1134,6 +1132,8 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
         $services[0] 
 
         -filter_complex \"
+            [11]split[11a][11b];
+            
             [0:v]format=yuv444p,split[pr1][pbv0];
                 [pr1]scale=iw*4:ih*4, zoompan=z=min(max(zoom\,pzoom)+($zoompanupto - 1) / 25 / 2\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[q1];
                 [q1]drawtext=fontfile=Noah-Bold.ttf:text='$infoBeach[0]':fontcolor=white:shadowcolor=black@0.5:shadowy=3:shadowx=3
@@ -1146,7 +1146,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
 
                 [pbv0] zoompan=z=1.1:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'[bv0];
                     
-            [1:v]split=3[v1a][1aa][pbv1b];
+            [1:v]split[v1a][pbv1b];
 
                 [v1a] scale=iw*4:ih*4,
                     zoompan=z=1.3-(in/500): d=2: x='iw/2.5-(iw/zoom/2.5)': y='ih/2.5-(ih/zoom/2.5)':s=1280x720[we];
@@ -1158,14 +1158,13 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
                     :alpha='if(lt(t,0.1),0,if(lt(t,0.5),(t/0.5)/0.1,if(lt(t,3.5),1,if(lt(t,3.9),(1-(t-3.3)) ,0))))'
                     :fontsize=50:x=300-n/2:y=650,trim=0:4[v1];
 
-                [1aa]zoompan=z=1.3-((50+in)/500):d=2:x='iw/2.5-(iw/zoom/2.5)':y='ih/2.5-(ih/zoom/2.5)',split[1a][1b];
-                [pbv1b]zoompan=z=1.3-((62+in)/500):d=2:x='iw/2.5-(iw/zoom/2.5)':y='ih/2.5-(ih/zoom/2.5)'[bv1b];
+                
+                [pbv1b]zoompan=z=1.3-((50+in)/500):d=2:x='iw/2.5-(iw/zoom/2.5)':y='ih/2.5-(ih/zoom/2.5)'[bv1b];
 
-            [2:v]split=4[bv2b][v2a][a2aa][a2ba];
-                [a2aa]scale=iw*4:ih*4,zoompan=z=1.25:x='in':y='in':d=1:s=1280x720[a2a];
-                [a2ba]scale=iw*4:ih*4,zoompan=z=1.25:x='25+in':y='25+in':d=1:s=1280x720,split=3[a2b][a2c][a2d];
+            [2:v]split=3[bv2aa][v2a][bv2b];
 
-                [v2a]scale=iw*4:ih*4,zoompan=z=1.25:x='50+in':y='50+in':d=1:s=1280x720,
+                [bv2aa]scale=iw*4:ih*4,zoompan=z='zoom +  in/500':x='iw/2-(iw/zoom/2)':y='iw/2-(iw/zoom/2)':d=1:s=1280x720[bv2a];
+                [v2a]scale=iw*4:ih*4,zoompan=z='zoom + 0.05 + in/500':x='iw/2-(iw/zoom/2)':y='iw/2-(iw/zoom/2)':d=1:s=1280x720,
                 drawtext=fontfile=Noah-Bold.ttf:text='Поверхность пляжа':fontcolor=white:shadowcolor=black@0.5:shadowy=3:shadowx=3:fontsize=50:x=200+6+n/2:y=600
                     :alpha='if(lt(t,0.1),0,if(lt(t,0.5),(t/0.5),if(lt(t,1.5),1,if(lt(t,1.9),(1-(t-1.5)),0))))',
                 drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[3]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=50:x=300-6-n/2:y=650
@@ -1231,13 +1230,9 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
 
             [bv1m][bv0]blend=all_expr='if(gte(Y,H - H*T/0.1),A,B)':shortest=1[0v1m];
             
-            [bv1b][a2d]blend=all_opacity = 0.5[1x2c];
-                [1a][a2a]blend=all_opacity = 0.5,split[1x2a][1x2b]; 
-                [1b][1x2a]xfade=transition=vdslice:duration=1[a1x2];
-                [a1x2][1x2b]xfade=transition=hrslice:duration=1,trim=0:1[an1x2a];
+            [bv1b][bv2a]xfade=transition=fade:duration=1,trim=0:1[v1x2];
 
-                [1x2c][a2b]xfade=transition=vdslice:duration=1[b1x2];
-                [b1x2][a2c]xfade=transition=hrslice:duration=1,trim=0:1[an1x2b];
+                
             
             
             
@@ -1277,7 +1272,9 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
 
             [v10bb][12]overlay=0:0[v10x12];
 
-              [11][v0][0v1m][map1][map2][map3][v1][an1x2a][an1x2b]  [v2] $endOfstreamService [v8]  [an8x9a][an8x9b][v9][an9x4a][an9x4b][v4][an4x10a][an4x10b][v10][v10x12]concat=n=$services[3],
+            [canvas2][11b]xfade=transition=hblur:duration=1,trim=0:1[11v]
+
+              [11a][v0][0v1m][map1][map2][map3][v1][v1x2][v2] $endOfstreamService [v8]  [an8x9a][an8x9b][v9][an9x4a][an9x4b][v4][an4x10a][an4x10b][v10][v10x12][11v]concat=n=$services[3],
             format=yuv420p[v] 
         \"
          -map \"[v]\" -s \"1280x720\"  -y AnimT.mp4";
@@ -1287,12 +1284,12 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
     $text =str_replace(array("\n\r","\r\n"), "", $comm);
     file_put_contents("coman.txt", $beach . "\n" . $text  . "\n" . PHP_EOL, FILE_APPEND);
     //  echo $text;
-    exec($text);
+    // exec($text);
    
 //voice
     $time=[];
     $vService=[];
-    $countStream=6;
+    $countStream=7;
     
     if($timeOfVisService == 0){
         $vService[0] = null;
@@ -1302,46 +1299,50 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
         $time[1]=  4+2+2 + 3;
     } 
     else{
-        $vService[0] = "[13:a][6:a]concat=v=0:a=1[addSilence3];";
+        $vService[0] = "[15:a][6:a]concat=v=0:a=1[addSilence3];";
         $vService[1] = "[addSilence3]";
-        $time[2]= '7';
+        $time[2]= '14';
         $vService[2] = "-f lavfi -t $time[2] -i anullsrc=channel_layout=stereo:sample_rate=44100";
         
         $time[0] = $timeOfVisService + (int)$time[2] + 2;
         $time[1] = $timeOfVisService + (int)$time[2] + 3 + 3; 
+        $time[3] = $timeOfVisService + (int)$time[2] + 3 + 3+5; 
         $countStream++;
     }
 
     if($infoBeach[4] != null){
-        $voiceOfBot[0]='[12:a][5:a]concat=v=0:a=1 [addSilence2];';
+        $voiceOfBot[0]='[14:a][5:a]concat=v=0:a=1 [addSilence2];';
         $voiceOfBot[1]='[addSilence2]';
-        $voiceOfBot[2]="-f lavfi -t 4 -i anullsrc=channel_layout=stereo:sample_rate=44100 ";
+        $voiceOfBot[2]="-f lavfi -t 8 -i anullsrc=channel_layout=stereo:sample_rate=44100 ";
         
         $countStream++;
     }else{
         $voiceOfBot[0]=null;
         $voiceOfBot[1]=null;
         $voiceOfBot[2]=null;
-        $time[2]="4";
-        $time[0] = $timeOfVisService + (int)$time[2] ;
+        $time[2]="8";
+        $time[0] = $timeOfVisService + (int)$time[2];
         $time[1] = $timeOfVisService + (int)$time[2]  + 3+2;
         $vService[2] = "-f lavfi -t $time[2] -i anullsrc=channel_layout=stereo:sample_rate=44100";
     }
 
-    $addVoice = "ffmpeg  -async 1 -i video\\$enBeach.mp4
-        -itsoffset 00:00:01 -i voice\\nameBeach$enBeach.ogg 
-        -itsoffset 00:00:04 -i voice\\placeBeach$enBeach.ogg 
-        -itsoffset 00:00:07 -i voice\\length$enBeach.ogg 
+    $addVoice = "ffmpeg  -async 1 -i AnimT.mp4
+        -itsoffset 00:00:02 -i voice\\nameBeach$enBeach.ogg 
+        -itsoffset 00:00:05 -i voice\\placeBeach$enBeach.ogg 
+        -itsoffset 00:00:09 -i voice\\length$enBeach.ogg 
         -itsoffset 00:00:10 -i voice\\surface$enBeach.ogg 
         -itsoffset 00:00:10 -i voice\bottom$enBeach.ogg 
 
         -itsoffset 00:00:10 -i voice\\voiceService$enBeach.ogg
         -itsoffset 00:00:10 -i voice\\receive$enBeach.ogg
         -itsoffset 00:00:10 -i voice\score$enBeach.ogg
-        -f lavfi -t 1 -i anullsrc=channel_layout=stereo:sample_rate=44100 
+        -f lavfi -t 3 -i anullsrc=channel_layout=stereo:sample_rate=44100 
         
         -f lavfi -t $time[0] -i anullsrc=channel_layout=stereo:sample_rate=44100 
         -f lavfi -t $time[1] -i anullsrc=channel_layout=stereo:sample_rate=44100 
+        -itsoffset 00:00:10 -i voice\\end.ogg
+        -f lavfi -t $time[3] -i anullsrc=channel_layout=stereo:sample_rate=44100
+
         $voiceOfBot[2]
         $vService[2]
         
@@ -1352,22 +1353,15 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
             $vService[0]
             [10:a][7:a]concat=v=0:a=1 [addSilence4];
             [11:a][8:a]concat=v=0:a=1 [addSilence5];
+            [12:a][13A]concat=v=0:a=1 [addSilence6]
 
-            [1][2][3][addSilence1]$voiceOfBot[1]$vService[1][addSilence4][addSilence5]amix=inputs=$countStream\" 
-        -c:v copy -c:a aac  -y video\\voice\\1$enBeach.mp4";
+            [1][2][3][addSilence1]$voiceOfBot[1]$vService[1][addSilence4][addSilence5][addSilence6]amix=inputs=$countStream\" 
+        -c:v copy -c:a aac  -y testVoice11.mp4";
 
 
     $text2= str_replace(array("\n\r","\r\n"), "", $addVoice);
-    // exec($text2);
+    exec($text2);
  
         // unlink("$enBeach.mp4");
 }
 
-$addBG = "ffmpeg   -i video\akerm.mp4 -i alpha.mov
-    -filter_complex \"
-                    [1]format=rgb24,colorkey=black,colorchannelmixer=aa=0.3,setpts=PTS+8/TB[1d];[0][1d]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2:shortest=1
-    \"                
-   -y testBG.mp4";
-    
-    $text3= str_replace(array("\n\r","\r\n"), "", $addBG);
-    // exec($text3);
