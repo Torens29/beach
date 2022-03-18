@@ -971,11 +971,11 @@ while($j != $lengthArr){
         $endOfstreamService = "$v3[1][endService][8v13v]";
         $services[2] = "$services[1]$pred[1];";
         
-        $time = $stream[0] + 4.5;
+        $time = $stream[0] + 6.5;
         $pred[1] = "$pred[1]trim=0:$time [endService];";
         $stream11 = "
             $v3[2][13]overlay=0:0[13v];
-            color=white:s=1280x720:d=25,split[canvas1][canvas2];
+            color=white:s=1280x720:d=25[canvas1];
             [canvas1][bv8a]xfade=transition=hblur:duration=1,trim=0:1[8v13v];";
 
 
@@ -1132,7 +1132,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
         $services[0] 
 
         -filter_complex \"
-            [11]split[11a][11b];
+            [11:v]split[11a][11b];
             
             [0:v]format=yuv444p,split[pr1][pbv0];
                 [pr1]scale=iw*4:ih*4, zoompan=z=min(max(zoom\,pzoom)+($zoompanupto - 1) / 25 / 2\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[q1];
@@ -1271,8 +1271,9 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
             $pred
 
             [v10bb][12]overlay=0:0[v10x12];
-
-            [canvas2][11b]xfade=transition=hblur:duration=1,trim=0:1[11v]
+            
+            [11b]split[11ba][11bb];
+            [11ba][11bb]xfade=transition=hblur:duration=1[11v];
 
               [11a][v0][0v1m][map1][map2][map3][v1][v1x2][v2] $endOfstreamService [v8]  [an8x9a][an8x9b][v9][an9x4a][an9x4b][v4][an4x10a][an4x10b][v10][v10x12][11v]concat=n=$services[3],
             format=yuv420p[v] 
@@ -1297,6 +1298,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
         $vService[2]=null;
         $time[0]= 4 + 2+1;
         $time[1]=  4+2+2 + 3;
+        $time[3]= 4+2+2 + 3+3;
     } 
     else{
         $vService[0] = "[15:a][6:a]concat=v=0:a=1[addSilence3];";
@@ -1304,9 +1306,9 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
         $time[2]= '14';
         $vService[2] = "-f lavfi -t $time[2] -i anullsrc=channel_layout=stereo:sample_rate=44100";
         
-        $time[0] = $timeOfVisService + (int)$time[2] + 2;
+        $time[0] = $timeOfVisService + (int)$time[2];
         $time[1] = $timeOfVisService + (int)$time[2] + 3 + 3; 
-        $time[3] = $timeOfVisService + (int)$time[2] + 3 + 3+5; 
+        $time[3] = $timeOfVisService + (int)$time[2] + 3 +3+1+5; 
         $countStream++;
     }
 
@@ -1314,7 +1316,8 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
         $voiceOfBot[0]='[14:a][5:a]concat=v=0:a=1 [addSilence2];';
         $voiceOfBot[1]='[addSilence2]';
         $voiceOfBot[2]="-f lavfi -t 8 -i anullsrc=channel_layout=stereo:sample_rate=44100 ";
-        
+       
+
         $countStream++;
     }else{
         $voiceOfBot[0]=null;
@@ -1353,12 +1356,14 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
             $vService[0]
             [10:a][7:a]concat=v=0:a=1 [addSilence4];
             [11:a][8:a]concat=v=0:a=1 [addSilence5];
-            [12:a][13A]concat=v=0:a=1 [addSilence6]
+            [13:a][12:a]concat=v=0:a=1 [addSilence6];
 
-            [1][2][3][addSilence1]$voiceOfBot[1]$vService[1][addSilence4][addSilence5][addSilence6]amix=inputs=$countStream\" 
+            [1][2][3][addSilence1]$voiceOfBot[1] $vService[1][addSilence4][addSilence5][addSilence6]amix=inputs=$countStream\" 
         -c:v copy -c:a aac  -y testVoice11.mp4";
 
 
+        
+    file_put_contents("coman.txt", $beach . "\n" . $addVoice  . "\n" . PHP_EOL, FILE_APPEND);
     $text2= str_replace(array("\n\r","\r\n"), "", $addVoice);
     exec($text2);
  
