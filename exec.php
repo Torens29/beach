@@ -38,10 +38,10 @@ while($j != $lengthArr){
     $upDown=true;
 
     $infoBeach = $beaches[$receiveBeach[0]-1]; // info of the beach
-    $infrastructure = explode("\n", $infoBeach[5]);
+    $infrastructure =  array_unique(explode("\n", $infoBeach[5]));;
     
 
-                
+//инфраструктура     
     $counServ=0;
     foreach($infrastructure as $srv){
         if($counServ <= 14){
@@ -931,9 +931,9 @@ while($j != $lengthArr){
     }
     
         
-
-    if($stream[0] != 0){
-        if($infoBeach[4] != null){//
+//вариации
+    if($stream[0] != 0){//
+        if(false){//$infoBeach[4] != null
             $infoBeach[4] = mb_strtolower($infoBeach[4]);
             $v3[0]="
                 [3:v]split=4[pbv3a][pbv3b][v3a][pbv3aa];
@@ -963,7 +963,9 @@ while($j != $lengthArr){
             $v3[2]="[bv3b]";
             $services[3] = 26;
         }else{
-            $v3[0]="[bv2b]zoompan=z=1.25:x='100+in':y='100+in':d=1:s=1280x720[v2b];";
+            $v3[0]="[bv2b]zoompan=z='zoom + 0.15 + in/500':x='iw/2-(iw/zoom/2)':y='iw/2-(iw/zoom/2)':d=1:s=1280x720[v2b];";
+        
+
             $v3[1]="";
             $v3[2]="[v2b]";
             $services[3] = 23;            
@@ -998,8 +1000,9 @@ while($j != $lengthArr){
                     [b3b]zoompan=z=1.25:d=1:x='iw/2-(iw/zoom/2)':y='125+in'[3av];
                     
                 [bv2b]split[b2a][b2b];
-                    [b2a]zoompan=z=1.25:d=1:x='100+in':y='100+in',split[2a][2b];
-                    [b2b]zoompan=z=1.25:d=1:x='125+in':y='125+in'[2av];
+                    [b2a]zoompan=z='zoom + 0.15 + in/500':x='iw/2-(iw/zoom/2)':y='iw/2-(iw/zoom/2)':d=1:s=1280x720,split[2a][2b];
+                    [b2b]zoompan=z='zoom + 0.2 + in/500':x='iw/2-(iw/zoom/2)':y='iw/2-(iw/zoom/2)':d=1:s=1280x720[2av];
+            
 
                 [2av][a3d]blend=all_opacity = 0.5[2x3c];
                 [2a][a3a]blend=all_opacity = 0.5,split[2x3a][2x3b]; 
@@ -1031,8 +1034,8 @@ while($j != $lengthArr){
             $v3[2]="[bv2b]";
             $services[3] = 23;   
             $stream11= "[bv2b]split[b2a][b2b];
-                            [b2a]zoompan=z=1.25:d=1:x='100+in':y='100+in',split[2a][2b];
-                            [b2b]zoompan=z=1.25:d=1:x='125+in':y='125+in'[2av];
+                            [b2a]zoompan=z='zoom + 0.15 + in/500':x='iw/2-(iw/zoom/2)':y='iw/2-(iw/zoom/2)':d=1:s=1280x720,split[2a][2b];
+                            [b2b]zoompan=z='zoom + 0.2 + in/500':x='iw/2-(iw/zoom/2)':y='iw/2-(iw/zoom/2)':d=1:s=1280x720[2av];
                         
                         [bv8a]split[a8aa][a8bc];
                             [a8aa]scale=iw*4:ih*4, zoompan=z='1+in/1000':d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[a8a];
@@ -1278,7 +1281,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
               [11a][v0][0v1m][map1][map2][map3][v1][v1x2][v2] $endOfstreamService [v8]  [an8x9a][an8x9b][v9][an9x4a][an9x4b][v4][an4x10a][an4x10b][v10][v10x12][11v]concat=n=$services[3],
             format=yuv420p[v] 
         \"
-         -map \"[v]\" -s \"1280x720\"  -y AnimT.mp4";
+         -map \"[v]\" -s \"1280x720\"  -y Anim01.mp4";
         
                 // video\\$enBeach
     
@@ -1292,13 +1295,13 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
     $vService=[];
     $countStream=7;
     
-    if($timeOfVisService == 0){
+    if($timeOfVisService == 0){//
         $vService[0] = null;
         $vService[1] = null;
         $vService[2]=null;
-        $time[0]= 4 + 2+1;
-        $time[1]=  4+2+2 + 3;
-        $time[3]= 4+2+2 + 3+3;
+        $time[0]= 4+2+2+ 5;
+        $time[1]=  4+2+2+ 3+5+2.5;
+        $time[3]= 4+2+2+ 3+5+5+3;
     } 
     else{
         $vService[0] = "[15:a][6:a]concat=v=0:a=1[addSilence3];";
@@ -1312,7 +1315,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
         $countStream++;
     }
 
-    if($infoBeach[4] != null){
+    if(false){//$infoBeach[4] != null
         $voiceOfBot[0]='[14:a][5:a]concat=v=0:a=1 [addSilence2];';
         $voiceOfBot[1]='[addSilence2]';
         $voiceOfBot[2]="-f lavfi -t 8 -i anullsrc=channel_layout=stereo:sample_rate=44100 ";
@@ -1320,16 +1323,20 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
 
         $countStream++;
     }else{
+        if($timeOfVisService != 0){$vService[0] = "[14:a][6:a]concat=v=0:a=1[addSilence3];";}
+        
         $voiceOfBot[0]=null;
         $voiceOfBot[1]=null;
         $voiceOfBot[2]=null;
         $time[2]="8";
         $time[0] = $timeOfVisService + (int)$time[2];
-        $time[1] = $timeOfVisService + (int)$time[2]  + 3+2;
+        $time[1] = $timeOfVisService + (int)$time[2]  + 3+2+2;
+        $time[3] = $timeOfVisService + (int)$time[2]  + 3+2+2+5.5;
         $vService[2] = "-f lavfi -t $time[2] -i anullsrc=channel_layout=stereo:sample_rate=44100";
+        
     }
 
-    $addVoice = "ffmpeg  -async 1 -i AnimT.mp4
+    $addVoice = "ffmpeg  -async 1 -i Anim01.mp4
         -itsoffset 00:00:02 -i voice\\nameBeach$enBeach.ogg 
         -itsoffset 00:00:05 -i voice\\placeBeach$enBeach.ogg 
         -itsoffset 00:00:09 -i voice\\length$enBeach.ogg 
@@ -1339,7 +1346,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
         -itsoffset 00:00:10 -i voice\\voiceService$enBeach.ogg
         -itsoffset 00:00:10 -i voice\\receive$enBeach.ogg
         -itsoffset 00:00:10 -i voice\score$enBeach.ogg
-        -f lavfi -t 3 -i anullsrc=channel_layout=stereo:sample_rate=44100 
+        -f lavfi -t 4 -i anullsrc=channel_layout=stereo:sample_rate=44100 
         
         -f lavfi -t $time[0] -i anullsrc=channel_layout=stereo:sample_rate=44100 
         -f lavfi -t $time[1] -i anullsrc=channel_layout=stereo:sample_rate=44100 
@@ -1359,7 +1366,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
             [13:a][12:a]concat=v=0:a=1 [addSilence6];
 
             [1][2][3][addSilence1]$voiceOfBot[1] $vService[1][addSilence4][addSilence5][addSilence6]amix=inputs=$countStream\" 
-        -c:v copy -c:a aac  -y testVoice11.mp4";
+        -c:v copy -c:a aac  -y testVoice01.mp4";
 
 
         
