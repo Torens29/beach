@@ -1066,7 +1066,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
     switch ($infoBeach[3]) {
         case "Бетонные пляжи": $infoBeach[3]="бетонная";
             break;
-        case "Галечные пляжи": $infoBeach[3]="галичная";
+        case "Галечные пляжи": $infoBeach[3]="г+аличная";
             break;
         case "Песчаные пляжи": $infoBeach[3]="песчаная";
             break;
@@ -1082,7 +1082,9 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
     voice("$infoBeach[0]", "nameBeach$enBeach");
     voice("Месторасположение $infoBeach[1]", "placeBeach$enBeach");
     voice("Протяженность береговой линии примерно $infoBeach[2]", "length$enBeach");
+    
     voice("Поверхность пляжа $infoBeach[3]", "surface$enBeach");
+    if($infoBeach[3]== 'г+аличная') $infoBeach[3]= 'галичная';
     voice("Морское дно $infoBeach[4]", "bottom$enBeach");
     // // voiceService  уже готово
         
@@ -1151,8 +1153,8 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
                     
             [1:v]split[v1a][pbv1b];
 
-                [v1a] scale=iw*4:ih*4,
-                    zoompan=z=1.3-(in/500): d=2: x='iw/2.5-(iw/zoom/2.5)': y='ih/2.5-(ih/zoom/2.5)':s=1280x720[we];
+                [v1a] format=yuv444p,scale=iw*4:ih*4,
+                    zoompan=z=1.3-(in/500): d=1: x='iw/2.5-(iw/zoom/2.5)': y='ih/2.5-(ih/zoom/2.5)':s=1280x720[we];
                     [we]drawtext=fontfile=Noah-Bold.ttf:text='Длина береговой линии':fontcolor=white:shadowcolor=black@0.5:shadowy=3:shadowx=3
                     :alpha='if(lt(t,0.1),0,if(lt(t,0.5),(t/0.5),if(lt(t,3.5),1,if(lt(t,3.9),(1-(t-3.5)),0))))'
                     :fontsize=50:x=200+n/2:y=600,
@@ -1162,9 +1164,9 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
                     :fontsize=50:x=300-n/2:y=650,trim=0:4[v1];
 
                 
-                [pbv1b]zoompan=z=1.3-((50+in)/500):d=2:x='iw/2.5-(iw/zoom/2.5)':y='ih/2.5-(ih/zoom/2.5)'[bv1b];
+                [pbv1b]zoompan=z=1.3-((100+in)/500):d=2:x='iw/2.5-(iw/zoom/2.5)':y='ih/2.5-(ih/zoom/2.5)'[bv1b];
 
-            [2:v]split=3[bv2aa][v2a][bv2b];
+            [2:v]format=yuv444p,split=3[bv2aa][v2a][bv2b];
 
                 [bv2aa]scale=iw*4:ih*4,zoompan=z='zoom +  in/500':x='iw/2-(iw/zoom/2)':y='iw/2-(iw/zoom/2)':d=1:s=1280x720[bv2a];
                 [v2a]scale=iw*4:ih*4,zoompan=z='zoom + 0.05 + in/500':x='iw/2-(iw/zoom/2)':y='iw/2-(iw/zoom/2)':d=1:s=1280x720,
@@ -1176,7 +1178,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
                 
 
             $v3[0]
-            [4:v]split=3[bv4a][bv4b][v4a];
+            [4:v]format=yuv444p,scale=iw*4:ih*4,split=3[bv4a][bv4b][v4a];
                 
                 [bv4a]split[a4aa][a4bc];
                     [a4aa]zoompan=z=1.2:x='in':y='ih/2-(ih/zoom)/2':d=1:s=1280x720[a4a];
@@ -1192,24 +1194,22 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
                     [b4a]zoompan=z=1.2:x='100+in':y='ih/2-(ih/zoom)/2':d=1:s=1280x720,split[4a][4b];
                     [b4b]zoompan=z=1.2:x='125+in':y='ih/2-(ih/zoom)/2':d=1:s=1280x720[4av];
 
-            [5]split=[bv1ma][m1];
+            [5]format=yuv444p,split=[bv1ma][m1];
                 [m1]scale=iw*4:ih*4, zoompan=z='if(between(time,0,1), zoom+0.005+0.2,zoom+0.05 )':d=500:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720,trim=0:0[map1];
                 [bv1ma] scale=iw*4:ih*4, zoompan=z='zoom+0.005':d=500:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720 [bv1m];
 
 
-            [6]scale=iw*4:ih*4,
+            [6]format=yuv444p,scale=iw*4:ih*4,
                 zoompan=z='if(between(time,0.2,1.2), zoom+0.005,zoom+0.05 )':d=500:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720,trim=0:1.4[map2];
 
 
-            [7]scale=iw*4:ih*4,zoompan=z='if(between(time,0.2,1.2), zoom+0.005,zoom+0.05 )':d=500:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2) ':s=1280x720,trim=0:1.4[map3];
+            [7]format=yuv444p,scale=iw*4:ih*4,zoompan=z='if(between(time,0.2,1.2), zoom+0.005,zoom+0.05 )':d=500:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2) ':s=1280x720,trim=0:1.4[map3];
             
-            [8:v]split=3[bv8a][bv8b][v8a];
+            [8:v]format=yuv444p,split=3[bv8a][bv8b][v8a];
                 [v8a]scale=iw*4:ih*4, zoompan=z=1+0.05+in/1000:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[v8];
-                [bv8b]split[b8a][b8b];
-                    [b8a]scale=iw*4:ih*4,zoompan=z=1.1+in/1000:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720,split[8a][8b];
-                    [b8b]scale=iw*4:ih*4,zoompan=z=1.1+0.025+in/1000:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[8av];
+                [bv8b]scale=iw*4:ih*4,zoompan=z=1.1+in/1000:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[8b];
 
-            [9:v]split=3[bv9a][bv9b][v9a];
+            [9:v]format=yuv444p,split=3[bv9a][bv9b][v9a];
 
                 [bv9a]split[a9aa][a9bc];
                     [a9aa] zoompan=z=1.25:x='in':y='in':d=1:s=1280x720[a9a];
@@ -1222,7 +1222,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
                     [b9b]zoompan=z=1.25:x='125+in':y='125+in':d=1:s=1280x720[9av];
 
 
-            [10:v]split=3[bv10a][v10b][v10a];   
+            [10:v]format=yuv444p,split=3[bv10a][v10b][v10a];   
                 [bv10a]split[a10aa][a10bc];
                     [a10aa] zoompan=z=1.3:x='iw/2-(iw/zoom/2)':y='in':d=1:s=1280x720[a10a];
                     [a10bc] zoompan=z=1.3:x='iw/2-(iw/zoom/2)':y='25+in':d=1:s=1280x720,split=3[a10d][a10b][a10c];
@@ -1235,12 +1235,9 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
             
             [bv1b][bv2a]xfade=transition=fade:duration=1,trim=0:1[v1x2];
 
+            color=white:s=1280x720:d=25,[a9d]blend=all_opacity = 0.5[8x9c];
                 
-            
-            
-            
-            [8av][a9d]blend=all_opacity = 0.5[8x9c];
-                [8a][a9a]blend=all_opacity = 0.5,split[8x9a][8x9b]; 
+            color=white:s=1280x720:d=25,[a9a]blend=all_opacity = 0.5,split[8x9a][8x9b]; 
 
                 [8b][8x9a]xfade=transition=vdslice:duration=1[a8x9];
                 [a8x9][8x9b]xfade=transition=hrslice:duration=1,trim=0:1[an8x9a];
@@ -1275,20 +1272,18 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
 
             [v10bb][12]overlay=0:0[v10x12];
             
-            [11b]split[11ba][11bb];
-            [11ba][11bb]xfade=transition=hblur:duration=1[11v];
 
-              [11a][v0][0v1m][map1][map2][map3][v1][v1x2][v2] $endOfstreamService [v8]  [an8x9a][an8x9b][v9][an9x4a][an9x4b][v4][an4x10a][an4x10b][v10][v10x12][11v]concat=n=$services[3],
+              [11a][v0][0v1m][map1][map2][map3][v1][v1x2][v2] $endOfstreamService [v8]  [an8x9a][an8x9b][v9][an9x4a][an9x4b][v4][an4x10a][an4x10b][v10][v10x12][11b]concat=n=$services[3],
             format=yuv420p[v] 
         \"
-         -map \"[v]\" -s \"1280x720\"  -y Anim01.mp4";
+         -map \"[v]\" -s \"1280x720\"  -y test.mp4";
         
                 // video\\$enBeach
     
     $text =str_replace(array("\n\r","\r\n"), "", $comm);
     file_put_contents("coman.txt", $beach . "\n" . $text  . "\n" . PHP_EOL, FILE_APPEND);
     //  echo $text;
-    // exec($text);
+    exec($text);
    
 //voice
     $time=[];
@@ -1373,7 +1368,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
 
 
         
-    file_put_contents("coman.txt", $beach . "\n" . $addVoice  . "\n" . PHP_EOL, FILE_APPEND);
+    // file_put_contents("coman.txt", $beach . "\n" . $addVoice  . "\n" . PHP_EOL, FILE_APPEND);
     $text2= str_replace(array("\n\r","\r\n"), "", $addVoice);
     // exec($text2);
 // музыка
@@ -1389,7 +1384,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
             -shortest -y testVoiceM00.mp4 ";
         
         $addMus =str_replace(array("\n\r","\r\n"), "", $addMusComm);
-        exec($addMus);
+        // exec($addMus);
 
 
         // unlink("$enBeach.mp4");
