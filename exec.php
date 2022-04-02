@@ -473,7 +473,7 @@ while($j != $lengthArr){
                     break;
                 case 'Спортплощадка'  :
                     $ser =str_replace(" ", "_", $srv);
-                    $services[0] .= " -i mat\Иконки\\Спорт_площадка.mov ";
+                    $services[0] .= " -i mat\Иконки\\Спортплощадка.mov ";
                     $services[1] .= " $pred[0] [$stream[1]:v]scale=1280:-1,fade=t=in:st=$timeOfVisService:alpha=1[X$stream[1]];
                                 $pred[1][X$stream[1]]overlay=$position[0]:$position[1]";
 
@@ -961,14 +961,14 @@ while($j != $lengthArr){
 
             $v3[1]="[an2x3a][an2x3b][v3]";
             $v3[2]="[bv3b]";
-            $services[3] = 26;
+            $services[3] = 22;
         }else{
             $v3[0]="[bv2b]zoompan=z='zoom + 0.15 + in/500':x='iw/2-(iw/zoom/2)':y='iw/2-(iw/zoom/2)':d=1:s=1280x720[v2b];";
         
 
             $v3[1]="";
             $v3[2]="[v2b]";
-            $services[3] = 23;            
+            $services[3] = 19;            
         }
         $endOfstreamService = "$v3[1][endService][8v13v]";
         $services[2] = "$services[1]$pred[1];";
@@ -1013,7 +1013,7 @@ while($j != $lengthArr){
                     [2x3c][a3b]xfade=transition=vdslice:duration=1[b2x3];
                     [b2x3][a3c]xfade=transition=hrslice:duration=1,trim=0:1[an2x3b];";
             $v3[1]="[an2x3a][an2x3b][v3]";
-            $services[3] = 26;
+            $services[3] = 22;
             $stream11= "
                         [bv8a]split[a8aa][a8bc];
                             [a8aa]scale=iw*4:ih*4, zoompan=z='1+in/1000':d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[a8a];
@@ -1032,7 +1032,7 @@ while($j != $lengthArr){
             $v3[0]=null;
             $v3[1]=null;
             $v3[2]="[bv2b]";
-            $services[3] = 23;   
+            $services[3] = 19;   
             $stream11= "[bv2b]split[b2a][b2b];
                             [b2a]zoompan=z='zoom + 0.15 + in/500':x='iw/2-(iw/zoom/2)':y='iw/2-(iw/zoom/2)':d=1:s=1280x720,split[2a][2b];
                             [b2b]zoompan=z='zoom + 0.2 + in/500':x='iw/2-(iw/zoom/2)':y='iw/2-(iw/zoom/2)':d=1:s=1280x720[2av];
@@ -1121,7 +1121,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
             -loop 1 -t 4 -i img\\" . $enBeach . "1.jpg 
             -loop 1 -t 2 -i img\\" . $enBeach . "2.jpg 
             -loop 1 -t 2 -i img\\" . $enBeach . "3.jpg 
-            -loop 1 -t 2 -i img\\" . $enBeach . "4.jpg
+            -i mat\\reyting.mp4
             -loop 1 -t 1 -i map\\" . $enBeach . "1.png
 
             -loop 1 -t 1 -i map\\" . $enBeach . "2.png
@@ -1178,21 +1178,11 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
                 
 
             $v3[0]
-            [4:v]format=yuv444p,scale=iw*4:ih*4,split=3[bv4a][bv4b][v4a];
-                
-                [bv4a]split[a4aa][a4bc];
-                    [a4aa]zoompan=z=1.2:x='in':y='ih/2-(ih/zoom)/2':d=1:s=1280x720[a4a];
-                    [a4bc]zoompan=z=1.2:x='25+in':y='ih/2-(ih/zoom)/2':d=1:s=1280x720,split=3[a4c][a4d][a4b];
+            [4:v]drawtext=fontfile=Noah-Bold.ttf:text='$infoBeach[8]':fontcolor=white:fontsize=80:x=1025:y=550:
+            alpha='if(lt(t,3),0,if(lt(t,5),(t/(5)),1))',trim=0:5[v4];
 
-                [v4a]zoompan=z=1.2:x='50+in':y='ih/2-(ih/zoom)/2':d=1:s=1280x720,
-                    drawtext=fontfile=Noah-Bold.ttf:text='Оценка поситителей':fontcolor=white:shadowcolor=black@0.5:shadowy=3:shadowx=3:fontsize=50:x=200+6+n/2:y=600
-                    :alpha='if(lt(t,0.1),0,if(lt(t,0.5),(t/0.5),if(lt(t,1.5),1,if(lt(t,1.9),(1-(t-1.5)),0))))',
-                    drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[8]':fontcolor=white:shadowcolor=black@0.5:shadowy=3:shadowx=3:fontsize=50:x=350-6-n/2:y=650
-                    :alpha='if(lt(t,0.1),0,if(lt(t,0.5),(t/0.5),if(lt(t,1.5),1,if(lt(t,1.9),(1-(t-1.5)),0))))'[v4];
 
-                [bv4b]split[b4a][b4b];
-                    [b4a]zoompan=z=1.2:x='100+in':y='ih/2-(ih/zoom)/2':d=1:s=1280x720,split[4a][4b];
-                    [b4b]zoompan=z=1.2:x='125+in':y='ih/2-(ih/zoom)/2':d=1:s=1280x720[4av];
+    
 
             [5]format=yuv444p,split=[bv1ma][m1];
                 [m1]scale=iw*4:ih*4, zoompan=z='if(between(time,0,1), zoom+0.005+0.2,zoom+0.05 )':d=500:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720,trim=0:0[map1];
@@ -1209,7 +1199,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
                 [v8a]scale=iw*4:ih*4, zoompan=z=1+0.05+in/1000:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[v8];
                 [bv8b]scale=iw*4:ih*4,zoompan=z=1.1+in/1000:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[8b];
 
-            [9:v]format=yuv444p,split=3[bv9a][bv9b][v9a];
+            [9:v]format=yuv444p,split=2[bv9a][v9a];
 
                 [bv9a]split[a9aa][a9bc];
                     [a9aa] zoompan=z=1.25:x='in':y='in':d=1:s=1280x720[a9a];
@@ -1217,15 +1207,10 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
 
                 [v9a]zoompan=z=1.25:x='50+in':y='50+in':d=1:s=1280x720[v9];
                 
-                [bv9b]split[b9a][b9b];
-                    [b9a]zoompan=z=1.25:x='100+in':y='100+in':d=1:s=1280x720,split[9a][9b];
-                    [b9b]zoompan=z=1.25:x='125+in':y='125+in':d=1:s=1280x720[9av];
 
 
-            [10:v]format=yuv444p,split=3[bv10a][v10b][v10a];   
-                [bv10a]split[a10aa][a10bc];
-                    [a10aa] zoompan=z=1.3:x='iw/2-(iw/zoom/2)':y='in':d=1:s=1280x720[a10a];
-                    [a10bc] zoompan=z=1.3:x='iw/2-(iw/zoom/2)':y='25+in':d=1:s=1280x720,split=3[a10d][a10b][a10c];
+            [10:v]format=yuv444p,split=2[v10b][v10a];   
+                
 
                 [v10a]format=yuv444p,zoompan=z=1.3:x='iw/2-(iw/zoom/2)':y='50+in':d=1:s=1280x720,trim=0:1[v10];
 
@@ -1237,7 +1222,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
 
             color=white:s=1280x720:d=25,[a9d]blend=all_opacity = 0.5[8x9c];
                 
-            color=white:s=1280x720:d=25,[a9a]blend=all_opacity = 0.5,split[8x9a][8x9b]; 
+                color=white:s=1280x720:d=25,[a9a]blend=all_opacity = 0.5,split[8x9a][8x9b]; 
 
                 [8b][8x9a]xfade=transition=vdslice:duration=1[a8x9];
                 [a8x9][8x9b]xfade=transition=hrslice:duration=1,trim=0:1[an8x9a];
@@ -1245,23 +1230,8 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
                 [8x9c][a9b]xfade=transition=vdslice:duration=1[b8x9];
                 [b8x9][a9c]xfade=transition=hrslice:duration=1,trim=0:1[an8x9b];
             
-            [9av][a4d]blend=all_opacity = 0.5[9x4c];
-                [9a][a4a]blend=all_opacity = 0.5,split[9x4a][9x4b]; 
-
-                [9b][9x4a]xfade=transition=vdslice:duration=1[a9x4];
-                [a9x4][9x4b]xfade=transition=hrslice:duration=1,trim=0:1[an9x4a];
-
-                [9x4c][a4b]xfade=transition=vdslice:duration=1[b9x4];
-                [b9x4][a4c]xfade=transition=hrslice:duration=1,trim=0:1[an9x4b];
-
-            [4av][a10d]blend=all_opacity = 0.5[4x10c];
-                [4a][a10a]blend=all_opacity = 0.5,split[4x10a][4x10b]; 
-
-                [4b][4x10a]xfade=transition=vdslice:duration=1[a4x10];
-                [a4x10][4x10b]xfade=transition=hrslice:duration=1,trim=0:1[an4x10a];
-
-                [4x10c][a10b]xfade=transition=vdslice:duration=1[b4x10];
-                [b4x10][a10c]xfade=transition=hrslice:duration=1,trim=0:1[an4x10b];
+            
+            
 
              
 
@@ -1273,7 +1243,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
             [v10bb][12]overlay=0:0[v10x12];
             
 
-              [11a][v0][0v1m][map1][map2][map3][v1][v1x2][v2] $endOfstreamService [v8]  [an8x9a][an8x9b][v9][an9x4a][an9x4b][v4][an4x10a][an4x10b][v10][v10x12][11b]concat=n=$services[3],
+              [11a][v0][0v1m][map1][map2][map3][v1][v1x2][v2] $endOfstreamService [v8]  [an8x9a][an8x9b][v9][v4][v10][v10x12][11b]concat=n=$services[3],
             format=yuv420p[v] 
         \"
          -map \"[v]\" -s \"1280x720\"  -y test.mp4";
