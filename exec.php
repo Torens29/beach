@@ -1324,7 +1324,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
         $voiceOfBot[2]
         $vService[2]
         
-        -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100
+        -f lavfi -t 2 -i anullsrc=channel_layout=stereo:sample_rate=44100
 
         -filter_complex \"
             [9:a][4:a]concat=v=0:a=1 [addSilence1];
@@ -1332,11 +1332,11 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
             $vService[0]
             [10:a][7:a]concat=v=0:a=1 [addSilence4];
             [11:a][8:a]concat=v=0:a=1 [addSilence5];
-            [13:a][12:a]concat=v=0:a=1,volume = -0dB [addSilence6];
-            
+            [13:a][12:a]concat=v=0:a=1,volume = -8dB [addSilence6];
+            [addSilence6][17:a]concat=v=0:a=1[add];
             
 
-            [14][1][2][3][addSilence1]$voiceOfBot[1] $vService[1][addSilence4][addSilence5][addSilence6]amix=inputs=$countStream\" 
+            [14][1][2][3][addSilence1]$voiceOfBot[1] $vService[1][addSilence4][addSilence5][add]amix=inputs=$countStream\" 
         -c:v copy -c:a aac  -y testVoice.mp4";
 
 
