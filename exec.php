@@ -319,7 +319,7 @@ while($j != $lengthArr){
                     $stream[1] =$stream[1] +  1;
                     $timeOfVisService = $timeOfVisService + 0.5;
 
-                    $voiceOfService .= " $srv.";
+                    $voiceOfService .= " кафэ.";
                     break;
                 case 'Банкомат'  :
                     $ser =str_replace(" ", "_", $srv);
@@ -936,15 +936,15 @@ while($j != $lengthArr){
         if($infoBeach[4] != null){//$infoBeach[4] != null
             $infoBeach[4] = mb_strtolower($infoBeach[4]);
             $v3[0]="
-                [3:v]split=4[pbv3a][pbv3b][v3a][pbv3aa];
-                    [pbv3a]zoompan=z=1.25:x='iw/2-(iw/zoom)/2':y='in':d=2[a3a];
-                    [pbv3aa]zoompan=z=1.25:x='iw/2-(iw/zoom)/2':y='12+in':d=2,split=3[a3d][a3b][a3c];
+                [3:v]format=yuv444p,split=4[pbv3a][pbv3b][v3a][pbv3aa];
+                    [pbv3a]zoompan=z=1.3:x='iw/2-(iw/zoom)/2':y='in':d=1[a3a];
+                    [pbv3aa]zoompan=z=1.3:x='iw/2-(iw/zoom)/2':y='25+in':d=1,split=3[a3d][a3b][a3c];
                 
-                [v3a]zoompan=z=1.25:x='iw/2-(iw/zoom)/2':y='25+in':d=2:s=1280x720,
-                    drawtext=fontfile=Noah-Bold.ttf:text='Морское дно':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=50:x=200+6+n/2:y=600 :alpha='if(lt(t,0.1),0,if(lt(t,0.5),(t/0.5),if(lt(t,1.5),1,if(lt(t,1.9),(1-(t-1.5)),0))))',
-                    drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[4]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=50:x=300-6-n/2:y=650 :alpha='if(lt(t,0.1),0,if(lt(t,0.5),(t/0.5),if(lt(t,1.5),1,if(lt(t,1.9),(1-(t-1.5)),0))))'[v3];
+                [v3a]zoompan=z=1.3:x='iw/2-(iw/zoom)/2':y='50+in':d=1:s=1280x720,
+                    drawtext=fontfile=Noah-Bold.ttf:text='Морское дно':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=50:x=200+6+n:y=600 :alpha='if(lt(t,0.1),0,if(lt(t,0.5),(t/0.5),if(lt(t,1.5),1,if(lt(t,1.9),(1-(t-1.5)),0))))',
+                    drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[4]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=50:x=300-6-n:y=650 :alpha='if(lt(t,0.1),0,if(lt(t,0.5),(t/0.5),if(lt(t,1.5),1,if(lt(t,1.9),(1-(t-1.5)),0))))'[v3];
                 
-                [pbv3b]zoompan=z=1.25:x='iw/2-(iw/zoom/2)':y='75+in':d=2[bv3b];
+                [pbv3b]zoompan=z=1.3:x='iw/2-(iw/zoom/2)':y='100+in':d=1[bv3b];
                 
                 [bv2b]split[b2a][b2b];
                     [b2a]zoompan=z='zoom + 0.15 + in/500':x='iw/2-(iw/zoom/2)':y='iw/2-(iw/zoom/2)':d=1:s=1280x720,split[2a][2b];
@@ -986,18 +986,18 @@ while($j != $lengthArr){
          if($infoBeach[4] != null){//
             $infoBeach[4] = mb_strtolower($infoBeach[4]);
             $v3[0]="
-                [3:v]split=4[pbv3a][pbv3b][v3a][pbv3aa];
-                    [pbv3a]zoompan=z=1.25:x='iw/2-(iw/zoom)/2':y='in':d=1[a3a];
-                    [pbv3aa]zoompan=z=1.25:x='iw/2-(iw/zoom)/2':y='25+in':d=1,split=3[a3b][a3c][a3d];
+                [3:v]format=yuv444p,scale=iw*4:ih*4,split=4[pbv3a][pbv3b][v3a][pbv3aa];
+                    [pbv3a]zoompan=z=1.3:x='iw/2-(iw/zoom)/2':y='in':d=1[a3a];
+                    [pbv3aa]zoompan=z=1.3:x='iw/2-(iw/zoom)/2':y='25+in':d=1,split=3[a3b][a3c][a3d];
 
-                [v3a]format=yuv444p,zoompan=z=1.25:x='iw/2-(iw/zoom)/2':y='50+in':d=1:s=1280x720,
-                    drawtext=fontfile=Noah-Bold.ttf:text='Морское дно':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=50:x=200+6+n/2:y=600
+                [v3a]format=yuv444p,zoompan=z=1.3:x='iw/2-(iw/zoom/2)':y='50+in':d=1:s=1280x720,
+                    drawtext=fontfile=Noah-Bold.ttf:text='Морское дно':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=50:x=200+6+n:y=600
                     :alpha='if(lt(t,0.1),0,if(lt(t,0.5),(t/0.5),if(lt(t,1.5),1,if(lt(t,1.9),(1-(t-1.5)),0))))',
-                    drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[4]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=50:x=300-6-n/2:y=650:alpha='if(lt(t,0.1),0,if(lt(t,0.5),(t/0.5),if(lt(t,1.5),1,if(lt(t,1.9),(1-(t-1.5)),0))))'[v3];
+                    drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[4]':fontcolor=white:shadowcolor=black@0.5:shadowy=3:shadowx=3:fontsize=50:x=300-6-n:y=650:alpha='if(lt(t,0.1),0,if(lt(t,0.5),(t/0.5),if(lt(t,1.5),1,if(lt(t,1.9),(1-(t-1.5)),0))))'[v3];
                 
                 [pbv3b]split[b3a][b3b];
-                    [b3a]zoompan=z=1.25:d=1:x='iw/2-(iw/zoom/2)':y='100+in',split[3a][3b];
-                    [b3b]zoompan=z=1.25:d=1:x='iw/2-(iw/zoom/2)':y='125+in'[3av];
+                    [b3a]zoompan=z=1.25:d=1:x='iw/2-(iw/zoom/2)':y='100+in/2',split[3a][3b];
+                    [b3b]zoompan=z=1.25:d=1:x='iw/2-(iw/zoom/2)':y='125+in/2'[3av];
                     
                 [bv2b]split[b2a][b2b];
                     [b2a]zoompan=z='zoom + 0.15 + in/500':x='iw/2-(iw/zoom/2)':y='iw/2-(iw/zoom/2)':d=1:s=1280x720,split[2a][2b];
@@ -1066,7 +1066,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
     switch ($infoBeach[3]) {
         case "Бетонные пляжи": $infoBeach[3]="бетонная";
             break;
-        case "Галечные пляжи": $infoBeach[3]="г+аличная";
+        case "Галечные пляжи": $infoBeach[3]="галечная";
             break;
         case "Песчаные пляжи": $infoBeach[3]="песчаная";
             break;
@@ -1084,7 +1084,6 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
     voice("Протяженность береговой линии примерно $infoBeach[2]", "length$enBeach");
     
     voice("Поверхность пляжа $infoBeach[3]", "surface$enBeach");
-    if($infoBeach[3]== 'г+аличная') $infoBeach[3]= 'галичная';
     voice("Морское дно $infoBeach[4]", "bottom$enBeach");
     // // voiceService  уже готово
         
@@ -1114,7 +1113,9 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
     }
 
     voice($receiveBeach, "receive$enBeach");
-    voice("Посетители дают оценку $infoBeach[8]", "score$enBeach");
+    
+    $score= str_replace(".",",",$infoBeach[8]);
+    voice("Посетители дают оценку $score", "score$enBeach");
 
     $comm = "ffmpeg 
         -loop 1 -t 2 -i img\\" . $enBeach . "0.jpg 
@@ -1143,10 +1144,10 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
                 [pr1]scale=iw*4:ih*4, zoompan=z=min(max(zoom\,pzoom)+($zoompanupto - 1) / 25 / 2\,$zoompanupto):d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[q1];
                 [q1]drawtext=fontfile=Noah-Bold.ttf:text='$infoBeach[0]':fontcolor=white:shadowcolor=black@0.5:shadowy=3:shadowx=3
                         :alpha='if(lt(t,0.1),0,if(lt(t,0.5),(t/0.5),if(lt(t,1.5),1,if(lt(t,1.9),(1-(t-1.5)),0))))'
-                        :fontsize=50:x=200+n/2:y=600,
+                        :fontsize=50:x=200+n:y=600,
                     drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[1]':fontcolor=white:shadowcolor=black@0.5:shadowy=3:shadowx=3
                         :alpha='if(lt(t,0.1),0,if(lt(t,0.5),(t/0.5),if(lt(t,1.5),1,if(lt(t,1.9),(1-(t-1.5)),0))))'
-                        :fontsize=50:x=300-n/2:y=650[pre2];
+                        :fontsize=50:x=300-n:y=650[pre2];
                 [pre2]fade=t=in:st=0:d=1[v0]; 
 
                 [pbv0] zoompan=z=1.1:d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'[bv0];
@@ -1157,11 +1158,11 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
                     zoompan=z=1.3-(in/500): d=1: x='iw/2.5-(iw/zoom/2.5)': y='ih/2.5-(ih/zoom/2.5)':s=1280x720[we];
                     [we]drawtext=fontfile=Noah-Bold.ttf:text='Длина береговой линии':fontcolor=white:shadowcolor=black@0.5:shadowy=3:shadowx=3
                     :alpha='if(lt(t,0.1),0,if(lt(t,0.5),(t/0.5),if(lt(t,3.5),1,if(lt(t,3.9),(1-(t-3.5)),0))))'
-                    :fontsize=50:x=200+n/2:y=600,
+                    :fontsize=50:x=200+n:y=600,
 
                     drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[2]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3
                     :alpha='if(lt(t,0.1),0,if(lt(t,0.5),(t/0.5)/0.1,if(lt(t,3.5),1,if(lt(t,3.9),(1-(t-3.3)) ,0))))'
-                    :fontsize=50:x=300-n/2:y=650,trim=0:4[v1];
+                    :fontsize=50:x=300-n:y=650,trim=0:4[v1];
 
                 
                 [pbv1b]zoompan=z=1.3-((100+in)/500):d=2:x='iw/2.5-(iw/zoom/2.5)':y='ih/2.5-(ih/zoom/2.5)'[bv1b];
@@ -1170,9 +1171,9 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
 
                 [bv2aa]scale=iw*4:ih*4,zoompan=z='zoom +  in/500':x='iw/2-(iw/zoom/2)':y='iw/2-(iw/zoom/2)':d=1:s=1280x720[bv2a];
                 [v2a]scale=iw*4:ih*4,zoompan=z='zoom + 0.05 + in/500':x='iw/2-(iw/zoom/2)':y='iw/2-(iw/zoom/2)':d=1:s=1280x720,
-                drawtext=fontfile=Noah-Bold.ttf:text='Поверхность пляжа':fontcolor=white:shadowcolor=black@0.5:shadowy=3:shadowx=3:fontsize=50:x=200+6+n/2:y=600
+                drawtext=fontfile=Noah-Bold.ttf:text='Поверхность пляжа':fontcolor=white:shadowcolor=black@0.5:shadowy=3:shadowx=3:fontsize=50:x=200+6+n:y=600
                     :alpha='if(lt(t,0.1),0,if(lt(t,0.5),(t/0.5),if(lt(t,1.5),1,if(lt(t,1.9),(1-(t-1.5)),0))))',
-                drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[3]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=50:x=300-6-n/2:y=650
+                drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[3]':fontcolor=white:shadowcolor=black@0.5: shadowy=3:shadowx=3:fontsize=50:x=300-6-n:y=650
                     :alpha='if(lt(t,0.1),0,if(lt(t,0.5),(t/0.5),if(lt(t,1.5),1,if(lt(t,1.9),(1-(t-1.5)),0))))'[v2];
 
                 
@@ -1212,11 +1213,11 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
             [10:v]format=yuv444p,split=2[v10b][v10a];   
                 
                 
-                [v10a]format=yuv444p,zoompan=z=1.3:x='iw/2-(iw/zoom/2)':y='50+in':d=1:s=1280x720[v10a];
+                [v10a]zoompan=z=1.3:x='iw/2-(iw/zoom/2)':y='50+in':d=1:s=1280x720[v10a];
                 color=white:s=1280x720:d=25[circl];
                 [circl][v10a]xfade=transition=circleclose:duration=0.5,format=yuv420p,trim=0:1[v10];
 
-                [v10b]format=yuv444p,zoompan=z=1.3:x='iw/2-(iw/zoom/2)':y='75+in':d=1:s=1280x720[v10bb];
+                [v10b]zoompan=z=1.3:x='iw/2-(iw/zoom/2)':y='75+in':d=1:s=1280x720[v10bb];
 
             [bv1m][bv0]blend=all_expr='if(gte(Y,H - H*T/0.1),A,B)':shortest=1[0v1m];
             
@@ -1248,14 +1249,14 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
               [11a][v0][0v1m][map1][map2][map3][v1][v1x2][v2] $endOfstreamService [v8]  [an8x9a][an8x9b][v9][v4][v10][v10x12][11b]concat=n=$services[3],
             format=yuv420p[v] 
         \"
-         -map \"[v]\" -s \"1280x720\"  -y test.mp4";
+         -map \"[v]\" -s \"1280x720\"  -y video\\$enBeach.mp4";
         
                 // video\\$enBeach
     
-    $text =str_replace(array("\n\r","\r\n"), "", $comm);
-    file_put_contents("coman.txt", $beach . "\n" . $text  . "\n" . PHP_EOL, FILE_APPEND);
+    $video =str_replace(array("\n\r","\r\n"), "", $comm);
+    file_put_contents("coman.txt", $beach . "\n" . $video  . "\n" . PHP_EOL, FILE_APPEND);
     //  echo $text;
-    // exec($text);
+// exec($video);
    
 //voice
     $time=[];
@@ -1268,21 +1269,21 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
         $vService[2]=null;
         $time[0]= 4+2+2+ 5;
         $time[1]=  4+2+2+ 3+5+2.5;
-        $time[3]= 4+2+2+ 3+5+5+2;
+        $time[3]= 4+2+2+ 3+5+5+3;
     } 
     else{
         $vService[0] = "[16:a][6:a]concat=v=0:a=1[addSilence3];";
         $vService[1] = "[addSilence3]";
-        $time[2]= '14';
+        $time[2]= '12';
         $vService[2] = "-f lavfi -t $time[2] -i anullsrc=channel_layout=stereo:sample_rate=44100";
         
         $time[0] = $timeOfVisService + (int)$time[2];
         $time[1] = $timeOfVisService + (int)$time[2] + 3 + 3; 
-        $time[3] = $timeOfVisService + (int)$time[2] + 3 +3+5; 
+        $time[3] = $timeOfVisService + (int)$time[2] + 3 +4+5; 
         $countStream++;
     }
 
-    if($infoBeach[4] != null){//$infoBeach[4] != null
+    if($infoBeach[4] != null){// $infoBeach[4] != null
         $voiceOfBot[0]='[15:a][5:a]concat=v=0:a=1 [addSilence2];';
         $voiceOfBot[1]='[addSilence2]';
         $voiceOfBot[2]="-f lavfi -t 8 -i anullsrc=channel_layout=stereo:sample_rate=44100 ";
@@ -1298,26 +1299,26 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
         $time[2]="8";
         $time[0] = $timeOfVisService + (int)$time[2];
         $time[1] = $timeOfVisService + (int)$time[2]  + 3+2+2;
-        $time[3] = $timeOfVisService + (int)$time[2]  + 3+2+1+5.5;
+        $time[3] = $timeOfVisService + (int)$time[2]  + 3+2+2+5.5;
         $vService[2] = "-f lavfi -t $time[2] -i anullsrc=channel_layout=stereo:sample_rate=44100";
         
     }
 
-    $addVoice = "ffmpeg  -async 1 -i test.mp4
-        -itsoffset 00:00:02 -i voice\\nameBeach$enBeach.ogg 
-        -itsoffset 00:00:05 -i voice\\placeBeach$enBeach.ogg 
-        -itsoffset 00:00:09 -i voice\\length$enBeach.ogg 
-        -itsoffset 00:00:10 -i voice\\surface$enBeach.ogg 
-        -itsoffset 00:00:10 -i voice\bottom$enBeach.ogg 
+    $addVoice = "ffmpeg  -async 1 -i video\\$enBeach.mp4
+        -itsoffset 00:00:02 -i voice\\newVoice\\nameBeach$enBeach.ogg 
+        -itsoffset 00:00:05 -i voice\\newVoice\\placeBeach$enBeach.ogg 
+        -itsoffset 00:00:09 -i voice\\newVoice\\length$enBeach.ogg 
+        -itsoffset 00:00:10 -i voice\\newVoice\\surface$enBeach.ogg 
+        -itsoffset 00:00:10 -i voice\\newVoice\bottom$enBeach.ogg 
 
-        -itsoffset 00:00:10 -i voice\\voiceService$enBeach.ogg
-        -itsoffset 00:00:10 -i voice\\receive$enBeach.ogg
-        -itsoffset 00:00:10 -i voice\score$enBeach.ogg
+        -itsoffset 00:00:10 -i voice\\newVoice\\voiceService$enBeach.ogg
+        -itsoffset 00:00:10 -i voice\\newVoice\\receive$enBeach.ogg
+        -itsoffset 00:00:10 -i voice\\newVoice\score$enBeach.ogg
         -f lavfi -t 4 -i anullsrc=channel_layout=stereo:sample_rate=44100 
         -f lavfi -t $time[0] -i anullsrc=channel_layout=stereo:sample_rate=44100 
 
         -f lavfi -t $time[1] -i anullsrc=channel_layout=stereo:sample_rate=44100 
-        -itsoffset 00:00:10 -i voice\\end.ogg
+        -itsoffset 00:00:10 -i voice\\newVoice\\end.ogg
         -f lavfi -t $time[3] -i anullsrc=channel_layout=stereo:sample_rate=44100
         -f lavfi -t 1 -i anullsrc=channel_layout=stereo:sample_rate=44100
 
@@ -1337,16 +1338,16 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
             
 
             [14][1][2][3][addSilence1]$voiceOfBot[1] $vService[1][addSilence4][addSilence5][add]amix=inputs=$countStream\" 
-        -c:v copy -c:a aac  -y testVoice.mp4";
+        -c:v copy -c:a aac  -y video\\voice\\v$enBeach.mp4";
 
 
         
     // file_put_contents("coman.txt", $beach . "\n" . $addVoice  . "\n" . PHP_EOL, FILE_APPEND);
-    $text2= str_replace(array("\n\r","\r\n"), "", $addVoice);
-    exec($text2);
+    $addvoice= str_replace(array("\n\r","\r\n"), "", $addVoice);
+exec($addvoice);
 // музыка
     $addMusComm = "ffmpeg 
-            -i testVoice.mp4
+            -i video\\voice\\v$enBeach.mp4
             -i mat\mus.mp3 
             
             -filter_complex \"
@@ -1354,12 +1355,16 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
 
             [0:a][mus]amerge=inputs=2[a]\"
              -map 0:v -map \"[a]\" -c:v copy -ac 2 
-            -shortest -y testVoiceM.mp4 ";
+            -shortest -y video\\voice\\$enBeach.mp4 ";
         
         $addMus =str_replace(array("\n\r","\r\n"), "", $addMusComm);
-        exec($addMus);
+exec($addMus);
 
 
-        // unlink("$enBeach.mp4");
+$add = "ffmpeg -i video\\voice\\$enBeach.mp4 -i mat\demo.png -filter_complex \"[0:v][1:v]overlay=0:0\" -y video\\result.mp4";
+// exec($add);
+
+// unlink("video\\voice\\v$enBeach.mp4");
+// unlink("video\\$enBeach.mp4");
 }
 
