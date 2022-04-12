@@ -91,7 +91,7 @@ foreach($beaches as $beach){
             } else {
                 // var_dump($png);
                 $s = str_replace('"','',$enBeach);
-                $str = "map/" . $s . $z . ".png";
+                $str = "F:\ПляжиВидео\map\\" . $s . $z . ".png";
                 file_put_contents($str, $png);
                 $mapTrue= true;
                 
@@ -107,7 +107,7 @@ foreach($beaches as $beach){
                     
                 $img = curl_exec($ch);
 
-                $src= "img\\" . $s . $i . ".jpg";
+                $src= "F:\ПляжиВидео\img\\" . $s . $i . ".jpg";
                 file_put_contents($src, $img);
                 try {
                     $image  ->fromFile($src)
