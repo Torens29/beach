@@ -1118,18 +1118,18 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
     voice("Посетители дают оценку $score", "score$enBeach");
 
     $comm = "ffmpeg 
-        -loop 1 -t 2 -i img\\" . $enBeach . "0.jpg 
-            -loop 1 -t 4 -i img\\" . $enBeach . "1.jpg 
-            -loop 1 -t 2 -i img\\" . $enBeach . "2.jpg 
-            -loop 1 -t 2 -i img\\" . $enBeach . "3.jpg 
+        -loop 1 -t 2 -i F:\ПляжиВидео\img\\" . $enBeach . "0.jpg 
+            -loop 1 -t 4 -i F:\ПляжиВидео\img\\" . $enBeach . "1.jpg 
+            -loop 1 -t 2 -i F:\ПляжиВидео\img\\" . $enBeach . "2.jpg 
+            -loop 1 -t 2 -i F:\ПляжиВидео\img\\" . $enBeach . "3.jpg 
             -i mat\\reyting.mp4
-            -loop 1 -t 1 -i map\\" . $enBeach . "1.png
+            -loop 1 -t 1 -i F:\ПляжиВидео\map\\" . $enBeach . "1.png
 
-            -loop 1 -t 1 -i map\\" . $enBeach . "2.png
-            -loop 1 -t 1 -i map\\" . $enBeach . "3.png
-            -loop 1 -t 2 -i img\\" . $enBeach . "5.jpg
-            -loop 1 -t 2 -i img\\" . $enBeach . "6.jpg 
-            -loop 1 -t 2 -i img\\" . $enBeach . "7.jpg 
+            -loop 1 -t 1 -i F:\ПляжиВидео\map\\" . $enBeach . "2.png
+            -loop 1 -t 1 -i F:\ПляжиВидео\map\\" . $enBeach . "3.png
+            -loop 1 -t 2 -i F:\ПляжиВидео\img\\" . $enBeach . "5.jpg
+            -loop 1 -t 2 -i F:\ПляжиВидео\img\\" . $enBeach . "6.jpg 
+            -loop 1 -t 2 -i F:\ПляжиВидео\img\\" . $enBeach . "7.jpg 
             
             -i mat\Лого.mp4
             -i mat\Сайт_клик.mov
@@ -1249,7 +1249,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
               [11a][v0][0v1m][map1][map2][map3][v1][v1x2][v2] $endOfstreamService [v8]  [an8x9a][an8x9b][v9][v4][v10][v10x12][11b]concat=n=$services[3],
             format=yuv420p[v] 
         \"
-         -map \"[v]\" -s \"1280x720\"  -y video\\$enBeach.mp4";
+         -map \"[v]\" -s \"1280x720\"  -y F:\ПляжиВидео\\$enBeach.mp4";
         
                 // video\\$enBeach
     
@@ -1304,21 +1304,21 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
         
     }
 
-    $addVoice = "ffmpeg  -async 1 -i video\\$enBeach.mp4
-        -itsoffset 00:00:02 -i voice\\newVoice\\nameBeach$enBeach.ogg 
-        -itsoffset 00:00:05 -i voice\\newVoice\\placeBeach$enBeach.ogg 
-        -itsoffset 00:00:09 -i voice\\newVoice\\length$enBeach.ogg 
-        -itsoffset 00:00:10 -i voice\\newVoice\\surface$enBeach.ogg 
-        -itsoffset 00:00:10 -i voice\\newVoice\bottom$enBeach.ogg 
+    $addVoice = "ffmpeg  -async 1 -i F:\ПляжиВидео\\$enBeach.mp4
+        -itsoffset 00:00:02 -i F:\ПляжиВидео\\voice\\nameBeach$enBeach.ogg 
+        -itsoffset 00:00:05 -i F:\ПляжиВидео\\voice\\placeBeach$enBeach.ogg 
+        -itsoffset 00:00:09 -i F:\ПляжиВидео\\voice\\length$enBeach.ogg 
+        -itsoffset 00:00:10 -i F:\ПляжиВидео\\voice\\surface$enBeach.ogg 
+        -itsoffset 00:00:10 -i F:\ПляжиВидео\\voice\bottom$enBeach.ogg 
 
-        -itsoffset 00:00:10 -i voice\\newVoice\\voiceService$enBeach.ogg
-        -itsoffset 00:00:10 -i voice\\newVoice\\receive$enBeach.ogg
-        -itsoffset 00:00:10 -i voice\\newVoice\score$enBeach.ogg
+        -itsoffset 00:00:10 -i F:\ПляжиВидео\\voice\\voiceService$enBeach.ogg
+        -itsoffset 00:00:10 -i F:\ПляжиВидео\\voice\\receive$enBeach.ogg
+        -itsoffset 00:00:10 -i F:\ПляжиВидео\\voice\score$enBeach.ogg
         -f lavfi -t 4 -i anullsrc=channel_layout=stereo:sample_rate=44100 
         -f lavfi -t $time[0] -i anullsrc=channel_layout=stereo:sample_rate=44100 
 
         -f lavfi -t $time[1] -i anullsrc=channel_layout=stereo:sample_rate=44100 
-        -itsoffset 00:00:10 -i voice\\newVoice\\end.ogg
+        -itsoffset 00:00:10 -i mat\\end.ogg
         -f lavfi -t $time[3] -i anullsrc=channel_layout=stereo:sample_rate=44100
         -f lavfi -t 1 -i anullsrc=channel_layout=stereo:sample_rate=44100
 
@@ -1338,7 +1338,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
             
 
             [14][1][2][3][addSilence1]$voiceOfBot[1] $vService[1][addSilence4][addSilence5][add]amix=inputs=$countStream\" 
-        -c:v copy -c:a aac  -y video\\voice\\v$enBeach.mp4";
+        -c:v copy -c:a aac  -y F:\ПляжиВидео\\v$enBeach.mp4";
 
 
         
@@ -1347,7 +1347,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
 exec($addvoice);
 // музыка
     $addMusComm = "ffmpeg 
-            -i video\\voice\\v$enBeach.mp4
+            -i F:\ПляжиВидео\\v$enBeach.mp4
             -i mat\mus.mp3 
             
             -filter_complex \"
@@ -1355,16 +1355,15 @@ exec($addvoice);
 
             [0:a][mus]amerge=inputs=2[a]\"
              -map 0:v -map \"[a]\" -c:v copy -ac 2 
-            -shortest -y video\\voice\\$enBeach.mp4 ";
+            -shortest -y F:\ПляжиВидео\\$enBeach.mp4 ";
         
         $addMus =str_replace(array("\n\r","\r\n"), "", $addMusComm);
 exec($addMus);
-
+unlink("F:\ПляжиВидео\\v$enBeach.mp4");
 
 $add = "ffmpeg -i video\\voice\\$enBeach.mp4 -i mat\demo.png -filter_complex \"[0:v][1:v]overlay=0:0\" -y video\\result.mp4";
 // exec($add);
 
-// unlink("video\\voice\\v$enBeach.mp4");
-// unlink("video\\$enBeach.mp4");
+
 }
 
