@@ -39,7 +39,7 @@ while($j != $lengthArr){
 
     $infoBeach = $beaches[$receiveBeach[0]-1]; // info of the beach
     $infrastructure =  array_unique(explode("\n", $infoBeach[5]));;
-    
+    // var_dump($infoBeach);
 
 //инфраструктура     
     $counServ=0;
@@ -1062,7 +1062,7 @@ while($j != $lengthArr){
  
 
 function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred, $endOfstreamService, $cellSize, $transitionDuration, $timeOfVisService, $stream11, $beach, $v3){
-    
+    // var_dump($infoBeach);
     switch ($infoBeach[3]) {
         case "Бетонные пляжи": $infoBeach[3]="бетонная";
             break;
@@ -1359,7 +1359,7 @@ exec($addvoice);
         
         $addMus =str_replace(array("\n\r","\r\n"), "", $addMusComm);
 exec($addMus);
-unlink("F:\ПляжиВидео\\v$enBeach.mp4");
+// unlink("F:\ПляжиВидео\\v$enBeach.mp4");
 
 $add = "ffmpeg -i video\\voice\\$enBeach.mp4 -i mat\demo.png -filter_complex \"[0:v][1:v]overlay=0:0\" -y video\\result.mp4";
 // exec($add);
