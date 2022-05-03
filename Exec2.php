@@ -988,7 +988,8 @@ while($j != $lengthArr){
          if($infoBeach[4] != null){//
             $infoBeach[4] = mb_strtolower($infoBeach[4]);
             $v3[0]="
-                [3:v]format=yuv444p,scale=iw*4:ih*4,split=4[pbv3a][pbv3b][v3a][pbv3aa];
+                [3:v]split = [3c][pbv3b];
+                [3c]format=yuv444p,scale=iw*4:ih*4,split=3[pbv3a][v3a][pbv3aa];
                     [pbv3a]zoompan=z=1.3:x='iw/2-(iw/zoom)/2':y='in':d=1[a3a];
                     [pbv3aa]zoompan=z=1.3:x='iw/2-(iw/zoom)/2':y='25+in':d=1,split=3[a3b][a3c][a3d];
                 [v3a]format=yuv444p,zoompan=z=1.3:x='iw/2-(iw/zoom/2)':y='50+in':d=1:s=1280x720,
@@ -996,9 +997,7 @@ while($j != $lengthArr){
                     :alpha='if(lt(t,0.1),0,if(lt(t,0.5),(t/0.5),if(lt(t,1.5),1,if(lt(t,1.9),(1-(t-1.5)),0))))',
                     drawtext=fontfile=Noah-Regular.ttf:text='$infoBeach[4]':fontcolor=white:shadowcolor=black@0.5:shadowy=3:shadowx=3:fontsize=50:x=300-6-n:y=650:alpha='if(lt(t,0.1),0,if(lt(t,0.5),(t/0.5),if(lt(t,1.5),1,if(lt(t,1.9),(1-(t-1.5)),0))))'[v3];
                 
-                [pbv3b]split[b3a][b3b];
-                    [b3a]zoompan=z=1.25:d=1:x='iw/2-(iw/zoom/2)':y='100+in/2',split[3a][3b];
-                    [b3b]zoompan=z=1.25:d=1:x='iw/2-(iw/zoom/2)':y='125+in/2'[3av];
+               
                     
                 [bv2b]split[b2a][b2b];
                     [b2a]zoompan=z='zoom + 0.15 + in/500':x='iw/2-(iw/zoom/2)':y='iw/2-(iw/zoom/2)':d=1:s=1280x720,split[2a][2b];
@@ -1012,38 +1011,16 @@ while($j != $lengthArr){
                     [2x3c][a3b]xfade=transition=vdslice:duration=1[b2x3];
                     [b2x3][a3c]xfade=transition=hrslice:duration=1,trim=0:1[an2x3b];";
             $v3[1]="[an2x3a][an2x3b][v3]";
-            $services[3] = 20;
-            $stream11= "
-                        [8:v]split[a8aa][a8bc];
-                            [a8aa]scale=iw*4:ih*4, zoompan=z='1+in/1000':d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[a8a];
-                            [a8bc]scale=iw*4:ih*4, zoompan=z='1+0.025+in/1000':d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720,split=3[a8d][a8b][a8c];
-                            
-                            [3av][a8d]blend=all_opacity = 0.5[3x8c]; 
-                            [3a][a8a]blend=all_opacity = 0.5,split[3x8a][3x8b];
-                            [3b][3x8a]xfade=transition=vdslice:duration=1[a3x8];
-                            [a3x8][3x8b]xfade=transition=hrslice:duration=1,trim=0:1[an3x8a];
-                            [3x8c][a8b]xfade=transition=vdslice:duration=1[b3x8];
-                            [b3x8][a8c]xfade=transition=hrslice:duration=1,trim=0:1[an3x8b];";
-            $endOfstreamService="$v3[1][an3x8a][an3x8b]";
+            $services[3] = 19;
+            $stream11= "[pbv3b][8:v]xfade=transition=hblur:duration=1,trim=0:1[3v8v]; ";
+            $endOfstreamService="$v3[1][3v8v]";
         }else{
             $v3[0]=null;
             $v3[1]=null;
             $v3[2]="[bv2b]";
             $services[3] = 17;   
-            $stream11= "[bv2b]split[b2a][b2b];
-                            [b2a]zoompan=z='zoom + 0.15 + in/500':x='iw/2-(iw/zoom/2)':y='iw/2-(iw/zoom/2)':d=1:s=1280x720,split[2a][2b];
-                            [b2b]zoompan=z='zoom + 0.2 + in/500':x='iw/2-(iw/zoom/2)':y='iw/2-(iw/zoom/2)':d=1:s=1280x720[2av];
-                        
-                        [bv8a]split[a8aa][a8bc];
-                            [a8aa]scale=iw*4:ih*4, zoompan=z='1+in/1000':d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720[a8a];
-                            [a8bc]scale=iw*4:ih*4, zoompan=z='1+0.025+in/1000':d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1280x720,split=3[a8d][a8b][a8c];
-                        [2av][a8d]blend=all_opacity = 0.5[2x8c]; 
-                        [2a][a8a]blend=all_opacity = 0.5,split[2x8a][2x8b];
-                            [2b][2x8a]xfade=transition=vdslice:duration=1[a2x8];
-                            [a2x8][2x8b]xfade=transition=hrslice:duration=1,trim=0:1[an2x8a];
-                            [2x8c][a8b]xfade=transition=vdslice:duration=1[b2x8];
-                            [b2x8][a8c]xfade=transition=hrslice:duration=1,trim=0:1[an2x8b];";        
-                        $endOfstreamService="[an2x8a][an2x8b]"; 
+            $stream11= "[bv2b][8:v]xfade=transition=hblur:duration=1,trim=0:1[2v8v];";        
+                        $endOfstreamService="[2v8v]"; 
         }
 
         voice("", "voiceService$receiveBeach[1]");
