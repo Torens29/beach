@@ -20,18 +20,19 @@ $ch = curl_init();
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($ch, CURLOPT_HEADER, false);
-$j=10; // n-1
+$j=0; // n-1
 $mapTrue= false;
 $count = 0;
 
 foreach($beaches as $beach){
     if ($count < $j) {
        $count++;
+       
     } else{
         $j++;
-
+        $count++;
         if ($beach[1] == 'Место расположения') continue;
-        ;
+        
         
         $s = translit($beach[0]);
         $enCity= translit($beach[1]);
@@ -63,9 +64,9 @@ foreach($beaches as $beach){
             } 
             else{
         //получаем карту
-                    $coord = "33.93899724470521,44.39642381233141";
+                    // $coord = "33.93899724470521,44.39642381233141";
 
-                    // $coord =str_replace(' ', ',', $fd->response->GeoObjectCollection->featureMember[0]->GeoObject-> Point-> pos);
+                    $coord =str_replace(' ', ',', $fd->response->GeoObjectCollection->featureMember[0]->GeoObject-> Point-> pos);
                     
                     echo "COORD of $beach[0]: ";
                     // var_dump($coord);
@@ -105,43 +106,43 @@ foreach($beaches as $beach){
                     }    
 
                 if ($mapTrue){
-        //receive img (5)
-            $receiveIMG=true;
-            $imgArr = explode("\n", $beach[9]);
-            for($i=0; $i<6;$i++){
-                curl_setopt($ch, CURLOPT_URL, $imgArr[$i]);
-                    
-                $img = curl_exec($ch);
-
-                $src= "F:\ПляжиВидео\img\\" . $s . $i . ".jpg";
-                file_put_contents($src, $img);
-                try {
-                    $image  ->fromFile($src)
-                            ->resize(1280,720)
-                            -> toFile($src,'image/jpeg');
+                //receive img (5)
+                    $receiveIMG=true;
+                    $imgArr = explode("\n", $beach[9]);
+                    for($i=0; $i<6;$i++){
+                        curl_setopt($ch, CURLOPT_URL, $imgArr[$i]);
                             
-                } catch(Exception $err) {
-                    $msg= $err->getMessage();
-                    file_put_contents('errorBeach.txt', $j . ": " . $enBeach . "- ". $msg . PHP_EOL, FILE_APPEND);
-                    
-                    unlink($src);
-                    $receiveIMG=false;
-                    continue;
-                }   
-            }
-            if($receiveIMG){
-                $nameBeach = str_replace(" ", "+",$beach[0]);
-                file_put_contents('receive_img.txt', $j . " " . $s . " $nameBeach" . PHP_EOL, FILE_APPEND);
-            }
+                        $img = curl_exec($ch);
+
+                        $src= "F:\ПляжиВидео\img\\" . $s . $i . ".jpg";
+                        file_put_contents($src, $img);
+                        try {
+                            $image  ->fromFile($src)
+                                    ->resize(1280,720)
+                                    -> toFile($src,'image/jpeg');
+                                    
+                        } catch(Exception $err) {
+                            $msg= $err->getMessage();
+                            file_put_contents('errorBeach.txt', $j . ": " . $enBeach . "- ". $msg . PHP_EOL, FILE_APPEND);
+                            
+                            unlink($src);
+                            $receiveIMG=false;
+                            continue;
+                        }   
+                    }
+                    if($receiveIMG){
+                        $nameBeach = str_replace(" ", "+",$beach[0]);
+                        file_put_contents('receive_img.txt', $j . " " . $s . " $nameBeach" . PHP_EOL, FILE_APPEND);
+                    }
         
-        }
-                    
-    }
+                }
+                        
+            }
     
     }
     
     
-    if($j>20) break;
+    if($j>=20) break;
 }   
 curl_close($ch);
 
