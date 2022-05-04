@@ -1096,12 +1096,12 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
          $transp ="-i mat\транспорт\авто.mp4";
         
     } else if($v==2){ // только общественный
-        $transp="-i mat\транспорт\общественный+личный.mp4";
+        $transp="-i mat\транспорт\общественный.mp4";
         $receiveBeach .= "общественом транспорте ";
         $transition="-loop 1 -t 2 -i mat\транспорт\общественный.png ";
         $timeTrans = 1;
     } else if($v==3){// и личный и общественный транспорт
-        $transp="-i mat\транспорт\общественный.mp4";
+        $transp="-i mat\транспорт\общественный+личный.mp4";
         $receiveBeach .= "общественом транспорте и автомобиле ";
         $transition=" -loop 1 -t 2 -i mat\транспорт\общ+авт.png";
     }
@@ -1291,10 +1291,9 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
         -c:v copy -c:a aac  -y F:\ПляжиВидео\\video\\v\\v$enBeach.mp4";
 
 
-        echo 'QQQQQ  '. $timeTrans;
     // file_put_contents("coman.txt", $beach . "\n" . $addVoice  . "\n" . PHP_EOL, FILE_APPEND);
     $addvoice= str_replace(array("\n\r","\r\n"), "", $addVoice);
-exec($addvoice);
+// exec($addvoice);
 // музыка
     $addMusComm = "ffmpeg 
             -i F:\ПляжиВидео\\video\\v\\v$enBeach.mp4
@@ -1304,15 +1303,15 @@ exec($addvoice);
             [1:a]volume = -35dB[mus];
             [0:a][mus]amerge=inputs=2[a]\"
              -map 0:v -map \"[a]\" -c:v copy -ac 2 
-            -shortest -y F:\ПляжиВидео\\video\\d$enBeach.mp4 ";
+            -shortest -y F:\ПляжиВидео\\video\\v\\d$enBeach.mp4 ";
         
         $addMus =str_replace(array("\n\r","\r\n"), "", $addMusComm);
-exec($addMus);
+// exec($addMus);
 
 
-$add = "ffmpeg -i F:\ПляжиВидео\\video\\d$enBeach.mp4 -i mat\demo.png -filter_complex \"[0:v][1:v]overlay=0:0\" -y F:\ПляжиВидео\\video\\$enBeach.mp4";
-exec($add);
-unlink("F:\ПляжиВидео\\d$enBeach.mp4");
-unlink("F:\ПляжиВидео\\v\\v$enBeach.mp4");
+$add = "ffmpeg -i F:\ПляжиВидео\\video\\v\\d$enBeach.mp4 -i mat\demo.png -filter_complex \"[0:v][1:v]overlay=0:0\" -y F:\ПляжиВидео\\video\\full\\$enBeach.mp4";
+// exec($add);
+// unlink("F:\ПляжиВидео\\v\\d$enBeach.mp4");
+// unlink("F:\ПляжиВидео\\v\\v$enBeach.mp4");
 
 }
