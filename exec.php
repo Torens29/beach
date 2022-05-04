@@ -24,8 +24,8 @@ while($j != $lengthArr){
     $duration = 1;
     $zoomdelta = ($zoompanupto - 1) / 25 / $duration; //0.004
     $services[0] = '';$services[1]='';
-    $stream[0] = 0; $stream[1] = 17;
-    $pred[0] = ""; $pred[1]="[16v]";
+    $stream[0] = 0; $stream[1] = 15;
+    $pred[0] = ""; $pred[1]="[14v]";
     $endOfstreamService = "";
     $whCanvas = "200x200";
     $position[0] = -550;
@@ -38,6 +38,7 @@ while($j != $lengthArr){
     $receiveBeach =  explode(" ", $arrayOfBeaches[$j]);
     $j++;
     $upDown=true;
+    $timeTrans =0;
 
     $infoBeach = $beaches[$receiveBeach[0]-1]; // info of the beach
     $infrastructure =  array_unique(explode("\n", $infoBeach[5]));;
@@ -972,15 +973,15 @@ while($j != $lengthArr){
             $v3[2]="[v2b]";
             $services[3] = 17;            
         }
-        $endOfstreamService = "$v3[1][endService][8v16v]";
+        $endOfstreamService = "$v3[1][endService][8v14v]";
         $services[2] = "$services[1]$pred[1];";
         
         $time = $stream[0] + 6.5;
         $pred[1] = "$pred[1]trim=0:$time [endService];";
         $stream11 = "
-            $v3[2][16]overlay=0:0[16v];
+            $v3[2][14]overlay=0:0[14v];
             color=white:s=1280x720:d=25[canvas1];
-            [canvas1][8:v]xfade=transition=hblur:duration=1,trim=0:1[8v16v];";
+            [canvas1][8:v]xfade=transition=hblur:duration=1,trim=0:1[8v14v];";
 
 
         voice($voiceOfService, "voiceService$receiveBeach[1]");
@@ -1028,11 +1029,11 @@ while($j != $lengthArr){
         $pred[1]= null;
     }
 
-    video($infoBeach,$receiveBeach[1], $zoompanupto, $zoomdelta, $services, $pred[1], $endOfstreamService, $cellSize, $transitionDuration, $time,$stream11, $arrayOfBeaches[$j-1],$v3);
+    video($infoBeach,$receiveBeach[1], $zoompanupto, $zoomdelta, $services, $pred[1], $endOfstreamService, $cellSize, $transitionDuration, $time,$stream11, $arrayOfBeaches[$j-1], $v3, $timeTrans);
 }
  
 
-function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred, $endOfstreamService, $cellSize, $transitionDuration, $timeOfVisService, $stream11, $beach, $v3){
+function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred, $endOfstreamService, $cellSize, $transitionDuration, $timeOfVisService, $stream11, $beach, $v3, $timeTrans ){
     // var_dump($infoBeach);
     switch ($infoBeach[3]) {
         case "Бетонные пляжи": $infoBeach[3]="бетонная";
@@ -1087,18 +1088,20 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
                 break;
         }
     }
- 
+    
     if($v==1){// только автомобиль
-        $transp="[15:v]";
+        $timeTrans = 2;
         $receiveBeach .= "автомобиле ";
         $transition=" -loop 1 -t 2 -i mat\транспорт\авто.png";
-
+         $transp ="-i mat\транспорт\авто.mp4";
+        
     } else if($v==2){ // только общественный
-        $transp="[14:v]";
+        $transp="-i mat\транспорт\общественный+личный.mp4";
         $receiveBeach .= "общественом транспорте ";
         $transition="-loop 1 -t 2 -i mat\транспорт\общественный.png ";
+        $timeTrans = 1;
     } else if($v==3){// и личный и общественный транспорт
-        $transp="[13:v]";
+        $transp="-i mat\транспорт\общественный.mp4";
         $receiveBeach .= "общественом транспорте и автомобиле ";
         $transition=" -loop 1 -t 2 -i mat\транспорт\общ+авт.png";
     }
@@ -1125,10 +1128,7 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
             -i mat\Лого.mp4
             -i mat\Сайт_клик.mov
 
-
-            -i mat\транспорт\общественный+личный.mp4
-            -i mat\транспорт\общественный.mp4
-            -i mat\транспорт\общественный+личный.mp4
+            $transp
 
             -i mat\bg.mov
         $services[0] 
@@ -1201,17 +1201,17 @@ function video($infoBeach, $enBeach, $zoompanupto, $zoomdelta, $services, $pred,
             $pred
             [v10bb][12]overlay=0:0[v10x12];
             
-              [11a][v0][0v1m][map1][map2][map3][v1][v1x2][v2] $endOfstreamService $transp [14v4v] [v4][v10][v10x12][11b]concat=n=$services[3],
+              [11a][v0][0v1m][map1][map2][map3][v1][v1x2][v2] $endOfstreamService [13:v] [14v4v] [v4][v10][v10x12][11b]concat=n=$services[3],
             format=yuv420p[v] 
         \"
-         -map \"[v]\" -s \"1280x720\"  -y F:\ПляжиВидео\\$enBeach.mp4";
+         -map \"[v]\" -s \"1280x720\"  -y F:\ПляжиВидео\\video\\$enBeach.mp4";
         
                 // video\\$enBeach
     
     $video =str_replace(array("\n\r","\r\n"), "", $comm);
     file_put_contents("coman.txt", $beach . "\n" . $video  . "\n" . PHP_EOL, FILE_APPEND);
     //  echo $text;
-exec($video);
+// exec($video);
    
 //voice
     $time=[];
@@ -1222,9 +1222,9 @@ exec($video);
         $vService[0] = null;
         $vService[1] = null;
         $vService[2]=null;
-        $time[0]= 4+2+2+ 5;
-        $time[1]=  4+2+2+ 3+5+2.5;
-        $time[3]= 4+2+2+ 3+5+5+3;
+        $time[0]= 4+2+2+ 5 ;
+        $time[1]=  4+2+2+ 3+5+2.5- $timeTrans;
+        $time[3]= 4+2+2+ 3+5+5+3- $timeTrans;
     } 
     else{
         $vService[0] = "[16:a][6:a]concat=v=0:a=1[addSilence3];";
@@ -1232,9 +1232,9 @@ exec($video);
         $time[2]= '12';
         $vService[2] = "-f lavfi -t $time[2] -i anullsrc=channel_layout=stereo:sample_rate=44100";
         
-        $time[0] = $timeOfVisService + (int)$time[2];
-        $time[1] = $timeOfVisService + (int)$time[2] + 3 + 3; 
-        $time[3] = $timeOfVisService + (int)$time[2] + 3 +4+5; 
+        $time[0] = $timeOfVisService + (int)$time[2] ;
+        $time[1] = $timeOfVisService + (int)$time[2] + 3 + 3 - $timeTrans; 
+        $time[3] = $timeOfVisService + (int)$time[2] + 3 +4+5  - $timeTrans; 
         $countStream++;
     }
 
@@ -1259,7 +1259,7 @@ exec($video);
         
     }
 
-    $addVoice = "ffmpeg  -async 1 -i F:\ПляжиВидео\\$enBeach.mp4
+    $addVoice = "ffmpeg  -async 1 -i F:\ПляжиВидео\\video\\$enBeach.mp4
         -itsoffset 00:00:02 -i F:\ПляжиВидео\\voice\\nameBeach$enBeach.ogg 
         -itsoffset 00:00:05 -i F:\ПляжиВидео\\voice\\placeBeach$enBeach.ogg 
         -itsoffset 00:00:09 -i F:\ПляжиВидео\\voice\\length$enBeach.ogg 
@@ -1288,30 +1288,31 @@ exec($video);
             [addSilence6][17:a]concat=v=0:a=1[add];
             
             [14][1][2][3][addSilence1]$voiceOfBot[1] $vService[1][addSilence4][addSilence5][add]amix=inputs=$countStream\" 
-        -c:v copy -c:a aac  -y F:\ПляжиВидео\\v$enBeach.mp4";
+        -c:v copy -c:a aac  -y F:\ПляжиВидео\\video\\v\\v$enBeach.mp4";
 
 
-        
+        echo 'QQQQQ  '. $timeTrans;
     // file_put_contents("coman.txt", $beach . "\n" . $addVoice  . "\n" . PHP_EOL, FILE_APPEND);
     $addvoice= str_replace(array("\n\r","\r\n"), "", $addVoice);
-// exec($addvoice);
+exec($addvoice);
 // музыка
     $addMusComm = "ffmpeg 
-            -i F:\ПляжиВидео\\v$enBeach.mp4
+            -i F:\ПляжиВидео\\video\\v\\v$enBeach.mp4
             -i mat\mus.mp3 
             
             -filter_complex \"
             [1:a]volume = -35dB[mus];
             [0:a][mus]amerge=inputs=2[a]\"
              -map 0:v -map \"[a]\" -c:v copy -ac 2 
-            -shortest -y F:\ПляжиВидео\\$enBeach.mp4 ";
+            -shortest -y F:\ПляжиВидео\\video\\d$enBeach.mp4 ";
         
         $addMus =str_replace(array("\n\r","\r\n"), "", $addMusComm);
-// exec($addMus);
-// unlink("F:\ПляжиВидео\\v$enBeach.mp4");
+exec($addMus);
 
-$add = "ffmpeg -i video\\voice\\$enBeach.mp4 -i mat\demo.png -filter_complex \"[0:v][1:v]overlay=0:0\" -y video\\result.mp4";
-// exec($add);
 
+$add = "ffmpeg -i F:\ПляжиВидео\\video\\d$enBeach.mp4 -i mat\demo.png -filter_complex \"[0:v][1:v]overlay=0:0\" -y F:\ПляжиВидео\\video\\$enBeach.mp4";
+exec($add);
+unlink("F:\ПляжиВидео\\d$enBeach.mp4");
+unlink("F:\ПляжиВидео\\v\\v$enBeach.mp4");
 
 }
