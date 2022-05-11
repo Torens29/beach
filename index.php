@@ -20,14 +20,18 @@ $ch = curl_init();
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($ch, CURLOPT_HEADER, false);
-$j=0; // n-1
 $mapTrue= false;
 $count = 0;
 
+$arr = [397,142,188];
+
+$n =$arr[2] ;
+$j=$n -1; // n-1
+
 foreach($beaches as $beach){
     if ($count < $j) {
-       $count++;
-       
+    $count++;
+    
     } else{
         $j++;
         $count++;
@@ -40,8 +44,9 @@ foreach($beaches as $beach){
         //cбор координат
 
             $enBeach = str_replace(' ','+',$s);
-            echo $beach[1] . $enCity . $beach[0] . $enBeach . "\n";
-            $URL= "https://geocode-maps.yandex.ru/1.x/?apikey=28d74b24-f33d-4b35-8949-88142b0c9d92&geocode=Russia,+$enCity,+$enBeach&scale=1&results=1&format=json";
+            echo "\n $beach[1]+$beach[0] . $enCity+$enBeach  \n";
+            $URL= "https://geocode-maps.yandex.ru/1.x/?apikey=28d74b24-f33d-4b35-8949-88142b0c9d92&geocode=Russia+$enBeach&scale=1&results=1&format=json";
+            //     https://geocode-maps.yandex.ru/1.x/?apikey=28d74b24-f33d-4b35-8949-88142b0c9d92&geocode=Russia+Plyazh+Gorki+Gorod+&scale=1&results=1&format=json
 
             curl_setopt($ch, CURLOPT_URL, $URL);
             
@@ -66,55 +71,56 @@ foreach($beaches as $beach){
         //получаем карту
                     // $coord = "33.93899724470521,44.39642381233141";
 
-                    $coord =str_replace(' ', ',', $fd->response->GeoObjectCollection->featureMember[0]->GeoObject-> Point-> pos);
+                    // $coord =str_replace(' ', ',', $fd->response->GeoObjectCollection->featureMember[0]->GeoObject-> Point-> pos);
                     
-                    echo "COORD of $beach[0]: ";
-                    // var_dump($coord);
+                    // echo "COORD of $beach[0]: ";
+                    // // var_dump($coord);
 
-                    //receive map .PNG
-                    $zoom = 0;
-                    for ($z=1;$z<=3;$z++) {
-                        switch($z){
-                            case 1: $zoom=10;
-                                    break;
-                            case 2: $zoom=13;
-                                    break;
-                            case 3: $zoom=16;
-                                    break;
-                        }
+                    // //receive map .PNG
+                    // $zoom = 0;
+                    // for ($z=1;$z<=3;$z++) {
+                    //     switch($z){
+                    //         case 1: $zoom=10;
+                    //                 break;
+                    //         case 2: $zoom=13;
+                    //                 break;
+                    //         case 3: $zoom=16;
+                    //                 break;
+                    //     }
 
-                        $URL = "https://static-maps.yandex.ru/1.x/?ll=$coord&pt=$coord,org,l&size=1280,720&z=$zoom&l=map&key=APeD310BAAAALOt-HAMAAfLbAiZoUWW9QhK-Di0vA9V64lMAAAAAAAAAAADA-ZKiGOZHTc7Nt7dlEdOj78HURA%3D%3D";
+                    //     $URL = "https://static-maps.yandex.ru/1.x/?ll=$coord&pt=$coord,org,l&size=1280,720&z=$zoom&l=map&key=APeD310BAAAALOt-HAMAAfLbAiZoUWW9QhK-Di0vA9V64lMAAAAAAAAAAADA-ZKiGOZHTc7Nt7dlEdOj78HURA%3D%3D";
 
 
-                        curl_setopt($ch, CURLOPT_URL, $URL);
+                    //     curl_setopt($ch, CURLOPT_URL, $URL);
 
-                        $png = curl_exec($ch);
+                    //     $png = curl_exec($ch);
 
-                        if (curl_errno($ch)) {
-                            $info = curl_getinfo($ch);
-                            var_dump($info);
+                    //     if (curl_errno($ch)) {
+                    //         $info = curl_getinfo($ch);
+                    //         var_dump($info);
 
-                            echo 'Error:' . curl_error($ch);
-                        } else {
-                            // var_dump($png);
-                            $s = str_replace('"','',$enBeach);
-                            $str = "F:\ПляжиВидео\map\\" . $s . $z . ".png";
-                            file_put_contents($str, $png);
-                            $mapTrue= true;
+                    //         echo 'Error:' . curl_error($ch);
+                    //     } else {
+                    //         // var_dump($png);
+                            $s = str_replace(['"', '“','”'],'',$enBeach);
+                        
+                    //         $str = "F:\ПляжиВидео\map\\" . $j . $s . $z . ".png";
+                    //         file_put_contents($str, $png);
+                    //         $mapTrue= true;
                             
-                        }
-                    }    
-
-                if ($mapTrue){
-                //receive img (5)
+                    //     }
+                    // }    
+        //receive img (5)
+                if (true){//$mapTrue
+                
                     $receiveIMG=true;
                     $imgArr = explode("\n", $beach[9]);
-                    for($i=0; $i<6;$i++){
+                    for($i=0; $i<5;$i++){
                         curl_setopt($ch, CURLOPT_URL, $imgArr[$i]);
                             
                         $img = curl_exec($ch);
 
-                        $src= "F:\ПляжиВидео\img\\" . $s . $i . ".jpg";
+                        $src= "F:\ПляжиВидео\imgAdd\\" . $s . $i . ".jpg";
                         file_put_contents($src, $img);
                         try {
                             $image  ->fromFile($src)
@@ -142,8 +148,10 @@ foreach($beaches as $beach){
     }
     
     
-    if($j>=20) break;
+    if($j>=$n) break;
 }   
+
+
 curl_close($ch);
 
 function translit($value){
